@@ -1,0 +1,55 @@
+### standard library for alice ###
+# included per default
+# include all of the sdk using INCLUDE_SDK
+
+(
+"bool.alice"        include
+"math.alice"        include
+"stacktools.alice"  include
+"range.alice"       include
+):INCLUDE_SDK
+
+"number"
+    :NUMBER
+"string"
+    :STRING
+"subprogram"
+    :SUBPROGRAM
+
+# checks if the given string corresponds to an item on the table
+# prints an error message and exits with an abnormal exit code
+# resulting in an exception to be thrown and a virtual "call stack"
+# to be printed
+# usage: "d2" require
+(
+d exists (drop) () ifelse
+):require
+
+# requires the first popped element to be
+# present as a key on the table. Prints an error message
+# detailing where it is required from, which is the second
+# popped element.
+# usage: "stacktools.alice" "d2" require-from
+(
+d exists (drop drop) ("'"P P "'"P " required from "P P) ifelse
+):require-from
+
+# pop e and push 1 if it is a number, 0 it it's not
+(type NUMBER eq)
+    :is-num
+
+# pop e and push 1 if it is a string, 0 if it's not
+(type STRING eq)
+    :is-str
+
+# pop e and push 1 if it is a subprogram, 0 if it's not
+(type SUBPROGRAM eq)
+    :is-spr
+
+# prints the top of the stack prefixed with an error message and exits
+# the program with exit code -1
+# this results in the java backend to throw an exception whose message
+# includes a call stack that indicates where the error happened
+(
+"ERROR: "P P -1 exit
+):throw

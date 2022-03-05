@@ -1,0 +1,15 @@
+### string tools ###
+
+(
+"\"" swap "\"" + +
+):quote
+
+(
+"'" swap "'" + +
+):quote-single
+
+# concats n number of strings from the stack,
+# where n is popped first
+(
+(+)e
+):concatn

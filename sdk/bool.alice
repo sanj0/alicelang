@@ -1,0 +1,36 @@
+### basic utility to work with booleans ###
+
+# --- boolean constants --- #
+"true"  :TRUE
+1       :NUM_TRUE
+"false" :FALSE
+0       :NUM_FALSE
+
+# --- boolean subprograms --- #
+# pop a value b. If b is equal to the constant TRUE ("true"),
+# push 1. push 0 otherwise
+(
+TRUE eq
+(1) (0) ifelse
+):bool-to-num
+
+# pop a value b. If b is 0, push the constant FALSE ("false").
+# push TRUE ("true") otherwise
+(
+0 eq
+(FALSE) (TRUE) ifelse
+):num-to-bool
+
+# like the default if but works with "true" and "false" as well as
+# 1 and 0
+# works by checking if the condition is string and using bool-to-num
+# to convert it to the corresponding number
+# short for "better if" or "boolean if"
+(
+type "string" eq (bool-to-num) if
+if
+):bif
+
+(
+0 eq (1) (0) ifelse
+):not

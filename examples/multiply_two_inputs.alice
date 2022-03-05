@@ -1,0 +1,10 @@
+"input a number: "
+P                   # prints the above string, popping it from the stack
+r                   # reads a line of user input
+n                   # converts it to a number
+"input a second number: "
+P                   # prints the above string, popping it from the stack
+r                   # reads a line of user input
+n                   # converts it to a number
+*                   # multiplies the two numbers
+f                   # prints the full stack which only contains the product anyway

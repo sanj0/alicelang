@@ -1,0 +1,8 @@
+# iteratively calculates the sum of all natural number to a given limit
+0 1                             # counter and sum
+"sum natural numbers up to: "P  # print input prompt
+R n                             # read input and convert to number
+(d rot + swap ++)               # loop part
+E                               # execute and pop subprogram and count from stack
+drop                            # drop the counter
+p                               # print result but keep it in stack

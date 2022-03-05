@@ -1,0 +1,5 @@
+"square of: "P
+r n                 # "read number"
+d                   # duplicate it
+*                   # multiply them
+f                   # print full stack, only contains product

@@ -1,0 +1,9 @@
+1
+:ONE # name starts with uppercase -> constant value
+2
+:two # name doesn't start with uppercase -> mutable value
+(1 1 + p)
+:print-two
+clear
+print-two
+e # 2

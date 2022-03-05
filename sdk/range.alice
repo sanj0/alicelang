@@ -1,0 +1,20 @@
+### range tools ###
+# 3 10 range -> [3, 4, 5, 6, 7, 8, 9, 10]
+(
+swap d
+rot swap
+-
+(d 1 +)e
+):int-range
+
+# 0.5 0 5
+# -> [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5]
+(
+"range" "d2" required
+swap d
+rot swap
+-
+rot d rot swap /
+(d2 + swap)e
+drop
+):range
