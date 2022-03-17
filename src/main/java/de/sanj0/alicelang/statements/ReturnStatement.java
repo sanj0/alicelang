@@ -5,12 +5,17 @@ import de.sanj0.alicelang.AliceTable;
 import de.sanj0.alicelang.Statement;
 
 /**
- * Pops a value s and executes a {@link AccessTableStatement}
- * with s as the key.
+ * Returns out of the subprogram that was called by
+ * stating its word.
  */
-public class GetStatement extends Statement {
+public class ReturnStatement extends Statement {
     @Override
     public void execute(final AliceStack stack, final AliceTable table) {
-        new AccessTableStatement(stack.pop().getString()).execute(stack, table);
+        thenReturn = true;
+    }
+
+    @Override
+    public String toString() {
+        return "return";
     }
 }

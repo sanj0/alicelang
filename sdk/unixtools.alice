@@ -1,0 +1,12 @@
+### utility functions that only work on unix(-like) due to native process calls
+
+# [... 3] sleep-seconds -> [...]
+# sleeps n seconds where n is popped first
+(
+"sleep" swap 2 proc drop
+):sleep-seconds
+
+# [... path] touch -> [... exitCode]
+(
+"touch" swap 2 proc
+):touch

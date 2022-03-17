@@ -20,5 +20,5 @@ e
 
 # usage: 1 NUMBER type-check
 (
-swap type eq not ("wrong type on stack!" throw) if
+swap type eq () ("wrong type on stack!" throw) ifelse
 ):type-check

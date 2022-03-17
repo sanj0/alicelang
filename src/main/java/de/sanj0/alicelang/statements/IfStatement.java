@@ -17,7 +17,10 @@ public class IfStatement extends Statement {
         }
 
         if (condition.getDouble() != 0) {
-            ((ProgramStackElement) body).getValue().execute(stack, table);
+            final ProgramStackElement programElement = (ProgramStackElement) body;
+            programElement.getValue().execute(stack, table);
+            thenBreak = programElement.getValue().thenBreak;
+            thenReturn = programElement.getValue().thenReturn;
         }
     }
 

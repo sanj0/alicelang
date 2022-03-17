@@ -6,10 +6,10 @@ import de.sanj0.alicelang.stackelements.ProgramStackElement;
 /**
  * Executes if the element is a subprogram and pushes if it's not.
  */
-public class PushFromTableStatement extends Statement {
+public class AccessTableStatement extends Statement {
     private final String key;
 
-    public PushFromTableStatement(final String key) {
+    public AccessTableStatement(final String key) {
         this.key = key;
     }
 
@@ -18,7 +18,10 @@ public class PushFromTableStatement extends Statement {
         final StackElement<?> e = table.getOrDefault(key, null);
         if (e == null) throw new AliceRuntimeError("word not found in table: " + key);
         if (e instanceof ProgramStackElement) {
-            ((ProgramStackElement) e).getValue().execute(stack, table);
+            final ProgramStackElement programStackElement = ((ProgramStackElement) e);
+            programStackElement.getValue().isFunctionCall = true;
+            programStackElement.getValue().execute(stack, table);
+            thenReturn = false;
         } else {
             stack.push(table.get(key));
         }
@@ -26,6 +29,6 @@ public class PushFromTableStatement extends Statement {
 
     @Override
     public String toString() {
-        return "accessTable()";
+        return "table(" + key + ")";
     }
 }

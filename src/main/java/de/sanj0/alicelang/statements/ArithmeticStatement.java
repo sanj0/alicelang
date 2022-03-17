@@ -22,15 +22,15 @@ public abstract class ArithmeticStatement extends Statement {
                 } else if (b instanceof StringStackElement) {
                     stack.push(new StringStackElement(b.getString().repeat(a.getInt())));
                 } else {
-                    throw new AliceRuntimeError(AliceRuntimeError.INVALID_TYPE_ + " multiplication expects two of number and/or string");
+                    throw new AliceRuntimeError(AliceRuntimeError.INVALID_TYPE_ + "multiplication expects two of number and/or string");
                 }
             } else if (a instanceof StringStackElement) {
                 if (b instanceof NumberStackElement) {
                     stack.push(new StringStackElement(a.getString().repeat(b.getInt())));
                 } else if (b instanceof StringStackElement) {
-                    throw new AliceRuntimeError(AliceRuntimeError.INVALID_TYPE_ + " can't multiply string and string");
+                    throw new AliceRuntimeError(AliceRuntimeError.INVALID_TYPE_ + "can't multiply string and string");
                 } else {
-                    throw new AliceRuntimeError(AliceRuntimeError.INVALID_TYPE_ + " multiplication expects two of number and/or string");
+                    throw new AliceRuntimeError(AliceRuntimeError.INVALID_TYPE_ + "multiplication expects two of number and/or string");
                 }
             }
         }
@@ -50,10 +50,10 @@ public abstract class ArithmeticStatement extends Statement {
                 if (b instanceof NumberStackElement) {
                     stack.push(new NumberStackElement(a.getDouble() - b.getDouble()));
                 } else {
-                    throw new AliceRuntimeError(AliceRuntimeError.INVALID_TYPE_ + " subtraction expects two numbers");
+                    throw new AliceRuntimeError(AliceRuntimeError.INVALID_TYPE_ + "subtraction expects two numbers");
                 }
             } else {
-                throw new AliceRuntimeError(AliceRuntimeError.INVALID_TYPE_ + " subtraction expects two numbers");
+                throw new AliceRuntimeError(AliceRuntimeError.INVALID_TYPE_ + "subtraction expects two numbers");
             }
         }
 
@@ -75,10 +75,10 @@ public abstract class ArithmeticStatement extends Statement {
                     }
                     stack.push(new NumberStackElement(a.getDouble() / b.getDouble()));
                 } else {
-                    throw new AliceRuntimeError(AliceRuntimeError.INVALID_TYPE_ + " division expects two numbers");
+                    throw new AliceRuntimeError(AliceRuntimeError.INVALID_TYPE_ + "division expects two numbers");
                 }
             } else {
-                throw new AliceRuntimeError(AliceRuntimeError.INVALID_TYPE_ + " division expects two numbers");
+                throw new AliceRuntimeError(AliceRuntimeError.INVALID_TYPE_ + "division expects two numbers");
             }
         }
 
@@ -124,10 +124,10 @@ public abstract class ArithmeticStatement extends Statement {
                 if (b instanceof NumberStackElement) {
                     stack.push(new NumberStackElement(Math.pow(a.getDouble(), b.getDouble())));
                 } else {
-                    throw new AliceRuntimeError(AliceRuntimeError.INVALID_TYPE_ + " power expects two numbers");
+                    throw new AliceRuntimeError(AliceRuntimeError.INVALID_TYPE_ + "power expects two numbers");
                 }
             } else {
-                throw new AliceRuntimeError(AliceRuntimeError.INVALID_TYPE_ + " power expects two numbers");
+                throw new AliceRuntimeError(AliceRuntimeError.INVALID_TYPE_ + "power expects two numbers");
             }
         }
 
@@ -150,10 +150,10 @@ public abstract class ArithmeticStatement extends Statement {
                     }
                     stack.push(new NumberStackElement(a.getDouble() % b.getDouble()));
                 } else {
-                    throw new AliceRuntimeError(AliceRuntimeError.INVALID_TYPE_ + " modulo expects two numbers");
+                    throw new AliceRuntimeError(AliceRuntimeError.INVALID_TYPE_ + "modulo expects two numbers");
                 }
             } else {
-                throw new AliceRuntimeError(AliceRuntimeError.INVALID_TYPE_ + " modulo expects two numbers");
+                throw new AliceRuntimeError(AliceRuntimeError.INVALID_TYPE_ + "modulo expects two numbers");
             }
         }
 
@@ -171,7 +171,7 @@ public abstract class ArithmeticStatement extends Statement {
             if (a instanceof NumberStackElement) {
                 stack.push(new NumberStackElement(a.getDouble() + 1));
             } else {
-                throw new AliceRuntimeError(AliceRuntimeError.INVALID_TYPE_ + " increment expects two numbers");
+                throw new AliceRuntimeError(AliceRuntimeError.INVALID_TYPE_ + "increment expects a number");
             }
         }
 
@@ -189,7 +189,7 @@ public abstract class ArithmeticStatement extends Statement {
             if (a instanceof NumberStackElement) {
                 stack.push(new NumberStackElement(a.getDouble() - 1));
             } else {
-                throw new AliceRuntimeError(AliceRuntimeError.INVALID_TYPE_ + " decrement expects two numbers");
+                throw new AliceRuntimeError(AliceRuntimeError.INVALID_TYPE_ + "decrement expects a number");
             }
         }
 

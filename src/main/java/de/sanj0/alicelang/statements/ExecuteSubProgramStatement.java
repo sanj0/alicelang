@@ -9,7 +9,6 @@ import de.sanj0.alicelang.stackelements.ProgramStackElement;
  * where n is the second popped element.
  */
 public class ExecuteSubProgramStatement extends Statement {
-
     @Override
     public void execute(final AliceStack stack, final AliceTable table) {
         if (stack.size() < 2) {
@@ -24,6 +23,14 @@ public class ExecuteSubProgramStatement extends Statement {
         final Program p = ((ProgramStackElement) program).getValue();
         for (int i = 0; i < n; i++) {
             p.execute(stack, table);
+            if (p.thenBreak) {
+                this.thenBreak = true;
+                break;
+            }
+            if (p.thenReturn) {
+                this.thenReturn = true;
+                break;
+            }
         }
     }
 

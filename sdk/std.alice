@@ -1,20 +1,21 @@
 ### standard library for alice ###
 # included per default
-# include all of the sdk using INCLUDE_SDK
+# include many more useful stuff using INCLUDE_SDK
 
+# include essentials
+"stacktools.alice"  include
+"math.alice"        include
+"controls.alice"    include
 (
 "bool.alice"        include
-"math.alice"        include
-"stacktools.alice"  include
+"io.alice"          include
 "range.alice"       include
+"strings.alice"     include
 ):INCLUDE_SDK
 
-"number"
-    :NUMBER
-"string"
-    :STRING
-"subprogram"
-    :SUBPROGRAM
+"number"    :NUMBER
+"string"    :STRING
+"subprogram":SUBPROGRAM
 
 # checks if the given string corresponds to an item on the table
 # prints an error message and exits with an abnormal exit code
@@ -22,7 +23,7 @@
 # to be printed
 # usage: "d2" require
 (
-d exists (drop) () ifelse
+d exists (drop) (P " required!\n"P) ifelse
 ):require
 
 # requires the first popped element to be
@@ -34,17 +35,23 @@ d exists (drop) () ifelse
 d exists (drop drop) ("'"P P "'"P " required from "P P) ifelse
 ):require-from
 
+# 0 to 1 and 1 to 0
+(
+d NUMBER type-check
+0 eq (1) (0) ifelse
+):not
+
 # pop e and push 1 if it is a number, 0 it it's not
 (type NUMBER eq)
-    :is-num
+    :num?
 
 # pop e and push 1 if it is a string, 0 if it's not
 (type STRING eq)
-    :is-str
+    :str?
 
 # pop e and push 1 if it is a subprogram, 0 if it's not
 (type SUBPROGRAM eq)
-    :is-spr
+    :spr?
 
 # prints the top of the stack prefixed with an error message and exits
 # the program with exit code -1
@@ -53,3 +60,23 @@ d exists (drop drop) ("'"P P "'"P " required from "P P) ifelse
 (
 "ERROR: "P P -1 exit
 ):throw
+
+# convenience method for command execution:
+# cmd "echo" 1234 exec
+(
+ssize :sdk.std.cmd-stack-size0
+):cmd
+
+# convenience method for command execution:
+# cmd "echo" 1234 exec
+(
+ssize sdk.std.cmd-stack-size0 -
+proc
+):exec
+
+# convenience method for command execution:
+# cmd "echo" 1234 pexec
+(
+ssize sdk.std.cmd-stack-size0 -
+pproc
+):pexec

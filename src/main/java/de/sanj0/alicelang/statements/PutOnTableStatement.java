@@ -19,4 +19,9 @@ public class PutOnTableStatement extends Statement {
         }
         table.put(key, stack.pop());
     }
+
+    @Override
+    public String toString() {
+        return ":" + key;
+    }
 }

@@ -1,0 +1,36 @@
+### introduces convenient flow controls
+
+0:sdk.controls.if-else
+# IF ---------- #
+# usage:
+# IF 1 (
+#     "hi"P
+# FI
+():IF
+(sdk.controls.if-else (0:sdk.controls.if-else IF-TYPECHECK ifelse) (IF-TYPECHECK if) ifelse):FI
+(swap d type SUBPROGRAM eq (1 swap e swap) (swap) ifelse):IF-TYPECHECK
+
+# IF/ELSE ----- #
+# usage:
+# IF 0 (
+#     "hi"P
+# ) ELSE (
+#     "here we go"P
+# ) FI
+(1:sdk.controls.if-else):ELSE
+
+# WHILE ------- #
+# usage:
+# WHILE (1) DO ("hi"P) DONE
+# !!! can't use stack inside condition and body!
+():WHILE
+():DO
+# stack situation:
+# [(cond) (body)]
+(
+    swap d 1 swap e rot swap
+    (
+        drop d2 1 swap e 1 swap e
+    ) while
+    drop drop drop
+):DONE

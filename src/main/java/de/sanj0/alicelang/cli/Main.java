@@ -49,7 +49,9 @@ public class Main {
                 new AliceParser(s).parse().execute(stack, table);
             }
         } else {
+            System.out.println("command line arguments: " + Arrays.toString(args));
             final File f = new File(args[0]);
+            System.out.println("got file " + f.getAbsolutePath());
             final String s = Files.readString(f.toPath());
             final AliceTable table = AliceTable.initialize(64);
             putArgs(Arrays.copyOfRange(args, 1, args.length), table);

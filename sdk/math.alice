@@ -9,11 +9,19 @@
 
 # --- math subprograms --- #
 
+# converts the top of the stack to an absolute value
+(
+    d NUMBER type-check
+    d 0 lt
+    (-1 *)
+    if
+)
+:abs
 # floors the head of the stack
 (d 1 % -):floor
 
 # ceils the head of the stack
-(d 1 swap 1 % - +):ceil
+(d 1 % (d 1 swap 1 % - +) (return) ifelse):ceil
 
 # logarithm
 # 7 3 log = log_3(7)
@@ -41,7 +49,7 @@ d2 gt (drop) (swap drop) ifelse):max
 
 # 0.46 0.1 round -> [0.5]
 (
-"round, from bool"
+"not yet implemented, lazy developer!" throw
 ):round
 
 # rounds the top of the stack to an integer.
@@ -54,23 +62,37 @@ d 1 % d
 
 (
 2 % not # leaves 1 or 0 on the stack anyway, just have to flip it
-):is-even
+):even?
 
 (
 2 %     # leaves 1 or 0 on the stack anyway
-):is-odd
+):odd?
 
-# 7 is-prime -> [1]
-(
-"is-prime, from stacktools.alice," "d2" required
-d           # [7 7]
-2 / floor    # [7 3]
-(
-        d 1 eq
-            (0 1)
-            (d2 % 0 eq
-                (1)
-            if)
-        ifelse -- f)
-    while
-):is-prime
+# 7 prime? -> [1]
+{
+    # edgecase 1
+    IF d 1 eq {
+        drop 0 return
+    } FI
+
+    # edgecase 2
+    IF d 2 eq {
+        drop 1 return
+    } FI
+
+    abs
+    d 2 /
+    ceil
+    {
+        d2 %
+        IF not {
+            drop drop 0 return
+        } FI
+        --
+        IF (d) {
+            break
+        } FI
+    } while
+    drop drop 1
+}:prime?
+

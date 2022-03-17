@@ -23,6 +23,7 @@ public class IncludeStatement extends Statement {
         AliceParser.currentFile = f.getAbsolutePath();
         try {
             final Program program = new AliceParser(Files.readString(f.toPath())).parse();
+            program.file = f.getAbsolutePath();
             program.execute(stack, table);
         } catch (IOException ioException) {
             ioException.printStackTrace();

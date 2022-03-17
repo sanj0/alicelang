@@ -12,7 +12,7 @@ public class AliceParser {
 
     public static String currentFile = "";
     public static int currentLine = 1;
-    public static boolean DEBUG = false;
+    public static boolean DEBUG = true;
     public static final char CMD_PRINT_FULL_STACK = 'f';
     public static final char CMD_PRINT_TABLE = 't';
     public static final char CMD_EXECUTE_SUB_PROGRAM = 'e';
@@ -45,16 +45,29 @@ public class AliceParser {
     public static final String WRD_STACK_SIZE = "ssize";
     public static final String WRD_RANDOM = "random";
     public static final String WRD_CHAR_AT = "charat";
-    public static final String WRD_READ_F = "readf";
     public static final String WRD_TIME = "time";
     public static final String WRD_GET = "get";
+    public static final String WRD_BREAK = "break";
+    public static final String WRD_RETURN = "return";
+    public static final String WRD_WRITEF = "writef";
+    public static final String WRD_READF = "readf";
+    public static final String WRD_EVAL = "eval";
+    public static final String WRD_PROC = "proc";
+    public static final String WRD_PPROC = "pproc";
 
     private String code;
     private char[] data;
     private int index;
+    private int lineNumber;
+    private int lastLineBreakIndex = 0;
+
+    public AliceParser(final String code, final int lineNumOffset) {
+        this.code = code;
+        this.lineNumber = lineNumOffset;
+    }
 
     public AliceParser(final String code) {
-        this.code = code;
+        this(code, 1);
     }
 
     public Program parse() {
@@ -64,7 +77,12 @@ public class AliceParser {
 
         while (index < data.length) {
             if (skipWhitespacesAndComments()) break;
-            statements.add(parseStatement());
+            final int l = lineNumber;
+            final int startIndex = index - lastLineBreakIndex;
+            final Statement statement = parseStatement();
+            statement.lineNumber = l;
+            statement.startIndex = startIndex;
+            statements.add(statement);
         }
 
         return new Program(statements);
@@ -78,8 +96,8 @@ public class AliceParser {
             return new PutOnTableStatement(consumeWord(start).substring(1));
         } else if (start == '"') {
             return new PushStatement<>(parseString());
-        } else if (start == '(') {
-            return new PushStatement<>(parseSubProgram());
+        } else if (start == '(' || start == '{') {
+            return new PushStatement<>(parseSubProgram(start));
         } else if (startsOperator(start)) {
             return parseOperator(start);
         } else {
@@ -92,7 +110,7 @@ public class AliceParser {
     }
 
     private Statement handleCommand(final String word) {
-        if (word.length() > 1) return new PushFromTableStatement(word);
+        if (word.length() > 1) return new AccessTableStatement(word);
         return switch (word.charAt(0)) {
             case CMD_PRINT_FULL_STACK -> new PrintFullStackStatement();
             case CMD_EXECUTE_SUB_PROGRAM -> new ExecuteSubProgramStatement();
@@ -103,7 +121,7 @@ public class AliceParser {
             case CMD_CONVERT_TO_STRING -> new ConvertToStringStatement();
             case CMD_DUPLICATE -> new DuplicateStatement();
             case CMD_PRINT_TABLE -> new PrintTableStatement();
-            default -> new PushFromTableStatement(word);
+            default -> new AccessTableStatement(word);
         };
     }
 
@@ -112,7 +130,7 @@ public class AliceParser {
     // a " or a (
     private Statement parseWord(final char start) {
         final String word = consumeWord(start);
-        return switch (word.toLowerCase()) {
+        return switch (word) {
             case WRD_WHILE -> new WhileStatement();
             case WRD_SWAP -> new SwapStatement();
             case WRD_DROP -> new DropStatement();
@@ -131,6 +149,13 @@ public class AliceParser {
             case WRD_TYPE -> new TypeStatement();
             case WRD_EXIT -> new ExitStatement();
             case WRD_GET -> new GetStatement();
+            case WRD_BREAK -> new BreakStatement();
+            case WRD_RETURN -> new ReturnStatement();
+            case WRD_WRITEF -> new FileIOStatements.WriteFileStatement();
+            case WRD_READF -> new FileIOStatements.ReadFileStatement();
+            case WRD_PROC -> new ProcStatement();
+            case WRD_PPROC -> new ParallelProcStatement();
+            case WRD_STACK_SIZE -> new StackSizeStatement();
             default -> handleCommand(word);
         };
     }
@@ -183,19 +208,28 @@ public class AliceParser {
         return c == '+' || c == '-' || c == '*' || c == '/' || c == '%';
     }
 
-    private ProgramStackElement parseSubProgram() {
+    private ProgramStackElement parseSubProgram(final char parenthesis) {
         final StringBuilder builder = new StringBuilder();
         int parenthesisLevel = 1;
+        final LinkedList<Character> waitingFor = new LinkedList<>();
+        waitingFor.add(parenthesis == '(' ? ')' : '}');
         char next;
-        while (((next = pop()) == ')' && parenthesisLevel > 1) || (next != ')')) {
-            if (next == ')') {
+        while (((next = pop()) == waitingFor.peek() && parenthesisLevel > 1) || (next != waitingFor.peek())) {
+            if (next == waitingFor.peek()) {
                 parenthesisLevel--;
+                waitingFor.pop();
             } else if (next == '(') {
+                waitingFor.push(')');
+                parenthesisLevel++;
+            } else if (next == '{') {
+                waitingFor.push('}');
                 parenthesisLevel++;
             }
             builder.append(next);
         }
-        return new ProgramStackElement(new AliceParser(builder.toString()).parse());
+        final Program p = new AliceParser(builder.toString(), lineNumber).parse();
+        p.file = AliceParser.currentFile;
+        return new ProgramStackElement(p);
     }
 
     private StringStackElement parseString() {
@@ -269,12 +303,22 @@ public class AliceParser {
         if (done()) {
             throw new AliceParserError(AliceParserError.HIT_END_OF_FILE);
         }
-        return data[index++];
+        final char c = data[index++];
+        if (c == '\n' && lastLineBreakIndex != index - 1) {
+            lineNumber++;
+            lastLineBreakIndex = index - 1;
+        }
+        return c;
     }
 
     private char peek() {
         if (done()) {
             throw new AliceParserError(AliceParserError.HIT_END_OF_FILE);
+        }
+        final char c = data[index];
+        if (c == '\n' && lastLineBreakIndex != index) {
+            lineNumber++;
+            lastLineBreakIndex = index;
         }
         return data[index];
     }

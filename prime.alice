@@ -1,0 +1,15 @@
+(
+    d 1 eq (drop 0 return) if   # edgecase 1
+    d 2 eq (drop 1 return) if   # edgecase 2
+    abs                         # abs value the input
+    d 2 / ceil                  # put upper limit onto stack: [7 3]
+    (
+        d2 %                    # prepare temporary stack setup and check div
+        0 eq (drop drop 0 return) if # clean up stack, put 0 and return
+        --
+        d 1 eq (break) if
+    ) while
+    drop drop 1
+)
+:prime?
+

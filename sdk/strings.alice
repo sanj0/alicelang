@@ -1,15 +1,15 @@
 ### string tools ###
 
 (
-"\"" swap "\"" + +
+"\"" swap "\"" 3 concatn
 ):quote
 
 (
-"'" swap "'" + +
+"'" swap "'" 3 concatn
 ):quote-single
 
 # concats n number of strings from the stack,
 # where n is popped first
 (
-(+)e
+1 - (+)e
 ):concatn

@@ -14,13 +14,19 @@ public class IfElseStatement extends Statement {
         final StackElement<?> ifBody = stack.pop();
         final StackElement<?> condition = stack.pop();
         if (!(elseBody instanceof ProgramStackElement && ifBody instanceof ProgramStackElement && condition instanceof NumberStackElement)) {
-            throw new AliceRuntimeError(AliceRuntimeError.INVALID_TYPE_ + " if excepts two subprograms and a number");
+            throw new AliceRuntimeError(AliceRuntimeError.INVALID_TYPE_ + "if excepts two subprograms and a number");
         }
 
         if (condition.getDouble() != 0) {
-            ((ProgramStackElement) ifBody).getValue().execute(stack, table);
+            final ProgramStackElement programElement = (ProgramStackElement) ifBody;
+            programElement.getValue().execute(stack, table);
+            thenBreak = programElement.getValue().thenBreak;
+            thenReturn = programElement.getValue().thenReturn;
         } else {
-            ((ProgramStackElement) elseBody).getValue().execute(stack, table);
+            final ProgramStackElement programElement = (ProgramStackElement) elseBody;
+            programElement.getValue().execute(stack, table);
+            thenBreak = programElement.getValue().thenBreak;
+            thenReturn = programElement.getValue().thenReturn;
         }
     }
 

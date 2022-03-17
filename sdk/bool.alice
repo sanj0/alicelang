@@ -31,6 +31,10 @@ type "string" eq (bool-to-num) if
 if
 ):bif
 
+# like the std not, but works with
+# TRUE ("true") and FALSE ("false") as well
 (
-0 eq (1) (0) ifelse
-):not
+d type eq NUMBER
+(0 eq (1) (0) ifelse)
+(TRUE eq (1) (0) ifelse) ifelse
+):bnot

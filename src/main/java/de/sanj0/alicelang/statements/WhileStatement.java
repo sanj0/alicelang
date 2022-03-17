@@ -21,15 +21,32 @@ public class WhileStatement extends Statement {
         }
         if (condition.getDouble() != 0) {
             final Program subprogram = ((ProgramStackElement) body).getValue();
+            subprogram.thenReturn = false;
+            subprogram.thenBreak = false;
             subprogram.execute(stack, table);
+            if (subprogram.thenBreak) return;
+            if (subprogram.thenReturn) {
+                thenReturn = true;
+                return;
+            }
             while (true) {
                 final StackElement<?> cond = stack.peek();
                 if (!(cond instanceof NumberStackElement)) {
                     throw new AliceRuntimeError(AliceRuntimeError.INVALID_TYPE_ + " loop condition no longer a number");
                 }
-                if (cond.getDouble() == 0) break;
+                if (cond.getDouble() == 0) return;
                 subprogram.execute(stack, table);
+                if (subprogram.thenBreak) return;
+                if (subprogram.thenReturn) {
+                    thenReturn = true;
+                    return;
+                }
             }
         }
+    }
+
+    @Override
+    public String toString() {
+        return "while()";
     }
 }
