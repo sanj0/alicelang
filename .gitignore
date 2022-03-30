@@ -2,4 +2,5 @@
 *.class
 .DS_STOR/target/
 *.class
-.DS_STOREE
+.DS_STORE
+/.idea/
