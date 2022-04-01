@@ -4,3 +4,7 @@
 *.class
 .DS_STORE
 /.idea/
+.classpath
+.project
+.settings/
+
