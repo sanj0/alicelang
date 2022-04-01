@@ -1,36 +1,40 @@
-### introduces convenient flow controls
+### introduces convenient flow controls through marker functions
 
-0:sdk.controls.if-else
-# IF ---------- #
+# ----- #
+# enhanced function declaration
 # usage:
-# IF 1 (
-#     "hi"P
-# FI
-():IF
-(sdk.controls.if-else (0:sdk.controls.if-else IF-TYPECHECK ifelse) (IF-TYPECHECK if) ifelse):FI
-(swap d type SUBPROGRAM eq (1 swap e swap) (swap) ifelse):IF-TYPECHECK
+# fun {
+# }:name
+# , which is equivalent to:
+# {}:name
 
-# IF/ELSE ----- #
-# usage:
-# IF 0 (
-#     "hi"P
-# ) ELSE (
-#     "here we go"P
-# ) FI
-(1:sdk.controls.if-else):ELSE
+### marker function that does nothing
+{}:fun
 
-# WHILE ------- #
+# ----- #
+# enhanced if
 # usage:
-# WHILE (1) DO ("hi"P) DONE
-# !!! can't use stack inside condition and body!
-():WHILE
-():DO
-# stack situation:
-# [(cond) (body)]
-(
-    swap d 1 swap e rot swap
-    (
-        drop d2 1 swap e 1 swap e
-    ) while
-    drop drop drop
-):DONE
+# if condition then ("true!"P) fi
+# , which is equivalent to:
+# condition () fi
+
+### marker function that does nohting
+fun {}:if
+### marker function that does nothing
+fun {}:then
+
+# ----- #
+# enhanced else
+# usage:
+# if condition then () else () fi
+# , which is equivalent to:
+# condition () else () fi
+
+# ----- #
+# enhanced while
+# usage:
+# while (cond) {"hi"P} do
+
+### marker function that does nothing
+{}:while
+

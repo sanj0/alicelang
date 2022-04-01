@@ -9,10 +9,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class AliceParser {
-
     public static String currentFile = "";
     public static int currentLine = 1;
-    public static boolean DEBUG = true;
+    public static boolean DEBUG = false;
     public static final char CMD_PRINT_FULL_STACK = 'f';
     public static final char CMD_PRINT_TABLE = 't';
     public static final char CMD_EXECUTE_SUB_PROGRAM = 'e';
@@ -23,9 +22,9 @@ public class AliceParser {
     public static final char CMD_CONVERT_TO_STRING = 's';
     public static final char CMD_CONVERT_TO_NUM = 'n';
     public static final char CMD_DUPLICATE = 'd';
-    public static final String WRD_WHILE = "while";
-    public static final String WRD_IF = "if";
-    public static final String WRD_IFELSE = "ifelse";
+    public static final String WRD_WHILE = "do";
+    public static final String WRD_IF = "fi";
+    public static final String WRD_IFELSE = "efi";
     public static final String WRD_SWAP = "swap";
     public static final String WRD_CLEAR = "clear";
     public static final String WRD_DROP = "drop";
@@ -54,6 +53,8 @@ public class AliceParser {
     public static final String WRD_EVAL = "eval";
     public static final String WRD_PROC = "proc";
     public static final String WRD_PPROC = "pproc";
+    public static final String WRD_EXPAND = "expand";
+    public static final String WRD_FOLD = "fold";
 
     private String code;
     private char[] data;
@@ -156,6 +157,8 @@ public class AliceParser {
             case WRD_PROC -> new ProcStatement();
             case WRD_PPROC -> new ParallelProcStatement();
             case WRD_STACK_SIZE -> new StackSizeStatement();
+            case WRD_EXPAND -> new ExpandSubstackStatement();
+            case WRD_FOLD -> new FoldSubstackStatement();
             default -> handleCommand(word);
         };
     }
