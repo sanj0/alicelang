@@ -71,27 +71,27 @@ d 1 % d
 # 7 prime? -> [1]
 {
     # edgecase 1
-    IF d 1 eq {
+    d 1 eq {
         drop 0 return
-    } FI
+    } if
 
     # edgecase 2
-    IF d 2 eq {
+    d 2 eq {
         drop 1 return
-    } FI
+    } if
 
     abs
     d 2 /
     ceil
     {
         d2 %
-        IF not {
+        not {
             drop drop 0 return
-        } FI
+        } if
         --
-        IF (d) {
+        d {
             break
-        } FI
+        } if
     } while
     drop drop 1
 }:prime?

@@ -21,5 +21,12 @@ puts a string onto the stack. Example: `"hi" "hello, world" "1.37"`
 puts a subprogram onto the stack. Example: `(1 2 3 4) {"hi"P} (({"hello,
 world"P}))`.
 
+**concept** substacks:
+```regex
+\[.*\]
+```
+puts a substack onto the stack, which can be expanded using `expand` and folded
+using `n fold`.
+
 ## Stack manipulation
 

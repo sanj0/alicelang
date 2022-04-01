@@ -1,8 +1,8 @@
 package de.sanj0.alicelang;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Scanner;
+import de.sanj0.alicelang.statements.PrintFullStackStatement;
+
+import java.util.*;
 
 /**
  * A list of statements
@@ -59,8 +59,14 @@ public class Program extends Statement {
             try {
                 statement.execute(stack, table);
             } catch (Exception e) {
+                if (AliceParser.DEBUG) {
+                    System.out.println("last statement: " + statement);
+                    System.out.println("stack:");
+                    new PrintFullStackStatement().execute(stack, table);
+                    AliceParser.DEBUG = false;
+                }
                 AliceParser.currentFile = file;
-                throw new AliceRuntimeError("\n" + statement + "\t@" + statement.lineNumber + "(" + statement.startIndex + "...):\t" + e.getMessage());
+                throw new AliceRuntimeError("\n" + statement + "\t@" + statement.lineNumber + "(" + statement.startIndex + "...):\t" /*+ e.getMessage()*/);
             }
             if (statement.thenBreak) {
                 thenBreak = true;
@@ -74,6 +80,14 @@ public class Program extends Statement {
         if (AliceParser.DEBUG) {
             System.out.println("\n--- end local --- (file: " + file + "; size: " + statements.size() + "; fun call: " + isFunctionCall + ")");
         }
+    }
+
+    public Program copy() {
+        final List<Statement> scopy = new ArrayList<Statement>(statements.size());
+        for (final Statement s : statements) {
+            scopy.add(s);
+        }
+        return new Program(scopy);
     }
 
     /**

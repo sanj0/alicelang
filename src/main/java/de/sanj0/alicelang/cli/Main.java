@@ -22,6 +22,15 @@ public class Main {
     private static final String STD_INCLUDE_PHRASE = "\"std.alice\" include";
 
     public static void main(String[] args) throws IOException {
+        setSDK_HOME();
+        if (args.length == 0 || "live".equals(args[0])) {
+            runLive(args);
+        } else {
+            runFile(args);
+        }
+    }
+
+    private static void setSDK_HOME() {
         final String os = System.getProperty("os.name").toLowerCase();
         if (os.contains("mac")) {
             SDK_HOME = new File("/Library/de.sanj0.alicelang/sdk/");
@@ -30,41 +39,44 @@ public class Main {
         } else {
             SDK_HOME = new File(System.getProperty("user.dir"), ".alicelang/sdk");
         }
-        if (args.length == 0 || "live".equals(args[0])) {
-            final Scanner stdin = new Scanner(System.in);
-            final AliceStack stack = AliceStack.initialize(64);
-            final AliceTable table = AliceTable.initialize(64);
-            if (args.length > 0) {
-                putArgs(Arrays.copyOfRange(args, 1, args.length), table);
-            } else {
-                putArgs(new String[0], table);
-            }
-            AliceParser.currentFile = "live";
-            AliceParser.currentLine = 0;
-            new AliceParser(STD_INCLUDE_PHRASE).parse().execute(stack, table);
-            while (true) {
-                System.out.print("alice>>");
-                final String s = stdin.nextLine();
-                if ("/exit".equals(s)) break;
-                new AliceParser(s).parse().execute(stack, table);
-            }
-        } else {
-            System.out.println("command line arguments: " + Arrays.toString(args));
-            final File f = new File(args[0]);
-            System.out.println("got file " + f.getAbsolutePath());
-            final String s = Files.readString(f.toPath());
-            final AliceTable table = AliceTable.initialize(64);
-            putArgs(Arrays.copyOfRange(args, 1, args.length), table);
-            AliceParser.currentFile = f.getAbsolutePath();
-            final Program program = new AliceParser(STD_INCLUDE_PHRASE + "\n" + s).parse();
-            program.execute(AliceStack.initialize(64), table);
-        }
     }
 
     private static void putArgs(final String[] args, final AliceTable table) {
         table.put("argc", new NumberStackElement((double) args.length));
         for (int i = 0; i < args.length; i++) {
             table.put("arg" + i, new StringStackElement(args[i]));
+        }
+    }
+
+    private static void runFile(final String[] args) throws IOException {
+        System.out.println("command line arguments: " + Arrays.toString(args));
+        final File f = new File(args[0]);
+        System.out.println("got file " + f.getAbsolutePath());
+        final String s = Files.readString(f.toPath());
+        final AliceTable table = AliceTable.initialize(64);
+        putArgs(Arrays.copyOfRange(args, 1, args.length), table);
+        AliceParser.currentFile = f.getAbsolutePath();
+        final Program program = new AliceParser(STD_INCLUDE_PHRASE + "\n" + s).parse();
+        program.execute(AliceStack.initialize(64), table);
+    }
+
+    private static void runLive(final String[] args) {
+        final Scanner stdin = new Scanner(System.in);
+        final AliceStack stack = AliceStack.initialize(64);
+        final AliceTable table = AliceTable.initialize(64);
+        if (args.length > 0) {
+            putArgs(Arrays.copyOfRange(args, 1, args.length), table);
+        } else {
+            putArgs(new String[0], table);
+        }
+        AliceParser.currentFile = "live";
+        AliceParser.currentLine = 0;
+        new AliceParser(STD_INCLUDE_PHRASE).parse().execute(stack, table);
+        while (true) {
+            System.out.print("alice>>");
+            final String s = stdin.nextLine();
+            if ("/exit".equals(s)) break;
+            new AliceParser(s).parse().execute(stack, table);
         }
     }
 }

@@ -5,11 +5,9 @@ import de.sanj0.alicelang.stackelements.NumberStackElement;
 import de.sanj0.alicelang.stackelements.ProgramStackElement;
 
 /**
- * Pops one item from the stack. First one popped is the loop body, second
- * one is peeked and checked for not being 0 for the first iteration. After every iteration,
- * one value is peeked  and if it zero, the loop is exited.
- * Syntax:
- * [code that puts a number onto the stack] (loop body 1-) while
+ * usage:
+ * (condition) {body} do
+ * pops both before first iteration
  */
 public class WhileStatement extends Statement {
     @Override

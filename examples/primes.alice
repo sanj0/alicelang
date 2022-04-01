@@ -9,7 +9,6 @@ read-num
 {
     d
     IF prime? {
-        "hi"P
         d primes "\n" rot rot 3 concatn
         :primes
     } FI

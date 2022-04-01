@@ -1,17 +1,17 @@
 ### standard library for alice ###
 # included per default
-# include many more useful stuff using INCLUDE_SDK
+# include more useful stuff using INCLUDE_SDK
 
 # include essentials
 "stacktools.alice"  include
 "math.alice"        include
 "controls.alice"    include
-(
+{
 "bool.alice"        include
 "io.alice"          include
 "range.alice"       include
 "strings.alice"     include
-):INCLUDE_SDK
+}:INCLUDE_SDK
 
 "number"    :NUMBER
 "string"    :STRING
