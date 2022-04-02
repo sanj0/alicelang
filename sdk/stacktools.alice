@@ -4,21 +4,28 @@
 # [a b] -> [a b a b]
 # only uses native stack utils:
 # [a b] swap [b a] d [b a a] rot [a a b] d [a a b b] rot [a b b a] swap [a b a b]
-(swap d rot d rot swap):d2
+{
+    swap d rot d rot swap
+}:d2
 
 # drops n number of stack elements where n is popped first
-(
+{
 (drop)
 e
-):dropn
+}:dropn
 
 # pops a number n and duplicates the next element n number of times
-(
+{
 (d)
 e
-):dn
+}:dn
 
 # usage: 1 NUMBER type-check
-(
-swap type eq () ("wrong type on stack!" throw) ifelse
-):type-check
+{
+swap type
+    if eq {
+    }
+    else
+    {"wrong type on stack!" throw}
+    efi
+}:type-check

@@ -66,7 +66,7 @@ public class Program extends Statement {
                     AliceParser.DEBUG = false;
                 }
                 AliceParser.currentFile = file;
-                throw new AliceRuntimeError("\n" + statement + "\t@" + statement.lineNumber + "(" + statement.startIndex + "...):\t" /*+ e.getMessage()*/);
+                throw new AliceRuntimeError("\n" + statement + "\t@" + statement.lineNumber + "(" + statement.startIndex + "...):\t" + e.getMessage());
             }
             if (statement.thenBreak) {
                 thenBreak = true;

@@ -3,9 +3,9 @@
 # include more useful stuff using INCLUDE_SDK
 
 # include essentials
+"controls.alice"    include
 "stacktools.alice"  include
 "math.alice"        include
-"controls.alice"    include
 {
 "bool.alice"        include
 "io.alice"          include
@@ -38,20 +38,44 @@ d exists (drop drop) ("'"P P "'"P " required from "P P) ifelse
 # 0 to 1 and 1 to 0
 (
 d NUMBER type-check
-0 eq (1) (0) ifelse
+0 eq (1) (0) efi
 ):not
+
+# not equals
+# eqivalent to: eq not
+{
+    eq not
+}:neq
+
+# equals, keeping the left hand on stack
+# [a b] -> [a NUMBER]
+fun {
+    swap d rot eq
+}:d=
+
+# equals, keeping the left hand on stack
+# [a b] -> [b NUMBER]
+fun {
+    d rot eq
+}:=d
+
+# equals, keeping both values on the stack
+# [a b] -> [a b NUMBER]
+fun {
+    d2 eq
+}:equals
 
 # pop e and push 1 if it is a number, 0 it it's not
 (type NUMBER eq)
-    :num?
+    :?num
 
 # pop e and push 1 if it is a string, 0 if it's not
 (type STRING eq)
-    :str?
+    :?str
 
 # pop e and push 1 if it is a subprogram, 0 if it's not
 (type SUBPROGRAM eq)
-    :spr?
+    :?spr
 
 # prints the top of the stack prefixed with an error message and exits
 # the program with exit code -1

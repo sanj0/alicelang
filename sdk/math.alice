@@ -13,15 +13,21 @@
 (
     d NUMBER type-check
     d 0 lt
-    (-1 *)
-    if
+    if {-1 *}
+    fi
 )
 :abs
 # floors the head of the stack
 (d 1 % -):floor
 
 # ceils the head of the stack
-(d 1 % (d 1 swap 1 % - +) (return) ifelse):ceil
+fun {
+    d 
+    if 1 % { 
+    d 1 swap 1 % - +
+    } else {return} 
+    efi
+}:ceil
 
 # logarithm
 # 7 3 log = log_3(7)
@@ -49,13 +55,12 @@ d2 gt (drop) (swap drop) ifelse):max
 
 # 0.46 0.1 round -> [0.5]
 (
-"not yet implemented, lazy developer!" throw
+    d rot swap / round-to-int *
 ):round
 
 # rounds the top of the stack to an integer.
 # whether or not .5 is rounded up is defined by :round-.5-up
 (
-"round-to-int, from bool.alice," "not" required
 d 1 % d
 .5 lt not round-.5-up and (1 swap - +) (-) ifelse
 ):round-to-int
@@ -68,31 +73,28 @@ d 1 % d
 2 %     # leaves 1 or 0 on the stack anyway
 ):odd?
 
-# 7 prime? -> [1]
-{
+# [NUMBER a] -> [NUMBER b]
+fun {
     # edgecase 1
-    d 1 eq {
+    if 1 d= {
         drop 0 return
-    } if
+    } fi
 
     # edgecase 2
-    d 2 eq {
+    if 2 d= {
         drop 1 return
-    } if
+    } fi
 
     abs
     d 2 /
     ceil
-    {
+    while (d 1 -) {
         d2 %
-        not {
+        if 0 eq {
             drop drop 0 return
-        } if
+        } fi
         --
-        d {
-            break
-        } if
-    } while
-    drop drop 1
-}:prime?
+    } do
+    drop drop 1 return
+}:?prime
 

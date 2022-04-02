@@ -30,6 +30,9 @@ fun {}:then
 # , which is equivalent to:
 # condition () else () fi
 
+### marker function that does nothing
+fun {}:else
+
 # ----- #
 # enhanced while
 # usage:

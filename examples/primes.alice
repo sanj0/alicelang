@@ -1,18 +1,18 @@
 #!/usr/local/bin/alice
 "strings.alice" include
-"io.alice" include
+"io.alice"      include
 
 "":primes
 "generate all primes to: "P
 
 read-num
-{
+1 +
+while (-- d) {
     d
-    IF prime? {
+    if ?prime {
         d primes "\n" rot rot 3 concatn
         :primes
-    } FI
-    --
-} while
+    } fi
+} do
 
 primes "primes.txt" writef

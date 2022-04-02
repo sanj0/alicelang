@@ -1,13 +1,21 @@
 ### standard and file io ###
 
 # reads a number from standard in
-(r n):read-num
+fun {
+    r n
+}:read-num
 
 # reads a string from standard in
-(r):read-str
+fun {
+    r
+}:read-str
 
 # prints by peeking, not popping and prints a newline afterwards
-(p "\n"P):pln
+fun {
+    p "\n"P
+}:pln
 
 # prints by popping and prints a newline afterwards
-(P "\n"P):Pln
+fun {
+    P "\n"P
+}:Pln
