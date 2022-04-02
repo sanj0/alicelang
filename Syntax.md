@@ -1,32 +1,83 @@
 # The syntax of alice
 (the specs are subject of constant change in the current state of development)
 
-## Pushing onto the stack
+## 1 Pushing onto the stack
 Three different kinds of elements can be pushed onto the stack by simply stating
-them:
+them.
+
+### 1.1 Numbers
+In alice, there is one single type for numbers, which is backed by type
+`double` in Java and follows the syntax below:
 
 ```regex
 [+-]?[0-9]*\.?[0-9]*
 ```
-puts a number onto the stack. Example: `10 +13.5 .125 -3`
+Example: `10 +13.5 .125 -3`
+
+### 1.2 Strings
+Strings work as they do in Java, following the syntax below:
 
 ```regex
 ".*"
 ```
-puts a string onto the stack. Example: `"hi" "hello, world" "1.37"`
+Example: `"hi" "hello, world" "1.37"`
+
+### 1.3 Subprograms
+Subprograms are alice code that is not executed immediately, but stored on the
+stack for later execution (or capturing as a function). They are stated using
+the following syntax:
 
 ```regex
 (\(.*\))|\{.*\}
 ```
-puts a subprogram onto the stack. Example: `(1 2 3 4) {"hi"P} (({"hello,
-world"P}))`.
+Example: `(1 2 3 4) {"hi"P} ((3 {"hello, world"P}) "welcome")`
 
-**concept** substacks:
-```regex
-\[.*\]
+## 2 Stack manipulation
+Basic stack manipulation is very much inspired by forth:
+```alice
+d           # duplicates the topmost element
+drop        # drops the topmost element
+swap        # wsaps the two topmost elements
+rot         # rotates out of three elements: a b c -> b c a
+d2          # duplicates two elements: a b -> a b a b
+clear       # clears the stack
+NUMBER fold # folds NUMBER of elements into a substack:
+            #   (which, in turn, is pushed onto the stack)
+            #   1 2 ... n -> [1 2 ... n]
+expand      # expands the substack on top of the stack:
+            #   [a b c] -> a b c
 ```
-puts a substack onto the stack, which can be expanded using `expand` and folded
-using `n fold`.
 
-## Stack manipulation
+## 3 The table
+Besides the stack, there is another main data structure, the table.
+In the java implementation, it is backed by a HashMap. Onto the table, anything
+from the stack can be put onto it using a key:
 
+```alice
+"hi" :greeting
+(greeting P)
+    :greet
+```
+In the example above, the stack is empty after running the three lines, but the
+table contains a STRING greeting->"hi" and a subprogram greet->(...). Retrieving
+a value from the stack is done by stating the key. If the corresponding value is
+subprogram, it is not put back onto the stack, but executed immediately.
+
+## 4 Functions
+Using the syntax above, functions an be defined and invoked. Additionally, there
+is a marker-function called `fun` which does nothing aside from clarifying and
+pretty-fying code:
+
+```alice
+fun {
+    greeting P
+}:greet
+```
+The above example is semantically identical to the function definition under
+[3 The table](3-the-table).
+
+## 5 Commands
+
+## 6 Words
+
+## 7 The sdk
