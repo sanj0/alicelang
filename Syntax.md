@@ -74,7 +74,7 @@ fun {
 }:greet
 ```
 The above example is semantically identical to the function definition under
-[3 The table](3-the-table).
+[3 The table](#3-the-table).
 
 ## 5 Commands
 
