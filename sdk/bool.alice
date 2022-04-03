@@ -1,40 +1,53 @@
 ### basic utility to work with booleans ###
 
 # --- boolean constants --- #
-"true"  :TRUE
-1       :NUM_TRUE
-"false" :FALSE
-0       :NUM_FALSE
+"true"  :STRUE
+1       :TRUE
+"false" :SFALSE
+0       :FALSE
 
 # --- boolean subprograms --- #
 # pop a value b. If b is equal to the constant TRUE ("true"),
 # push 1. push 0 otherwise
-(
-TRUE eq
-(1) (0) ifelse
-):bool-to-num
+fun {
+    STRUE eq
+}:bool-to-num
 
-# pop a value b. If b is 0, push the constant FALSE ("false").
-# push TRUE ("true") otherwise
-(
-0 eq
-(FALSE) (TRUE) ifelse
-):num-to-bool
+# pop a value b. If b is 1, push the constant TRUE ("true").
+# push FALSE ("false") otherwise
+fun {
+    if 1 eq {
+        STRUE
+    } else {
+        SFALSE
+    } efi
+}:num-to-bool
 
 # like the default if but works with "true" and "false" as well as
 # 1 and 0
 # works by checking if the condition is string and using bool-to-num
 # to convert it to the corresponding number
 # short for "better if" or "boolean if"
-(
-type "string" eq (bool-to-num) if
-if
-):bif
+fun {
+    swap d
+    if type STRING eq {
+        bool-to-num
+    } fi
+    swap
+    fi
+}:bfi
 
 # like the std not, but works with
 # TRUE ("true") and FALSE ("false") as well
-(
-d type eq NUMBER
-(0 eq (1) (0) ifelse)
-(TRUE eq (1) (0) ifelse) ifelse
-):bnot
+fun {
+    d
+    if type NUMBER eq {
+        not
+    } else {
+        if STRUE eq {
+            SFALSE
+        } else {
+            STRUE
+        } efi
+    } efi
+}:bnot
