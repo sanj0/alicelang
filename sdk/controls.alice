@@ -12,6 +12,18 @@
 {}:fun
 
 # ----- #
+# enhanced variable declaration
+# usage:
+# var "hi":greeting
+# const "alice":NAME
+
+### marker function that does nothing
+fun {}:var
+
+### marker function that does nothing
+fun {}:const
+
+# ----- #
 # enhanced if
 # usage:
 # if condition then ("true!"P) fi

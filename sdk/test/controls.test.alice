@@ -6,6 +6,14 @@ clear
     fun ssize 0 asserteq
 test-end
 
+"var" test-start
+    var ssize 0 asserteq
+test-end
+
+"const" test-start
+    const ssize 0 asserteq
+test-end
+
 "if" test-start
     if ssize 0 asserteq
 test-end
