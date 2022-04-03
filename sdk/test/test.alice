@@ -1,0 +1,35 @@
+### test utility ###
+
+"":test.current-test
+"":test.test-file
+1:test.all-passed
+
+# includes the file
+fun {
+    "runing tests for "P p "\n"P
+    :test.test-file
+}:test-file
+
+fun {
+    1 :test.all-passed
+    :test.current-test
+}:test-start
+
+fun {
+    if test.all-passed {
+        "    test success: "P test.current-test P "\n"P
+    } fi
+    "":test.current-test
+}:test-end
+
+fun {
+    if not {
+        0 :test.all-passed
+        "    test failure: "P test.current-test P "\n"P
+        "test failure" throw
+    } fi
+}:assert
+
+fun {
+    eq assert
+}:asserteq

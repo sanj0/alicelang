@@ -1,0 +1,4 @@
+### run sdk tests ###
+"test.alice" include
+
+"bool.test.alice" include
