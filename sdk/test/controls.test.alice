@@ -1,0 +1,24 @@
+### controls.alice test file ###
+"controls.alice" test-file
+
+clear
+"fun" test-start
+    fun ssize 0 asserteq
+test-end
+
+"if" test-start
+    if ssize 0 asserteq
+test-end
+
+"then" test-start
+    then ssize 0 asserteq
+test-end
+
+"else" test-start
+    else ssize 0 asserteq
+test-end
+
+"while" test-start
+    while ssize 0 asserteq
+test-end
+

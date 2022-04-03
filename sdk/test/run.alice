@@ -2,3 +2,4 @@
 "test.alice" include
 
 "bool.test.alice" include
+"controls.test.alice" include
