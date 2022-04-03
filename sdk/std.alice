@@ -2,6 +2,10 @@
 # included per default
 # include more useful stuff using INCLUDE_SDK
 
+"number"    :NUMBER
+"string"    :STRING
+"subprogram":SUBPROGRAM
+
 # include essentials
 "controls.alice"    include
 "stacktools.alice"  include
@@ -12,10 +16,6 @@
 "range.alice"       include
 "strings.alice"     include
 }:INCLUDE_SDK
-
-"number"    :NUMBER
-"string"    :STRING
-"subprogram":SUBPROGRAM
 
 # checks if the given string corresponds to an item on the table
 # prints an error message and exits with an abnormal exit code
@@ -36,10 +36,14 @@ d exists (drop drop) ("'"P P "'"P " required from "P P) ifelse
 ):require-from
 
 # 0 to 1 and 1 to 0
-(
-d NUMBER type-check
-0 eq (1) (0) efi
-):not
+fun {
+    d NUMBER type-check
+    if 1 eq {
+        0
+    } else {
+        1
+    } efi
+}:not
 
 # not equals
 # eqivalent to: eq not
