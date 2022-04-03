@@ -1,0 +1,13 @@
+var 0:sum
+var 1000:max
+var 0:i
+
+while (i max lt) {
+    i 3 % 0 eq
+    i 5 % 0 eq
+    if or {
+        i sum + :sum
+    } fi
+    i ++ :i
+} do
+sum P
