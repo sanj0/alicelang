@@ -12,7 +12,7 @@ public class ExitStatement extends Statement {
         if (code != 0) {
             throw new AliceRuntimeError("stacksize: " + stack.size());
         }
-        System.exit(stack.pop().getInt());
+        System.exit(code);
     }
 
     @Override
