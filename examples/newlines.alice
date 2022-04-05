@@ -1,6 +1,7 @@
-"Who is that? "P
-r
-"Welcome, "P P"\n"P
-"Why are you here? "P
-r
-"You are here "P P"\n"P
+"newlines work\nas expected\n"P
+"but after including io.alice, you can also use 'Pln' and 'pln'"P
+"io.alice" include
+""Pln
+"Just like"Pln
+"this"pln
+# (last strings remains, as expected, on the stack)

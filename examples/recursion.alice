@@ -1,4 +1,0 @@
-# recursively calculate Fibonacci
-
-(2 eq (drop ++) (d -1 fib -1 fib +) ifelse):fib
-5 fib

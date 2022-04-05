@@ -1,1 +1,6 @@
-10 (# some code that ends up woth the counter on top the stack# --) while
+# do something 10 times:
+var 0 :i
+while (i 10 lt) {
+    "hi "P i P "!\n"P
+    i ++ :i
+} do

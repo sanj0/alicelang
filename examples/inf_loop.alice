@@ -1,8 +1,4 @@
-# loops infinitely (until java StackOverflows)
-1
-(e)
-e
-# 1(e)e
-
-# alternative:
-# 1 () while
+# of course, everyone needs an infinite loop:
+while (1) {
+    # nothing to do here
+} do
