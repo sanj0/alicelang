@@ -35,21 +35,27 @@ public class AliceParser {
     public static final String WRD_GT = "gt";
     public static final String WRD_AND = "and";
     public static final String WRD_OR = "or";
+    // todo: implement word ln
     public static final String WRD_LN = "ln";
+    // todo: implement word length
     public static final String WRD_LENGTH = "length";
     public static final String WRD_INCLUDE = "include";
     public static final String WRD_EXISTS = "exists";
     public static final String WRD_TYPE = "type";
     public static final String WRD_EXIT = "exit";
     public static final String WRD_STACK_SIZE = "ssize";
+    // todo: implement word random
     public static final String WRD_RANDOM = "random";
+    // todo: implement word charat
     public static final String WRD_CHAR_AT = "charat";
+    // todo: implement word time
     public static final String WRD_TIME = "time";
     public static final String WRD_GET = "get";
     public static final String WRD_BREAK = "break";
     public static final String WRD_RETURN = "return";
     public static final String WRD_WRITEF = "writef";
     public static final String WRD_READF = "readf";
+    // todo: implement word eval
     public static final String WRD_EVAL = "eval";
     public static final String WRD_PROC = "proc";
     public static final String WRD_PPROC = "pproc";
