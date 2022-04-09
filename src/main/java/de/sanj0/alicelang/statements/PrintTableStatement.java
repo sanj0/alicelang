@@ -5,13 +5,18 @@ import de.sanj0.alicelang.AliceTable;
 import de.sanj0.alicelang.StackElement;
 import de.sanj0.alicelang.Statement;
 
+import java.util.Map;
 import java.util.Map.Entry;
 
 public class PrintTableStatement extends Statement {
     @Override
     public void execute(final AliceStack stack, final AliceTable table) {
-        for (final Entry<String, StackElement<?>> e : table.getMap().entrySet()) {
-            System.out.println(e.getKey() + "->" + e.getValue());
+        String indentation = "";
+        for (final Map<String, StackElement<?>> scope : table.getScopes()) {
+            for (final Entry<String, StackElement<?>> e : scope.entrySet()) {
+                System.out.println(indentation + e.getKey() + "->" + e.getValue().toString().replaceAll("\n", "\\n"));
+            }
+            indentation += "    ";
         }
     }
 

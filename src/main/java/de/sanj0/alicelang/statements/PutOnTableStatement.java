@@ -6,6 +6,9 @@ import de.sanj0.alicelang.AliceTable;
 import de.sanj0.alicelang.Statement;
 
 public class PutOnTableStatement extends Statement {
+
+    public static boolean nextIsLocal = false;
+
     private final String key;
 
     public PutOnTableStatement(final String key) {
@@ -17,7 +20,12 @@ public class PutOnTableStatement extends Statement {
         if (Character.isUpperCase(key.charAt(0)) && table.containsKey(key)) {
             throw new AliceRuntimeError(AliceRuntimeError.WRITE_TO_CONST_ + key);
         }
-        table.put(key, stack.pop());
+        if (nextIsLocal) {
+            table.putLocal(key, stack.pop());
+        } else {
+            table.put(key, stack.pop());
+            nextIsLocal = false;
+        }
     }
 
     @Override

@@ -1,52 +1,82 @@
 package de.sanj0.alicelang;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 public class AliceTable {
-    private final Map<String, StackElement<?>> table;
+    private LinkedList<Map<String, StackElement<?>>> scopes = new LinkedList<>();
 
     private AliceTable(final Map<String, StackElement<?>> table) {
-        this.table = table;
+        scopes.add(table);
     }
 
     public static AliceTable initialize(final int initialSize) {
         return new AliceTable(new HashMap<>(initialSize));
     }
 
-    public Map<String, StackElement<?>> getMap() {
-        return table;
+    /**
+     * Gets {@link #scopes}.
+     *
+     * @return the value of {@link #scopes}
+     */
+    public LinkedList<Map<String, StackElement<?>>> getScopes() {
+        return scopes;
     }
 
     public int size() {
-        return table.size();
+        return scopes.stream().mapToInt(Map::size).sum();
     }
 
     public boolean isEmpty() {
-        return table.isEmpty();
+        return size() == 0;
     }
 
     public boolean containsKey(final Object key) {
-        return table.containsKey(key);
+        for (final Map<String, StackElement<?>> m : scopes) {
+            if (m.containsKey(key)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public StackElement<?> get(final Object key) {
-        return table.get(key);
+        for (final Map<String, StackElement<?>> m : scopes) {
+            if (m.containsKey(key)) {
+                return m.get(key);
+            }
+        }
+        return null;
     }
 
     public StackElement<?> put(final String key, final StackElement<?> value) {
-        return table.put(key, value);
+        for (final Map<String, StackElement<?>> m : scopes) {
+            if (m.containsKey(key)) {
+                return m.put(key, value);
+            }
+        }
+        return scopes.peekLast().put(key, value);
     }
 
-    public StackElement<?> remove(final Object key) {
-        return table.remove(key);
-    }
-
-    public void clear() {
-        table.clear();
+    // normal put only puts to local if it already has key
+    public StackElement<?> putLocal(final String key, final StackElement<?> value) {
+        return scopes.peekFirst().put(key, value);
     }
 
     public StackElement<?> getOrDefault(final Object key, final StackElement<?> defaultValue) {
-        return table.getOrDefault(key, defaultValue);
+        if (containsKey(key)) {
+            return get(key);
+        } else {
+            return defaultValue;
+        }
+    }
+
+    public void putScope() {
+        scopes.push(new HashMap<>(3));
+    }
+
+    public Map<String, StackElement<?>> dropScope() {
+        return scopes.pop();
     }
 }

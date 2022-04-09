@@ -15,7 +15,7 @@ public class PrintFullStackStatement extends Statement {
     public void execute(final AliceStack stack, final AliceTable table) {
         final ListIterator<StackElement<?>> itr = stack.getElements().listIterator(stack.size());
         while (itr.hasPrevious()) {
-            System.out.println(itr.previous());
+            System.out.println(itr.previous().toString().replaceAll("\n", "\\n"));
         }
     }
 

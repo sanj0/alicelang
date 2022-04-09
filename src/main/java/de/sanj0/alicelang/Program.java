@@ -9,11 +9,17 @@ import java.util.*;
  */
 public class Program extends Statement {
     private List<Statement> statements;
+    private boolean createScope = true;
     public boolean isFunctionCall = false;
     public String file;
 
     public Program(final List<Statement> statements) {
         this.statements = statements;
+    }
+
+    public Program noScope() {
+        createScope = false;
+        return this;
     }
 
     @Override
@@ -23,6 +29,8 @@ public class Program extends Statement {
             System.out.println("prompt before each statement with original stack and table, empty to proceed, .l and .sl available");
         }
         boolean skipLocalDebug = false;
+        if (createScope)
+            table.putScope();
         for (final Statement statement : statements) {
             statement.thenReturn = false;
             statement.thenBreak = false;
@@ -77,6 +85,8 @@ public class Program extends Statement {
                 return;
             }
         }
+        if (createScope)
+            table.dropScope();
         if (AliceParser.DEBUG) {
             System.out.println("\n--- end local --- (file: " + file + "; size: " + statements.size() + "; fun call: " + isFunctionCall + ")");
         }

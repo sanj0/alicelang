@@ -51,6 +51,19 @@ fun {
     eq not
 }:neq
 
+# pops a number and converts it to a string representation
+# as an integer:
+# 3.7 -> "3"
+fun {
+    floor s
+}:int-string
+
+# usage:
+# 0 get-arg -> gets the first arg
+fun {
+    int-string "arg" swap + eval
+}:get-arg
+
 # equals, keeping the left hand on stack
 # [a b] -> [a NUMBER]
 fun {

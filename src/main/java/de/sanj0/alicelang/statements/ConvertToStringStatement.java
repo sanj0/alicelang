@@ -8,7 +8,7 @@ import de.sanj0.alicelang.stackelements.StringStackElement;
 public class ConvertToStringStatement extends Statement {
     @Override
     public void execute(final AliceStack stack, final AliceTable table) {
-        stack.push(new StringStackElement(String.valueOf(stack.pop().getValue())));
+        stack.push(new StringStackElement(String.valueOf(stack.pop())));
     }
 
     @Override

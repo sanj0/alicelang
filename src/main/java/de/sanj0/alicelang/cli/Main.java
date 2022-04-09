@@ -49,9 +49,7 @@ public class Main {
     }
 
     private static void runFile(final String[] args) throws IOException {
-        System.out.println("command line arguments: " + Arrays.toString(args));
         final File f = new File(args[0]);
-        System.out.println("got file " + f.getAbsolutePath());
         final String s = Files.readString(f.toPath());
         final AliceTable table = AliceTable.initialize(64);
         putArgs(Arrays.copyOfRange(args, 1, args.length), table);
@@ -72,11 +70,12 @@ public class Main {
         AliceParser.currentFile = "live";
         AliceParser.currentLine = 0;
         new AliceParser(STD_INCLUDE_PHRASE).parse().execute(stack, table);
+        table.putScope();
         while (true) {
             System.out.print("alice>>");
             final String s = stdin.nextLine();
             if ("/exit".equals(s)) break;
-            new AliceParser(s).parse().execute(stack, table);
+            new AliceParser(s).parse().noScope().execute(stack, table);
         }
     }
 }

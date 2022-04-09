@@ -55,6 +55,7 @@ public class AliceParser {
     public static final String WRD_PPROC = "pproc";
     public static final String WRD_EXPAND = "expand";
     public static final String WRD_FOLD = "fold";
+    public static final String WRD_LOCAL = "local";
 
     private String code;
     private char[] data;
@@ -165,6 +166,7 @@ public class AliceParser {
             case WRD_CHAR_AT -> new CharAtStatement();
             case WRD_TIME -> new TimeStatement();
             case WRD_EVAL -> new EvalStatement();
+            case WRD_LOCAL -> new LocalStatement();
             default -> handleCommand(word);
         };
     }
