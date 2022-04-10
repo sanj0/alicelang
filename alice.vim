@@ -9,6 +9,8 @@ endif
 syn keyword alice_word while do fi if then efi ifelse else fun var const swap clear drop over rot eq lt gt and or ln length include exists type exit ssize random charat readf time get break continue return eval writef readf export
 syn keyword alice_command f t e i p P r s n d
 
+set iskeyword+=-
+
 syn match alice_num '\v\c<\d%(\d|_*\d)*L=>'
 syn match alice_float '\v\c<\d%(\d|_*\d)*%(E[+-]=\d%(\d|_*\d)*[FD]=|[FD])>'
 syn match alice_float '\v\c<\d%(\d|_*\d)*\.%(\d%(\d|_*\d)*)=%(E[+-]=\d%(\d|_*\d)*)=[FD]='
