@@ -1,0 +1,15 @@
+"io.alice" include
+
+run "a" from 1 to 400 {
+    run "b" from a to 400 {
+        2 a * b *
+        2000 a * -
+        2000 b * -
+        1000000 +
+        if head 0 eq {
+            var 1000 a - b - :c
+            a b * c * P
+            0 exit
+        } fi
+    } nur
+} nur

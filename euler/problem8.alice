@@ -7,7 +7,9 @@ while (starti 987 lt) {
     var 0 :i
     var 1:prod
     while (i 13 lt) {
-        prod NUM starti i + charat n * :prod
+        prod
+        NUM starti i + charat n
+        * :prod
         i ++:i
     } do
     if prod max gt {
