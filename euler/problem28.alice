@@ -1,0 +1,15 @@
+# credit: xCryptic11
+var 0:sum
+run "i" from 0 to 499 {
+    4
+    2 i * 1 + square
+    *
+    20
+    i 1 +
+    *
+    +
+    sum + :sum
+} nur
+
+1 sum + P
+
