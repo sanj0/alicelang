@@ -1,0 +1,13 @@
+var 100:max
+
+var 0:a
+var 0:b
+
+run "i" from 1 to max {
+    a i 2 ** + :a
+} nur
+
+1 max + max 2 / *
+2 ** :b
+
+b a - P
