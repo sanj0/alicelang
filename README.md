@@ -28,7 +28,9 @@ r # reads user input until new line and pushed it onto the stack
 "What is your age? "
 read-num    # convenience subprogram from io.alice for "r n"
             # (read and convert to number)
-d 10 % not ("You are "P 10 / P " decades old!"P) if
+if (d 10 % not) {
+    "You are "P 10 / P " decades old!"P
+} fi
 ```
 
 ## The stack
