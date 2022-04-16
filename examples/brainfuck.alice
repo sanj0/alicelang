@@ -16,25 +16,33 @@ var 0:i
 while (i CODE length lt) {
     const CODE i charat :C
     if (C ">" eq) {
+        # ----- move pointer to the right
         ptr ++:ptr
     } (C "<" eq) {
+        # ----- move pointer to the left
         ptr --:ptr
     } (C "+" eq) {
+        # ----- increment cell at pointer
         "c" ptr s + eval
         ++ ":c" ptr s + eval
     } (C "-" eq) {
+        # ----- decrement cell at pointer
         "c" ptr s + eval
         -- ":c" ptr s + eval
     } (C "." eq) {
+        # ----- output cell as unicode
         "c" ptr s + eval
         character P
     } (C "," eq) {
+        # ----- read one character's unicode into a cell
         r
         if (d length 1 gt) {
             "must only input one byte!" throw
         } fi
+        unicode
         ":c" + ptr + eval
     } (C "[" eq) {
+        # ----- if cell is zero, move to matching ]
         "c" ptr s + eval
         if (0 eq) {
             var 1:level
@@ -49,6 +57,7 @@ while (i CODE length lt) {
             } do
         } fi
     } (C "]" eq) {
+        # ----- if cell is non-zero, move to matching [
         "c" ptr s + eval
         if (0 neq) {
             var 1:level
