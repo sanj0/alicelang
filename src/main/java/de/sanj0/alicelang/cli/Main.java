@@ -42,9 +42,9 @@ public class Main {
     }
 
     private static void putArgs(final String[] args, final AliceTable table) {
-        table.put("argc", new NumberStackElement((double) args.length));
+        table.putNew("argc", new NumberStackElement((double) args.length));
         for (int i = 0; i < args.length; i++) {
-            table.put("arg" + i, new StringStackElement(args[i]));
+            table.putNew("arg" + i, new StringStackElement(args[i]));
         }
     }
 

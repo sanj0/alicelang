@@ -1,35 +1,35 @@
 ### test utility ###
 
-"":test.current-test
-"":test.test-file
-1:test.all-passed
+export var "":test.current-test
+export var "":test.test-file
+export var 1:test.all-passed
 
 # includes the file
-fun {
-    "runing tests for "P p "\n"P
-    :test.test-file
+export fun {
+    "running tests for "P p "\n"P
+    export :test.test-file
 }:test-file
 
-fun {
-    1 :test.all-passed
-    :test.current-test
+export fun {
+    export 1 :test.all-passed
+    export :test.current-test
 }:test-start
 
-fun {
-    if test.all-passed {
+export fun {
+    if (test.all-passed) {
         "    test success: "P test.current-test P "\n"P
     } fi
-    "":test.current-test
+    export "":test.current-test
 }:test-end
 
-fun {
-    if not {
+export fun {
+    if (not) {
         0 :test.all-passed
         "    test failure: "P test.current-test P "\n"P
         "test failure" throw
     } fi
 }:assert
 
-fun {
+export fun {
     eq assert
 }:asserteq

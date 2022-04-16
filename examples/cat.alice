@@ -1,0 +1,31 @@
+"io.alice" include
+
+fun {
+    if (argc 0 eq) {
+        echo-stdin
+    } else {
+        echo-files
+    } fi
+}:MAIN
+
+fun {
+    while (1) {
+        r Pln
+    } do
+}:echo-stdin
+
+fun {
+    var 0:i
+    while (i argc lt) {
+        i get-arg readf
+        P
+        i ++ :i
+    } do
+}:echo-files
+
+fun {
+    "usage:"Pln
+    "cat.alice file_path*"Pln
+}:print-usage
+
+MAIN

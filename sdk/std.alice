@@ -2,19 +2,20 @@
 # included per default
 # include more useful stuff using INCLUDE_SDK
 
-"number"    :NUMBER
-"string"    :STRING
-"subprogram":SUBPROGRAM
+export var "number"    :NUMBER
+export var "string"    :STRING
+export var "subprogram":SUBPROGRAM
 
 # include essentials
 "controls.alice"    include
 "stacktools.alice"  include
 "math.alice"        include
-{
-"bool.alice"        include
-"io.alice"          include
-"range.alice"       include
-"strings.alice"     include
+
+export fun {
+    "bool.alice"        include
+    "io.alice"          include
+    "range.alice"       include
+    "strings.alice"     include
 }:INCLUDE_SDK
 
 # checks if the given string corresponds to an item on the table
@@ -22,102 +23,121 @@
 # resulting in an exception to be thrown and a virtual "call stack"
 # to be printed
 # usage: "d2" require
-(
-d exists (drop) (P " required!\n"P) ifelse
-):require
+export fun {
+    if (d exists) {
+        drop
+    } else {
+        P " required!\n"P
+    } fi
+}:require
 
 # requires the first popped element to be
 # present as a key on the table. Prints an error message
 # detailing where it is required from, which is the second
 # popped element.
 # usage: "stacktools.alice" "d2" require-from
-(
-d exists (drop drop) ("'"P P "'"P " required from "P P) ifelse
-):require-from
+export fun {
+    if (d exists) {
+        drop drop
+    } else {
+        "'"P P "'"P " required from "P P
+    } fi
+}:require-from
 
 # 0 to 1 and 1 to 0
-fun {
+export fun {
     d NUMBER type-check
-    if 1 eq {
+    if (1 eq) {
         0
     } else {
         1
-    } efi
+    } fi
 }:not
 
 # not equals
 # eqivalent to: eq not
-{
+export fun {
     eq not
 }:neq
 
 # pops a number and converts it to a string representation
 # as an integer:
 # 3.7 -> "3"
-fun {
+export fun {
     floor s
 }:int-string
 
 # usage:
 # 0 get-arg -> gets the first arg
-fun {
+export fun {
     int-string "arg" swap + eval
 }:get-arg
 
+# puts all args onto the stack so that arg0
+# would be popped first
+export fun {
+    run "i" from 0 to argc {
+        argc i - 1 - get-arg
+    } nur
+}:load-args
+
 # equals, keeping the left hand on stack
 # [a b] -> [a NUMBER]
-fun {
+export fun {
     swap d rot eq
 }:d=
 
-# equals, keeping the left hand on stack
+# equals, keeping the right hand on stack
 # [a b] -> [b NUMBER]
-fun {
+export fun {
     d rot eq
 }:=d
 
 # equals, keeping both values on the stack
 # [a b] -> [a b NUMBER]
-fun {
+export fun {
     d2 eq
 }:equals
 
 # pop e and push 1 if it is a number, 0 it it's not
-(type NUMBER eq)
-    :?num
+export fun {
+    type NUMBER eq
+}:?num
 
 # pop e and push 1 if it is a string, 0 if it's not
-(type STRING eq)
-    :?str
+export fun {
+    type STRING eq
+}:?str
 
 # pop e and push 1 if it is a subprogram, 0 if it's not
-(type SUBPROGRAM eq)
-    :?spr
+export fun {
+    type SUBPROGRAM eq
+}:?spr
 
 # prints the top of the stack prefixed with an error message and exits
 # the program with exit code -1
 # this results in the java backend to throw an exception whose message
 # includes a call stack that indicates where the error happened
-(
-"ERROR: "P P -1 exit
-):throw
+export fun {
+    "ERROR: "P P -1 exit
+}:throw
 
 # convenience method for command execution:
 # cmd "echo" 1234 exec
-(
-ssize :sdk.std.cmd-stack-size0
-):cmd
+export fun {
+    glob ssize :sdk.std.cmd-stack-size0
+}:cmd
 
 # convenience method for command execution:
 # cmd "echo" 1234 exec
-(
-ssize sdk.std.cmd-stack-size0 -
-proc
-):exec
+export fun {
+    ssize sdk.std.cmd-stack-size0 -
+    proc
+}:exec
 
 # convenience method for command execution:
 # cmd "echo" 1234 pexec
-(
-ssize sdk.std.cmd-stack-size0 -
-pproc
-):pexec
+export fun {
+    ssize sdk.std.cmd-stack-size0 -
+    pproc
+}:pexec

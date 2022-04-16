@@ -1,0 +1,6 @@
+run "i" from 0 to 1000 {
+    run "ii" from 0 to 1000 {
+        i P " * "P ii P " = "P i ii * P
+        "\n"P
+    } nur
+} nur

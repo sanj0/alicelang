@@ -1,12 +1,11 @@
 var 2:sum
 var 3:i
 
-while (i 2000000 lt) {
-    i P "\n" P
-    if i ?prime-not-1 {
+2 stepsize
+run "i" from 3 to 1999999 {
+    if (i ?prime-not-1) {
         i sum + :sum
     } fi
-    i 2 +:i
-} do
+} nur
 
 sum P

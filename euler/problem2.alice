@@ -4,7 +4,7 @@ var 4000000 :max
 var 0 :sum
 
 while (fib1 max lt) {
-    if fib1 2 % 0 eq {
+    if (fib1 2 % 0 eq) {
         sum fib1 + :sum
     } fi
     var fib1 :tmp

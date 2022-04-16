@@ -6,24 +6,8 @@ clear
     fun ssize 0 asserteq
 test-end
 
-"var" test-start
-    var ssize 0 asserteq
-test-end
-
-"const" test-start
-    const ssize 0 asserteq
-test-end
-
-"if" test-start
-    if ssize 0 asserteq
-test-end
-
-"then" test-start
-    then ssize 0 asserteq
-test-end
-
 "else" test-start
-    else ssize 0 asserteq
+    1 else e 1 asserteq
 test-end
 
 "while" test-start

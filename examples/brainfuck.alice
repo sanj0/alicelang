@@ -1,0 +1,27 @@
+### brainfuck interpreter that works by translating brainfuck to alice
+### and evaluating it
+### expectes a file name as an arg
+if (argc 1 neq) {
+    "wrong amount of arguments!" throw
+} fi
+
+const arg0 readf :CODE
+var 0 fold :left
+var 0:ptr
+var 0 fold :right
+
+run "i" from 0 to CODE length 1 - {
+    const CODE i charat :C
+    if (C ">" eq) {
+        if (right expand ssize 0 eq) {
+
+        }
+    } (C "<" eq) {
+    } (C "+" eq) {
+    } (C "-" eq) {
+    } (C "." eq) {
+    } (C "," eq) {
+    } (C "[" eq) {
+    } (C "]" eq) {
+    } fi
+} nur

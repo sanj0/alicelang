@@ -5,8 +5,9 @@ import de.sanj0.alicelang.stackelements.ProgramStackElement;
 import de.sanj0.alicelang.stackelements.StringStackElement;
 import de.sanj0.alicelang.statements.*;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.*;
 
 public class AliceParser {
     public static String currentFile = "";
@@ -15,7 +16,6 @@ public class AliceParser {
     public static final char CMD_PRINT_FULL_STACK = 'f';
     public static final char CMD_PRINT_TABLE = 't';
     public static final char CMD_EXECUTE_SUB_PROGRAM = 'e';
-    public static final char CMD_INVOKE_LC = 'i';
     public static final char CMD_PRINT_LC = 'p';
     public static final char CMD_PRINT_UC = 'P';
     public static final char CMD_READ = 'r';
@@ -23,8 +23,9 @@ public class AliceParser {
     public static final char CMD_CONVERT_TO_NUM = 'n';
     public static final char CMD_DUPLICATE = 'd';
     public static final String WRD_WHILE = "do";
-    public static final String WRD_IF = "fi";
-    public static final String WRD_IFELSE = "efi";
+    public static final String WRD_FI = "fi";
+    public static final String WRD_IF = "if";
+    public static final String WRD_ELIF = "elif";
     public static final String WRD_SWAP = "swap";
     public static final String WRD_CLEAR = "clear";
     public static final String WRD_DROP = "drop";
@@ -55,9 +56,16 @@ public class AliceParser {
     public static final String WRD_PPROC = "pproc";
     public static final String WRD_EXPAND = "expand";
     public static final String WRD_FOLD = "fold";
-    public static final String WRD_LOCAL = "local";
+    public static final String WRD_EXPORT = "export";
+    public static final String WRD_VAR = "var";
+    public static final String WRD_CONST = "const";
+    public static final String WRD_PURGE = "purge";
+    public static final String WRD_UNICODE = "unicode";
+    public static final String WRD_CHARACTER = "character";
+    public static final String WRD_NUR = "nur";
+    public static final String WRD_STEPSIZE = "stepsize";
 
-    private String code;
+    private final String code;
     private char[] data;
     private int index;
     private int lineNumber;
@@ -82,6 +90,7 @@ public class AliceParser {
             final int l = lineNumber;
             final int startIndex = index - lastLineBreakIndex;
             final Statement statement = parseStatement();
+            if (statement == null) continue;
             statement.lineNumber = l;
             statement.startIndex = startIndex;
             statements.add(statement);
@@ -144,8 +153,9 @@ public class AliceParser {
             case WRD_GT -> new BooleanStatement.GtStatement();
             case WRD_AND -> new BooleanStatement.AndStatement();
             case WRD_OR -> new BooleanStatement.OrStatement();
+            case WRD_FI -> new FiStatement();
             case WRD_IF -> new IfStatement();
-            case WRD_IFELSE -> new IfElseStatement();
+            case WRD_ELIF -> null;
             case WRD_INCLUDE -> new IncludeStatement();
             case WRD_EXISTS -> new ExistsStatement();
             case WRD_TYPE -> new TypeStatement();
@@ -166,7 +176,14 @@ public class AliceParser {
             case WRD_CHAR_AT -> new CharAtStatement();
             case WRD_TIME -> new TimeStatement();
             case WRD_EVAL -> new EvalStatement();
-            case WRD_LOCAL -> new LocalStatement();
+            case WRD_EXPORT -> new ExportStatement();
+            case WRD_VAR -> new VarStatement();
+            case WRD_CONST -> new ConstStatement();
+            case WRD_PURGE -> new PurgeStatement();
+            case WRD_UNICODE -> new UnicodeStatement();
+            case WRD_CHARACTER -> new CharacterStatement();
+            case WRD_NUR -> new NurStatement();
+            case WRD_STEPSIZE -> new StepsizeStatement();
             default -> handleCommand(word);
         };
     }
@@ -176,7 +193,8 @@ public class AliceParser {
         final StringBuilder builder = new StringBuilder();
         builder.append(start);
         char next;
-        while (!done() && !Character.isWhitespace(next = peek()) && next != '"' && next != '(') {
+        while (!done() && !Character.isWhitespace(next = peek()) && next != '"'
+                && next != '(' && next != ':' && next != '{' && next != ')' && next != '}') {
             builder.append(next);
             index++;
         }
@@ -219,25 +237,20 @@ public class AliceParser {
     }
 
     private ProgramStackElement parseSubProgram(final char parenthesis) {
-        final StringBuilder builder = new StringBuilder();
-        int parenthesisLevel = 1;
-        final LinkedList<Character> waitingFor = new LinkedList<>();
-        waitingFor.add(parenthesis == '(' ? ')' : '}');
-        char next;
-        while (((next = pop()) == waitingFor.peek() && parenthesisLevel > 1) || (next != waitingFor.peek())) {
-            if (next == waitingFor.peek()) {
-                parenthesisLevel--;
-                waitingFor.pop();
-            } else if (next == '(') {
-                waitingFor.push(')');
-                parenthesisLevel++;
-            } else if (next == '{') {
-                waitingFor.push('}');
-                parenthesisLevel++;
-            }
-            builder.append(next);
+        final char waitingFor = parenthesis == '(' ? ')' : '}';
+        char next = peek();
+        if (next == waitingFor) {
+            pop();
+            return new ProgramStackElement(new Program(new LinkedList<>()));
         }
-        final Program p = new AliceParser(builder.toString(), lineNumber).parse();
+        final List<Statement> statements = new ArrayList<>();
+        do {
+            if (skipWhitespacesAndComments()) break;
+            if (peek() == waitingFor) break;
+            statements.add(parseStatement());
+        } while (peek() != waitingFor);
+        pop();
+        final Program p = new Program(statements);
         p.file = AliceParser.currentFile;
         return new ProgramStackElement(p);
     }
@@ -331,5 +344,32 @@ public class AliceParser {
             lastLineBreakIndex = index;
         }
         return data[index];
+    }
+
+    public static boolean isReservedKeyWord(final String s) {
+        return KEYWORDS.contains(s);
+    }
+
+    private static final Set<String> KEYWORDS = new HashSet<>();
+
+    static {
+        final Field[] fields = AliceParser.class.getDeclaredFields();
+        for (final Field f : fields) {
+            if (Modifier.isStatic(f.getModifiers()) && Modifier.isFinal(f.getModifiers())) {
+                if (f.getType() == String.class) {
+                    try {
+                        KEYWORDS.add((String) f.get(null));
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                } else if (f.getType().isPrimitive()) {
+                    try {
+                        KEYWORDS.add("" + f.getChar(null));
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
     }
 }

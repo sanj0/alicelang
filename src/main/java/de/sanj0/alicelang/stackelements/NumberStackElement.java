@@ -18,9 +18,9 @@ public class NumberStackElement extends StackElement<Double> {
     @Override
     public String toString() {
         if (getDouble() % 1 == 0) {
-            return String.valueOf(getValue()).replace(".0", "");
+            return String.format("%.0f", getValue());
         } else {
-            return String.valueOf(getValue());
+            return String.format("%f", getValue());
         }
     }
 }

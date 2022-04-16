@@ -1,0 +1,33 @@
+fun {
+    "input a message: "P
+    var r :message
+    "1 encrypt\n"P
+    "2 decrpyt\n"P
+    "# "P
+    r n
+    if (1 d=) {
+        encrypt
+    } fi
+    if (2 d=) {
+        decrypt
+    } fi
+    "input 1 or 2!" throw
+}:MAIN
+
+fun {
+    run "i" from 0 to message length {
+        var message i charat :c
+        c unicode 1 + character P
+    } nur
+    0 exit
+}:encrypt
+
+fun {
+    run "i" from 0 to message length {
+        var message i charat :c
+        c unicode 1 - character P
+    } nur
+    0 exit
+}:decrypt
+
+MAIN

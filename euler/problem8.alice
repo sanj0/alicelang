@@ -12,7 +12,7 @@ while (starti 987 lt) {
         * :prod
         i ++:i
     } do
-    if prod max gt {
+    if (prod max gt) {
         prod :max
     } fi
     starti ++:starti

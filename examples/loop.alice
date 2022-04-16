@@ -1,6 +1,11 @@
-# do something 10 times:
+# do something 10 times in a classic while loop:
 var 0 :i
 while (i 10 lt) {
     "hi "P i P "!\n"P
     i ++ :i
 } do
+
+# do something 10 times but cooler (and faster!):
+run "i" from 0 to 10 {
+    "hi "P i P "!\n"P
+} nur

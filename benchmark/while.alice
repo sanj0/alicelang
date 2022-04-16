@@ -1,0 +1,5 @@
+var 0:i
+while (i 1000000 lt) {
+    i ++
+    :i
+} do

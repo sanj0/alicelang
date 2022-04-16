@@ -1,100 +1,136 @@
 ### subprograms and constants for mathematical needs ###
 
 # --- math constants --- #
-const 2.7182818284590452354   :E
-const 3.14159265358979323846  :PI
-const 0.017453292519943295    :DEG_TO_RAD
-const 57.29577951308232       :RAD_TO_DEG
-var   1                       :round-.5-up
+export const 2.7182818284590452354   :E
+export const 3.14159265358979323846  :PI
+export const 0.017453292519943295    :DEG_TO_RAD
+export const 57.29577951308232       :RAD_TO_DEG
+export var   1                       :round-.5-up
 
 # --- math subprograms --- #
 
 # converts the top of the stack to an absolute value
-fun {
+export fun {
     d NUMBER type-check
     d
-    if 0 lt {-1 *} fi
+    if (0 lt) {
+        -1 *
+    } fi
 }:abs
 
 # floors the head of the stack
-(d 1 % -):floor
+export fun {
+    d 1 % -
+}:floor
 
 # ceils the head of the stack
-fun {
+export fun {
     d 
-    if 1 % { 
-    d 1 swap 1 % - +
-    } else {return} 
-    efi
+    if (1 %) { 
+        d 1 swap 1 % - +
+    } else {
+        return
+    } fi
 }:ceil
 
 # logarithm
 # 7 3 log = log_3(7)
-(swap ln swap ln /):log
+export fun {
+    swap ln swap ln /
+}:log
 
 # squares the head of the stack
-(2 swap **):square
+export fun {
+    2 **
+}:square
 
 # cube the head of the stack
-(3 swap **):cube
+export fun {
+    3 swap **
+}:cube
+
+export fun {
+    0.5 **
+}:sqrt
 
 # of two elements popped, push the smaller one
-("min, from stacktools.alice," "d2" required
-d2 lt (drop) (swap drop) ifelse):min
+export fun {
+    if (d2 lt) {
+        drop
+    } else {
+        swap drop
+    } fi
+}:min
 
 # of two elements popped, push the greater one
-("max, from stacktools.alice," "d2" required
-d2 gt (drop) (swap drop) ifelse):max
+export fun {
+    if (d2 gt) {
+        drop
+    } else {
+        swap drop
+    } fi
+}:max
 
 # convert the head of the stack from degrees to radians
-(DEG_TO_RAD *):to-radians
+export fun {
+    DEG_TO_RAD *
+}:to-radians
 
 # convert the head of the stack from radians to degrees
-(RAD_TO_DEG *):to-degrees
+export fun {
+    RAD_TO_DEG *
+}:to-degrees
 
 # 0.46 0.1 round -> [0.5]
-(
+export fun {
     d rot swap / round-to-int *
-):round
+}:round
 
 # rounds the top of the stack to an integer.
 # whether or not .5 is rounded up is defined by :round-.5-up
-(
-d 1 % d
-.5 lt not round-.5-up and (1 swap - +) (-) ifelse
-):round-to-int
+export fun {
+    d 1 %
+    d .5 lt not
+    round-.5-up 
+    if (and) {
+        1 swap - +
+    } else {
+        -
+    } fi
+}:round-to-int
 
-(
-2 % not # leaves 1 or 0 on the stack anyway, just have to flip it
-):even?
+export fun {
+    2 % not # leaves 1 or 0 on the stack anyway, just have to flip it
+}:?even
 
-(
-2 %     # leaves 1 or 0 on the stack anyway
-):odd?
+export fun {
+    2 %     # leaves 1 or 0 on the stack anyway
+}:?odd
 
-# [NUMBER a] -> [NUMBER b]
-fun {
-    # edgecase 1
-    if 1 d= {
-        drop 0 return
+# faster prime check that fails for 1
+# credits: xCryptic11
+export fun {
+    var :num
+    if (num 2 eq num 3 eq or) {
+        1 return
+    } fi
+    if (num 2 % 0 eq num 3 % 0 eq or) {
+        0 return
     } fi
 
-    # edgecase 2
-    if 2 d= {
-        drop 1 return
-    } fi
-
-    abs
-    d 2 /
-    1 + :_max
-    2 :_i
-    while (_i _max lt) {
-        d _i %
-        if 0 eq {
-            drop 0 return
+    6 stepsize
+    "i" 5 num 0.5 ** 1 + {
+        if (num i % 0 eq num i 2 + % 0 eq or) {
+            0 return
         } fi
-        _i ++ :_i
-    } do
-    drop 1 return
+    } nur
+    1 return
+}:?prime-not-1
+
+export fun {
+    if (1 d=) {
+        0 return
+    } fi
+    ?prime-not-1
 }:?prime
 

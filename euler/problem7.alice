@@ -3,7 +3,7 @@ var 3:i
 
 while (num 10001 eq not) {
     i 2 +:i
-    if i ?prime {
+    if (i ?prime) {
         num ++ :num
     } fi
 } do

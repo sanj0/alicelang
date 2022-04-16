@@ -2,8 +2,8 @@ var 600851475143 :num
 var 775147 :i # hardcoded sqaure root due to missing sqrt atm
 
 while (i 0 gt) {
-    if num i % 0 eq {
-        if i ?prime {
+    if (num i % 0 eq) {
+        if (i ?prime) {
             break
         } fi
     } fi

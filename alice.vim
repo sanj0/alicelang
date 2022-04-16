@@ -6,7 +6,8 @@ if exists("b:current_syntax")
     finish
 endif
 
-syn keyword alice_word while do fi if then efi ifelse else fun var const swap clear drop over rot eq lt gt and or ln length include exists type exit ssize random charat readf time get break continue return eval writef readf export
+syn keyword alice_word while do for rof fi if then efi ifelse else fun var const swap clear drop over rot eq lt gt and or ln length include exists type exit ssize random charat readf time get break continue return eval writef readf export exp clob glob head
+
 syn keyword alice_command f t e i p P r s n d
 
 set iskeyword+=-

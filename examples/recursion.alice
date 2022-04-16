@@ -1,0 +1,14 @@
+# a recursive implementation of the factorial function
+export fun {
+    var :num
+    if (num 2 lt) {
+        1 return
+    } else {
+        num 1 - fac num * return
+    } fi
+}:fac
+
+"fac of "p
+r n
+fac
+P

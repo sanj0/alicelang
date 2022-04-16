@@ -1,53 +1,39 @@
 ### basic utility to work with booleans ###
 
 # --- boolean constants --- #
-"true"  :STRUE
-1       :TRUE
-"false" :SFALSE
-0       :FALSE
+export var "true"  :STRUE
+export var 1       :TRUE
+export var "false" :SFALSE
+export var 0       :FALSE
 
 # --- boolean subprograms --- #
 # pop a value b. If b is equal to the constant TRUE ("true"),
 # push 1. push 0 otherwise
-fun {
+export fun {
     STRUE eq
 }:bool-to-num
 
 # pop a value b. If b is 1, push the constant TRUE ("true").
 # push FALSE ("false") otherwise
-fun {
-    if 1 eq {
+export fun {
+    if (1 eq) {
         STRUE
     } else {
         SFALSE
-    } efi
-}:num-to-bool
-
-# like the default if but works with "true" and "false" as well as
-# 1 and 0
-# works by checking if the condition is string and using bool-to-num
-# to convert it to the corresponding number
-# short for "better if" or "boolean if"
-fun {
-    swap d
-    if type STRING eq {
-        bool-to-num
     } fi
-    swap
-    fi
-}:bfi
+}:num-to-bool
 
 # like the std not, but works with
 # TRUE ("true") and FALSE ("false") as well
-fun {
+export fun {
     d
-    if type NUMBER eq {
+    if (type NUMBER eq) {
         not
     } else {
-        if STRUE eq {
+        if (STRUE eq) {
             SFALSE
         } else {
             STRUE
-        } efi
-    } efi
+        } fi
+    } fi
 }:bnot

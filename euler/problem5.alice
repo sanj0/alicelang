@@ -1,11 +1,11 @@
 # general solution for this kind of problem
 # credits: xCryptic11
 
-var 10:max
+var 20:max
 var 1:res
 
 run "i" from 1 to max {
-    if i ?prime {
+    if (i ?prime) {
         i max i log floor
         **
         res * :res

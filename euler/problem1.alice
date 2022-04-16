@@ -5,7 +5,7 @@ var 0:i
 while (i max lt) {
     i 3 % 0 eq
     i 5 % 0 eq
-    if or {
+    if (or) {
         i sum + :sum
     } fi
     i ++ :i

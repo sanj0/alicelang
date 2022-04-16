@@ -8,42 +8,44 @@
 # , which is equivalent to:
 # {}:name
 
-### marker function that does nothing
-{}:fun
+### marker function that calls var
+export var {var}:fun
 
 # ----- #
 # enhanced variable declaration
 # usage:
-# var "hi":greeting
-# const "alice":NAME
+# exp var "hi":greeting
+# glob "exported variable!":my-exported-var
+# clob "exported constant!":my-exported-const
 
-### marker function that does nothing
-fun {}:var
+### convencience function that calls export
+export fun {export}:exp
 
-### marker function that does nothing
-fun {}:const
+### convencience function that calls export var
+export fun {export var}:glob
+
+### convencience function that calls export const
+export fun {export const}:clob
 
 # ----- #
-# enhanced if
+# head of stack pointer
 # usage:
-# if condition then ("true!"P) fi
-# , which is equivalent to:
-# condition () fi
+# var head :my-var
 
-### marker function that does nohting
-fun {}:if
-### marker function that does nothing
-fun {}:then
+### marker function that points to the head of the stack by doing absolutely nothing
+export fun {}:head
 
 # ----- #
 # enhanced else
 # usage:
-# if condition then () else () fi
-# , which is equivalent to:
-# condition () else () fi
+# if (val 3 eq) {
+#   "hi"P
+# } else {
+#   "hey"P
+# } fi
 
-### marker function that does nothing
-fun {}:else
+### marker function that puts (1) onto the stack
+export fun {(1)}:else
 
 # ----- #
 # enhanced while
@@ -51,5 +53,34 @@ fun {}:else
 # while (cond) {"hi"P} do
 
 ### marker function that does nothing
-{}:while
+export fun {}:while
+
+# ----- #
+# enhanced for style loop
+# usage:
+# for (glob 0:i) (i 10 lt) (i ++:i) {
+#   i P
+# } rof
+
+### marker function thats does nothing
+export fun {}:for
+
+### loop function
+### seems to be a bit more than 10 % slower than pure while - do
+export fun {
+    var :body
+    var :mod
+    var :cond
+    var :init
+    init
+    while (cond) {
+        body
+        mod
+    } do
+}:rof
+
+### marker functions that do nothing
+export fun {}:run
+export fun {}:from
+export fun {}:to
 

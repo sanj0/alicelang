@@ -2,6 +2,7 @@ package de.sanj0.alicelang;
 
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 public class AliceTable {
@@ -20,7 +21,7 @@ public class AliceTable {
      *
      * @return the value of {@link #scopes}
      */
-    public LinkedList<Map<String, StackElement<?>>> getScopes() {
+    public List<Map<String, StackElement<?>>> getScopes() {
         return scopes;
     }
 
@@ -50,18 +51,22 @@ public class AliceTable {
         return null;
     }
 
-    public StackElement<?> put(final String key, final StackElement<?> value) {
+    public StackElement<?> putNew(final String key, final StackElement<?> value) {
+        return scopes.peekFirst().put(key, value);
+    }
+
+    public StackElement<?> assign(final String key, final StackElement<?> value) {
         for (final Map<String, StackElement<?>> m : scopes) {
             if (m.containsKey(key)) {
                 return m.put(key, value);
             }
         }
-        return scopes.peekLast().put(key, value);
+        throw new AliceRuntimeError(AliceRuntimeError.VARIABLE_NOT_FOUND_ + key);
     }
 
-    // normal put only puts to local if it already has key
-    public StackElement<?> putLocal(final String key, final StackElement<?> value) {
-        return scopes.peekFirst().put(key, value);
+    // puts into the last scope
+    public StackElement<?> putGlobal(final String key, final StackElement<?> value) {
+        return scopes.peekLast().put(key, value);
     }
 
     public StackElement<?> getOrDefault(final Object key, final StackElement<?> defaultValue) {
@@ -78,5 +83,14 @@ public class AliceTable {
 
     public Map<String, StackElement<?>> dropScope() {
         return scopes.pop();
+    }
+
+    public StackElement<?> purgeFirst(final String key) {
+        for (final Map<String, StackElement<?>> scope : scopes) {
+            if (scope.containsKey(key)) {
+                return scope.remove(key);
+            }
+        }
+        return null;
     }
 }

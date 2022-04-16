@@ -4,28 +4,26 @@
 # [a b] -> [a b a b]
 # only uses native stack utils:
 # [a b] swap [b a] d [b a a] rot [a a b] d [a a b b] rot [a b b a] swap [a b a b]
-{
+export fun {
     swap d rot d rot swap
 }:d2
 
 # drops n number of stack elements where n is popped first
-{
-(drop)
-e
+export fun {
+    (drop)
+    e
 }:dropn
 
 # pops a number n and duplicates the next element n number of times
-{
-(d)
-e
+export fun {
+    (d)
+    e
 }:dn
 
 # usage: 1 NUMBER type-check
-{
-swap type
-    if eq {
-    }
-    else
-    {"wrong type on stack!" throw}
-    efi
+export fun {
+    swap type
+    if (eq 0 eq) {
+        "wrong type on stack!" throw
+    } fi
 }:type-check

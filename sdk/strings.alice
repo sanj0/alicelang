@@ -1,15 +1,17 @@
 ### string tools ###
 
-(
-"\"" swap "\"" 3 concatn
-):quote
+# encloses the head of the stack in double quotes "
+export fun {
+    "\"" swap "\"" 3 concatn
+}:quote
 
-(
-"'" swap "'" 3 concatn
-):quote-single
+# encloses the head of the stack in single quotes '
+export fun {
+    "'" swap "'" 3 concatn
+}:quote-single
 
 # concats n number of strings from the stack,
 # where n is popped first
-(
-1 - (+)e
-):concatn
+export fun {
+    1 - (+)e
+}:concatn

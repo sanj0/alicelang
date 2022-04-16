@@ -1,5 +1,5 @@
 ### run sdk tests ###
-"test.alice" include
+"test/test.alice" include
 
-"bool.test.alice" include
-"controls.test.alice" include
+"test/bool.test.alice" include
+"test/controls.test.alice" include

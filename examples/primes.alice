@@ -7,17 +7,16 @@
 # takes about 1.2 seconds
 # while bc, using the same algorithm, takes about 0.2 seconds
 
-"":primes
-"generate all primes to: "P
+var "":primes
+var "generate all primes to: "P
 
 read-num
-1 +
-while (-- d) {
-    d
-    if ?prime {
-        d primes "\n" rot rot 3 concatn
+var head :max
+run "i" from 1 to max {
+    if (i ?prime) {
+        i "\n" primes 3 concatn
         :primes
     } fi
-} do
+} nur
 
 primes "primes.txt" writef

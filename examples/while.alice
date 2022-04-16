@@ -1,0 +1,11 @@
+var 0:i
+
+while (i 1000 lt) {
+    var 0:ii
+    while (ii 1000 lt) {
+        i P " * "P ii P " = "P i ii * P
+        "\n"P
+        ii ++:ii
+    } do
+    i ++:i
+} do

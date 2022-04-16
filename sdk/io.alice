@@ -1,21 +1,21 @@
 ### standard and file io ###
 
 # reads a number from standard in
-fun {
+export fun {
     r n
 }:read-num
 
 # reads a string from standard in
-fun {
+export fun {
     r
 }:read-str
 
 # prints by peeking, not popping and prints a newline afterwards
-fun {
+export fun {
     p "\n"P
 }:pln
 
 # prints by popping and prints a newline afterwards
-fun {
+export fun {
     P "\n"P
 }:Pln

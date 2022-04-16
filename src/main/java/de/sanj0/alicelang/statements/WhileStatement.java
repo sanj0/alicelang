@@ -13,15 +13,10 @@ import de.sanj0.alicelang.stackelements.ProgramStackElement;
 public class WhileStatement extends Statement {
     @Override
     public void execute(final AliceStack stack, final AliceTable table) {
-        final StackElement<?> bodyElement = stack.pop();
-        final StackElement<?> condElement = stack.pop();
-        if (!(bodyElement instanceof ProgramStackElement && condElement instanceof ProgramStackElement)) {
-            throw new AliceRuntimeError(AliceRuntimeError.INVALID_TYPE_ + "while expects two subprograms");
-        }
-        final Program body = (Program) bodyElement.getValue();
-        final Program cond = (Program) condElement.getValue();
+        final Program body = (Program) stack.pop().getValue();
+        final Program cond = (Program) stack.pop().getValue();
         cond.execute(stack, table);
-        while (stack.pop().getInt() != 0) {
+        while (stack.pop().getDouble() != 0) {
             body.execute(stack, table);
             if (body.thenBreak) {
                 body.thenBreak = false;

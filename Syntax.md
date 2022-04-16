@@ -63,6 +63,30 @@ table contains a STRING greeting->"hi" and a subprogram greet->(...). Retrieving
 a value from the stack is done by stating the key. If the corresponding value is
 subprogram, it is not put back onto the stack, but executed immediately.
 
+Each program (file, function, if-body etc.) places a new, local table onto a
+stack that os popped once the program is done. Since there is no difference
+(both semantically and regarding syntax) between creating a new variable and
+assigning an existing one
+
+Each program (file, function, if-body etc.) places a new, local table onto a
+stack that os popped once the program is done. In order to perform an assign (or
+declaration) globally (meaning on the very last scope on the stack), `export` is
+to be stated before:
+
+```bash
+export fun {
+    "this is a global functtion available in all scopes!"P
+}:my-function
+```
+
+Since there is no difference (both semantically and regarding syntax) between
+creating a new variable and assigning an existing one, each assignment to a variable
+out of scope has to be prefixed by stating `export`:
+
+```bash
+
+```
+
 ## 4 Functions
 Using the syntax above, functions an be defined and invoked. Additionally, there
 is a marker-function called `fun` which does nothing aside from clarifying and

@@ -7,8 +7,8 @@ fun {
         var i :ii
         while (ii 1000 lt) {
             var i ii * :sum
-            if sum ?pal {
-                if sum max gt {
+            if (sum ?pal) {
+                if (sum max gt) {
                     sum :max
                 } fi
             } fi
@@ -26,7 +26,7 @@ fun {
     var l 2 / floor :n-comp
     var 0:i
     while (i n-comp lt) {
-        if str i charat str l 1 - i - charat neq {
+        if (str i charat str l 1 - i - charat neq) {
             0 return
         } fi
         i ++ :i

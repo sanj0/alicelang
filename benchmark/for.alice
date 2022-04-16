@@ -1,0 +1,2 @@
+for (glob 0:i) (i 1000000 lt) (i ++:i) {
+} rof

@@ -22,27 +22,6 @@ test-end
     -1  num-to-bool SFALSE  asserteq
 test-end
 
-"bfi" test-start
-    0
-    if STRUE {
-        1
-    } bfi
-    assert
-    clear
-    1
-    if SFALSE {
-        0
-    } bfi
-    assert
-    clear
-    1
-    if "please" {
-        0
-    } bfi
-    assert
-    clear
-test-end
-
 "bnot" test-start
     1   bnot 0 asserteq
     0   bnot 1 asserteq
