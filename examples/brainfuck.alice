@@ -1,27 +1,68 @@
-### brainfuck interpreter that works by translating brainfuck to alice
-### and evaluating it
+### fully functional brainfuck interpreter!
 ### expectes a file name as an arg
 if (argc 1 neq) {
     "wrong amount of arguments!" throw
 } fi
 
 const arg0 readf :CODE
-var 0 fold :left
+const 3000:SIZE
 var 0:ptr
-var 0 fold :right
 
-run "i" from 0 to CODE length 1 - {
+run "i" from 0 to SIZE {
+    "export var 0:c" i s + eval
+} nur
+
+var 0:i
+while (i CODE length lt) {
     const CODE i charat :C
     if (C ">" eq) {
-        if (right expand ssize 0 eq) {
-
-        }
+        ptr ++:ptr
     } (C "<" eq) {
+        ptr --:ptr
     } (C "+" eq) {
+        "c" ptr s + eval
+        ++ ":c" ptr s + eval
     } (C "-" eq) {
+        "c" ptr s + eval
+        -- ":c" ptr s + eval
     } (C "." eq) {
+        "c" ptr s + eval
+        character P
     } (C "," eq) {
+        r
+        if (d length 1 gt) {
+            "must only input one byte!" throw
+        } fi
+        ":c" + ptr + eval
     } (C "[" eq) {
+        "c" ptr s + eval
+        if (0 eq) {
+            var 1:level
+            while (level 0 gt) {
+                i ++:i
+                const CODE i charat :C
+                if (C "]" eq) {
+                    level --:level
+                } (C "[" eq) {
+                    level ++:level
+                } fi
+            } do
+        } fi
     } (C "]" eq) {
+        "c" ptr s + eval
+        if (0 neq) {
+            var 1:level
+            while (level 0 gt) {
+                i --:i
+                const CODE i charat :C
+                if (C "[" eq) {
+                    level --:level
+                } (C "]" eq) {
+                    level ++:level
+                } fi
+            } do
+        } fi
     } fi
-} nur
+    i ++:i
+} do
+
