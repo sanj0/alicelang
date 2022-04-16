@@ -4,14 +4,11 @@ import de.sanj0.alicelang.AliceStack;
 import de.sanj0.alicelang.AliceTable;
 import de.sanj0.alicelang.Statement;
 
-public class OverStatement extends Statement {
+// pops an int and copies stack element at that offset to the top of the stack
+public class PeekStatement extends Statement {
     @Override
     public void execute(final AliceStack stack, final AliceTable table) {
-        stack.push(DuplicateStatement.duplicate(stack.peek(1)));
-    }
-
-    @Override
-    public String toString() {
-        return "over()";
+        final int offset = stack.pop().getInt();
+        stack.push(DuplicateStatement.duplicate(stack.peek(offset)));
     }
 }

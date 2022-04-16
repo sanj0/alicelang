@@ -64,6 +64,8 @@ public class AliceParser {
     public static final String WRD_CHARACTER = "character";
     public static final String WRD_NUR = "nur";
     public static final String WRD_STEPSIZE = "stepsize";
+    public static final String WRD_POLL = "poll";
+    public static final String WRD_PEEK = "peek";
 
     private final String code;
     private char[] data;
@@ -184,6 +186,8 @@ public class AliceParser {
             case WRD_CHARACTER -> new CharacterStatement();
             case WRD_NUR -> new NurStatement();
             case WRD_STEPSIZE -> new StepsizeStatement();
+            case WRD_POLL -> new PollStatement();
+            case WRD_PEEK -> new PeekStatement();
             default -> handleCommand(word);
         };
     }

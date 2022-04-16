@@ -3,15 +3,14 @@ package de.sanj0.alicelang.statements;
 import de.sanj0.alicelang.AliceStack;
 import de.sanj0.alicelang.AliceTable;
 import de.sanj0.alicelang.Statement;
-
-public class OverStatement extends Statement {
+// 0 fetch does nothing
+// in a stack [1 0], 1 fetch reverses stack order
+public class PollStatement extends Statement {
     @Override
     public void execute(final AliceStack stack, final AliceTable table) {
-        stack.push(DuplicateStatement.duplicate(stack.peek(1)));
-    }
-
-    @Override
-    public String toString() {
-        return "over()";
+        final int offset = stack.pop().getInt();
+        if (offset > 0) {
+            stack.push(stack.pop(offset));
+        }
     }
 }
