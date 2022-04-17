@@ -40,7 +40,7 @@ while (i CODE length lt) {
             "must only input one byte!" throw
         } fi
         unicode
-        ":c" + ptr + eval
+        ":c" + ptr s + eval
     } (C "[" eq) {
         # ----- if cell is zero, move to matching ]
         "c" ptr s + eval
