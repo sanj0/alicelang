@@ -4,7 +4,7 @@ if (argc 1 neq) {
     "wrong amount of arguments!" throw
 } fi
 
-const arg0 readf :CODE
+const arg0 readf:CODE
 const 3000:SIZE
 var 0:ptr
 
