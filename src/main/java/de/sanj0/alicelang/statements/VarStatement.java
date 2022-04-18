@@ -9,4 +9,9 @@ public class VarStatement extends Statement {
     public void execute(final AliceStack stack, final AliceTable table) {
         PutOnTableStatement.nextIsDeclaration = true;
     }
+
+    @Override
+    public String toString() {
+        return "var";
+    }
 }

@@ -11,4 +11,9 @@ public class ExportStatement extends Statement {
     public void execute(final AliceStack stack, final AliceTable table) {
         PutOnTableStatement.nextIsGlobal = true;
     }
+
+    @Override
+    public String toString() {
+        return "export";
+    }
 }
