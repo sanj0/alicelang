@@ -1,0 +1,20 @@
+const 100:MAX
+
+run "i" from 0 to MAX {
+    var "":o
+    if (i 3 % 0 eq) {
+        "Fizz":o
+    } fi
+
+    if (i 5 % 0 eq) {
+        o "Buzz" +:o
+    } fi
+
+    if (o length 0 eq) {
+        i P
+    } else {
+        o P
+    } fi
+
+    "\n"P
+} nur
