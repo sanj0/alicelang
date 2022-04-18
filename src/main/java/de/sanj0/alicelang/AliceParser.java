@@ -11,61 +11,6 @@ import java.util.*;
 
 public class AliceParser {
     public static String currentFile = "";
-    public static int currentLine = 1;
-    public static boolean DEBUG = false;
-    public static final char CMD_PRINT_FULL_STACK = 'f';
-    public static final char CMD_PRINT_TABLE = 't';
-    public static final char CMD_EXECUTE_SUB_PROGRAM = 'e';
-    public static final char CMD_PRINT_LC = 'p';
-    public static final char CMD_PRINT_UC = 'P';
-    public static final char CMD_READ = 'r';
-    public static final char CMD_DUPLICATE = 'd';
-    public static final String WRD_TO_STRING = "!str";
-    public static final String WRD_TO_NUMBER = "!num";
-    public static final String WRD_WHILE = "do";
-    public static final String WRD_FI = "fi";
-    public static final String WRD_IF = "if";
-    public static final String WRD_ELIF = "elif";
-    public static final String WRD_SWAP = "swap";
-    public static final String WRD_CLEAR = "clear";
-    public static final String WRD_DROP = "drop";
-    public static final String WRD_OVER = "over";
-    public static final String WRD_ROT = "rot";
-    public static final String WRD_EQ = "eq";
-    public static final String WRD_LT = "lt";
-    public static final String WRD_GT = "gt";
-    public static final String WRD_AND = "and";
-    public static final String WRD_OR = "or";
-    public static final String WRD_LN = "ln";
-    public static final String WRD_LENGTH = "length";
-    public static final String WRD_INCLUDE = "include";
-    public static final String WRD_EXISTS = "exists";
-    public static final String WRD_TYPE = "type";
-    public static final String WRD_EXIT = "exit";
-    public static final String WRD_STACK_SIZE = "ssize";
-    public static final String WRD_RANDOM = "random";
-    public static final String WRD_CHAR_AT = "charat";
-    public static final String WRD_TIME = "time";
-    public static final String WRD_GET = "get";
-    public static final String WRD_BREAK = "break";
-    public static final String WRD_RETURN = "return";
-    public static final String WRD_WRITEF = "writef";
-    public static final String WRD_READF = "readf";
-    public static final String WRD_EVAL = "eval";
-    public static final String WRD_PROC = "proc";
-    public static final String WRD_PPROC = "pproc";
-    public static final String WRD_EXPAND = "expand";
-    public static final String WRD_FOLD = "fold";
-    public static final String WRD_EXPORT = "export";
-    public static final String WRD_VAR = "var";
-    public static final String WRD_CONST = "const";
-    public static final String WRD_PURGE = "purge";
-    public static final String WRD_UNICODE = "unicode";
-    public static final String WRD_CHARACTER = "character";
-    public static final String WRD_NUR = "nur";
-    public static final String WRD_STEPSIZE = "stepsize";
-    public static final String WRD_POLL = "poll";
-    public static final String WRD_PEEK = "peek";
 
     private final String code;
     private char[] data;
@@ -79,7 +24,7 @@ public class AliceParser {
     }
 
     public AliceParser(final String code) {
-        this(code, 1);
+        this(code, 0);
     }
 
     public Program parse() {
@@ -98,7 +43,7 @@ public class AliceParser {
             statements.add(statement);
         }
 
-        return new Program(statements);
+        return new Program(statements, currentFile);
     }
 
     private Statement parseStatement() {
@@ -177,7 +122,7 @@ public class AliceParser {
             case WRD_RANDOM -> new RandomStatement();
             case WRD_CHAR_AT -> new CharAtStatement();
             case WRD_TIME -> new TimeStatement();
-            case WRD_EVAL -> new EvalStatement();
+            case WRD_EVAL -> new EvalStatement(currentFile);
             case WRD_EXPORT -> new ExportStatement();
             case WRD_VAR -> new VarStatement();
             case WRD_CONST -> new ConstStatement();
@@ -200,7 +145,7 @@ public class AliceParser {
         while (!done() && !Character.isWhitespace(next = peek()) && next != '"'
                 && next != '(' && next != ':' && next != '{' && next != ')' && next != '}') {
             builder.append(next);
-            index++;
+            pop();
         }
         return builder.toString();
     }
@@ -208,7 +153,7 @@ public class AliceParser {
     private Statement parseOperator(final char start) {
         if (start == '*') {
             if (!done() && peek() == '*') {
-                index++;
+                pop();
                 return new ArithmeticStatement.PowerStatement();
             } else {
                 return new ArithmeticStatement.MultiplicationStatement();
@@ -217,14 +162,14 @@ public class AliceParser {
             return new ArithmeticStatement.DivisionStatement();
         } else if (start == '+') {
             if (!done() && peek() == '+') {
-                index++;
+                pop();
                 return new ArithmeticStatement.IncrementStatement();
             } else {
                 return new ArithmeticStatement.AdditionStatement();
             }
         } else if (start == '-') {
             if (!done() && peek() == '-') {
-                index++;
+                pop();
                 return new ArithmeticStatement.DecrementStatement();
             } else {
                 return new ArithmeticStatement.SubtractionStatement();
@@ -245,7 +190,7 @@ public class AliceParser {
         char next = peek();
         if (next == waitingFor) {
             pop();
-            return new ProgramStackElement(new Program(new LinkedList<>()));
+            return new ProgramStackElement(new Program(new LinkedList<>(), currentFile));
         }
         final List<Statement> statements = new ArrayList<>();
         do {
@@ -259,7 +204,7 @@ public class AliceParser {
             statements.add(statement);
         } while (peek() != waitingFor);
         pop();
-        final Program p = new Program(statements);
+        final Program p = new Program(statements, currentFile);
         p.file = AliceParser.currentFile;
         return new ProgramStackElement(p);
     }
@@ -302,14 +247,14 @@ public class AliceParser {
         char next;
         while (!done() && isNumber(next = peek())) {
             builder.append(next);
-            index++;
+            pop();
         }
         return new NumberStackElement(Double.valueOf(builder.toString()));
     }
 
     private boolean skipWhitespacesAndComments() {
         if (peek() == '#') {
-            index++;
+            pop();
             char c;
             while ((c = pop()) != '#' && c != '\n') {
                 if (index >= data.length - 1) {
@@ -321,7 +266,7 @@ public class AliceParser {
             if (index >= data.length - 1) {
                 return true;
             }
-            index++;
+            pop();
         }
         if (peek() == '#') return skipWhitespacesAndComments();
         return false;
@@ -336,7 +281,7 @@ public class AliceParser {
             throw new AliceParserError(AliceParserError.HIT_END_OF_FILE);
         }
         final char c = data[index++];
-        if (c == '\n' && lastLineBreakIndex != index - 1) {
+        if (c == '\n') {
             lineNumber++;
             lastLineBreakIndex = index - 1;
         }
@@ -347,17 +292,66 @@ public class AliceParser {
         if (done()) {
             throw new AliceParserError(AliceParserError.HIT_END_OF_FILE);
         }
-        final char c = data[index];
-        if (c == '\n' && lastLineBreakIndex != index) {
-            lineNumber++;
-            lastLineBreakIndex = index;
-        }
         return data[index];
     }
 
     public static boolean isReservedKeyWord(final String s) {
         return KEYWORDS.contains(s);
     }
+
+    public static final char CMD_PRINT_FULL_STACK = 'f';
+    public static final char CMD_PRINT_TABLE = 't';
+    public static final char CMD_EXECUTE_SUB_PROGRAM = 'e';
+    public static final char CMD_PRINT_LC = 'p';
+    public static final char CMD_PRINT_UC = 'P';
+    public static final char CMD_READ = 'r';
+    public static final char CMD_DUPLICATE = 'd';
+    public static final String WRD_TO_STRING = "!str";
+    public static final String WRD_TO_NUMBER = "!num";
+    public static final String WRD_WHILE = "do";
+    public static final String WRD_FI = "fi";
+    public static final String WRD_IF = "if";
+    public static final String WRD_ELIF = "elif";
+    public static final String WRD_SWAP = "swap";
+    public static final String WRD_CLEAR = "clear";
+    public static final String WRD_DROP = "drop";
+    public static final String WRD_OVER = "over";
+    public static final String WRD_ROT = "rot";
+    public static final String WRD_EQ = "eq";
+    public static final String WRD_LT = "lt";
+    public static final String WRD_GT = "gt";
+    public static final String WRD_AND = "and";
+    public static final String WRD_OR = "or";
+    public static final String WRD_LN = "ln";
+    public static final String WRD_LENGTH = "length";
+    public static final String WRD_INCLUDE = "include";
+    public static final String WRD_EXISTS = "exists";
+    public static final String WRD_TYPE = "type";
+    public static final String WRD_EXIT = "exit";
+    public static final String WRD_STACK_SIZE = "ssize";
+    public static final String WRD_RANDOM = "random";
+    public static final String WRD_CHAR_AT = "charat";
+    public static final String WRD_TIME = "time";
+    public static final String WRD_GET = "get";
+    public static final String WRD_BREAK = "break";
+    public static final String WRD_RETURN = "return";
+    public static final String WRD_WRITEF = "writef";
+    public static final String WRD_READF = "readf";
+    public static final String WRD_EVAL = "eval";
+    public static final String WRD_PROC = "proc";
+    public static final String WRD_PPROC = "pproc";
+    public static final String WRD_EXPAND = "expand";
+    public static final String WRD_FOLD = "fold";
+    public static final String WRD_EXPORT = "export";
+    public static final String WRD_VAR = "var";
+    public static final String WRD_CONST = "const";
+    public static final String WRD_PURGE = "purge";
+    public static final String WRD_UNICODE = "unicode";
+    public static final String WRD_CHARACTER = "character";
+    public static final String WRD_NUR = "nur";
+    public static final String WRD_STEPSIZE = "stepsize";
+    public static final String WRD_POLL = "poll";
+    public static final String WRD_PEEK = "peek";
 
     private static final Set<String> KEYWORDS = new HashSet<>();
 

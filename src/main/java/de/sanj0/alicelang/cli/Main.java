@@ -53,7 +53,7 @@ public class Main {
         final String s = Files.readString(f.toPath());
         final AliceTable table = AliceTable.initialize(64);
         putArgs(Arrays.copyOfRange(args, 1, args.length), table);
-        AliceParser.currentFile = f.getAbsolutePath();
+        AliceParser.currentFile = f.getPath();
         final Program program = new AliceParser(STD_INCLUDE_PHRASE + "\n" + s).parse();
         program.execute(AliceStack.initialize(64), table);
     }
@@ -68,7 +68,6 @@ public class Main {
             putArgs(new String[0], table);
         }
         AliceParser.currentFile = "live";
-        AliceParser.currentLine = 0;
         new AliceParser(STD_INCLUDE_PHRASE).parse().execute(stack, table);
         table.putScope();
         while (true) {

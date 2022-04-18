@@ -23,7 +23,8 @@ public class DuplicateStatement extends Statement {
         } else if (e instanceof StringStackElement) {
             return new StringStackElement(e.getString());
         } else if (e instanceof ProgramStackElement) {
-            return new ProgramStackElement(new Program(new LinkedList<>(((ProgramStackElement) e).getValue().getStatements())));
+            final Program p = ((ProgramStackElement) e).getValue();
+            return new ProgramStackElement(new Program(new LinkedList<>(p.getStatements()), p.file));
         } else if (e instanceof Substack) {
             final AliceStack src = ((Substack) e).getValue();
             final AliceStack dst = AliceStack.initialize(src.size());

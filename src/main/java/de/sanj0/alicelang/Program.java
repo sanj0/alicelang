@@ -8,14 +8,17 @@ import java.util.*;
  * A list of statements
  */
 public class Program extends Statement {
+    private static boolean alreadyErroring = false;
+
     private List<Statement> statements;
     private Map<String, StackElement<?>> locals = null;
     private boolean createScope = true;
     public boolean isFunctionCall = false;
     public String file;
 
-    public Program(final List<Statement> statements) {
+    public Program(final List<Statement> statements, final String location) {
         this.statements = statements;
+        this.file = location;
     }
 
     public Program noScope() {
@@ -36,14 +39,15 @@ public class Program extends Statement {
             try {
                 statement.execute(stack, table);
             } catch (Exception e) {
-                if (AliceParser.DEBUG) {
-                    System.out.println("last statement: " + statement);
-                    System.out.println("stack:");
-                    new PrintFullStackStatement().execute(stack, table);
-                    AliceParser.DEBUG = false;
+                if (!alreadyErroring) {
+                    System.err.print("Error ");
+                    alreadyErroring = true;
+                } else {
+                    System.err.print("\t");
                 }
-                AliceParser.currentFile = file;
-                throw new AliceRuntimeError("\n" + statement + "\t@" + statement.lineNumber + "(" + statement.startIndex + "...):\t" + e.getMessage());
+                System.err.print("when executing " + statement + " in ");
+                System.err.println(file + "@" + statement.lineNumber + ":" + statement.startIndex);
+                throw e;
             }
             if (statement.thenBreak) {
                 thenBreak = true;

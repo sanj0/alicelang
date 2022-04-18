@@ -20,7 +20,7 @@ public class IncludeStatement extends Statement {
             f = new File(e.getString());
         }
         final String previousFile = AliceParser.currentFile;
-        AliceParser.currentFile = f.getAbsolutePath();
+        AliceParser.currentFile = f.getPath();
         try {
             final Program program = new AliceParser(Files.readString(f.toPath())).parse();
             program.file = f.getAbsolutePath();
