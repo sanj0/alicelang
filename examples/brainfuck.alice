@@ -9,7 +9,7 @@ const 3000:SIZE
 var 0:ptr
 
 run "i" from 0 to SIZE {
-    "export var 0:c" i s + eval
+    "export var 0:c" i !str + eval
 } nur
 
 var 0:i
@@ -23,15 +23,15 @@ while (i CODE length lt) {
         ptr --:ptr
     } (C "+" eq) {
         # ----- increment cell at pointer
-        "c" ptr s + eval
-        ++ ":c" ptr s + eval
+        "c" ptr !str + eval
+        ++ ":c" ptr !str + eval
     } (C "-" eq) {
         # ----- decrement cell at pointer
-        "c" ptr s + eval
-        -- ":c" ptr s + eval
+        "c" ptr !str + eval
+        -- ":c" ptr !str + eval
     } (C "." eq) {
         # ----- output cell as unicode
-        "c" ptr s + eval
+        "c" ptr !str + eval
         character P
     } (C "," eq) {
         # ----- read one character's unicode into a cell
@@ -40,10 +40,10 @@ while (i CODE length lt) {
             "must only input one byte!" throw
         } fi
         unicode
-        ":c" + ptr s + eval
+        ":c" + ptr !str + eval
     } (C "[" eq) {
         # ----- if cell is zero, move to matching ]
-        "c" ptr s + eval
+        "c" ptr !str + eval
         if (0 eq) {
             var 1:level
             while (level 0 gt) {
@@ -58,7 +58,7 @@ while (i CODE length lt) {
         } fi
     } (C "]" eq) {
         # ----- if cell is non-zero, move to matching [
-        "c" ptr s + eval
+        "c" ptr !str + eval
         if (0 neq) {
             var 1:level
             while (level 0 gt) {

@@ -9,6 +9,7 @@ import java.util.*;
  */
 public class Program extends Statement {
     private List<Statement> statements;
+    private Map<String, StackElement<?>> locals = null;
     private boolean createScope = true;
     public boolean isFunctionCall = false;
     public String file;
@@ -24,8 +25,11 @@ public class Program extends Statement {
 
     @Override
     public void execute(final AliceStack stack, final AliceTable table) {
-        if (createScope)
+        if (locals != null) {
+            table.putScope(locals);
+        } else if (createScope)
             table.putScope();
+
         for (final Statement statement : statements) {
             statement.thenReturn = false;
             statement.thenBreak = false;
@@ -50,8 +54,8 @@ public class Program extends Statement {
                 break;
             }
         }
-        if (createScope)
-            table.dropScope();
+        if (createScope || locals != null)
+            locals = table.dropScope();
     }
 
     /**

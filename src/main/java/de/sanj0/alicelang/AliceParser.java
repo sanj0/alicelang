@@ -19,9 +19,9 @@ public class AliceParser {
     public static final char CMD_PRINT_LC = 'p';
     public static final char CMD_PRINT_UC = 'P';
     public static final char CMD_READ = 'r';
-    public static final char CMD_CONVERT_TO_STRING = 's';
-    public static final char CMD_CONVERT_TO_NUM = 'n';
     public static final char CMD_DUPLICATE = 'd';
+    public static final String WRD_TO_STRING = "!str";
+    public static final String WRD_TO_NUMBER = "!num";
     public static final String WRD_WHILE = "do";
     public static final String WRD_FI = "fi";
     public static final String WRD_IF = "if";
@@ -130,8 +130,6 @@ public class AliceParser {
             case CMD_PRINT_LC -> new PrintStatement(false);
             case CMD_PRINT_UC -> new PrintStatement(true);
             case CMD_READ -> new ReadStatement();
-            case CMD_CONVERT_TO_NUM -> new ConvertToNumStatement();
-            case CMD_CONVERT_TO_STRING -> new ConvertToStringStatement();
             case CMD_DUPLICATE -> new DuplicateStatement();
             case CMD_PRINT_TABLE -> new PrintTableStatement();
             default -> new AccessTableStatement(word);
@@ -144,6 +142,8 @@ public class AliceParser {
     private Statement parseWord(final char start) {
         final String word = consumeWord(start);
         return switch (word) {
+            case WRD_TO_NUMBER -> new ConvertToNumStatement();
+            case WRD_TO_STRING -> new ConvertToStringStatement();
             case WRD_WHILE -> new WhileStatement();
             case WRD_SWAP -> new SwapStatement();
             case WRD_DROP -> new DropStatement();
@@ -251,7 +251,12 @@ public class AliceParser {
         do {
             if (skipWhitespacesAndComments()) break;
             if (peek() == waitingFor) break;
-            statements.add(parseStatement());
+            final int l = lineNumber;
+            final int startIndex = index - lastLineBreakIndex;
+            final Statement statement = parseStatement();
+            statement.lineNumber = l;
+            statement.startIndex = startIndex;
+            statements.add(statement);
         } while (peek() != waitingFor);
         pop();
         final Program p = new Program(statements);

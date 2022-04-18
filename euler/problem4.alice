@@ -21,7 +21,7 @@ fun {
 
 fun {
     var head :num
-    var num s :str
+    var num !str :str
     var str length :l
     var l 2 / floor :n-comp
     var 0:i

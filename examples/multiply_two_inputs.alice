@@ -1,6 +1,6 @@
 "input a number: "P
-r n     # reads a string from stdin and converts it to a number
+r !num     # reads a string from stdin and converts it to a number
 "input a second number: "P
-r n
+r !num
 *       # stack contains only the two numbers
 "the result is: "P P

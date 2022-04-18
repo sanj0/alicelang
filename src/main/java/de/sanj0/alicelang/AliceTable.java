@@ -81,6 +81,10 @@ public class AliceTable {
         scopes.push(new HashMap<>(3));
     }
 
+    public void putScope(final Map<String, StackElement<?>> items) {
+        scopes.push(items);
+    }
+
     public Map<String, StackElement<?>> dropScope() {
         return scopes.pop();
     }
