@@ -1,10 +1,7 @@
 package de.sanj0.alicelang.statements;
 
 import de.sanj0.alicelang.*;
-import de.sanj0.alicelang.stackelements.NumberStackElement;
-import de.sanj0.alicelang.stackelements.ProgramStackElement;
-import de.sanj0.alicelang.stackelements.StringStackElement;
-import de.sanj0.alicelang.stackelements.Substack;
+import de.sanj0.alicelang.stackelements.*;
 
 import java.util.LinkedList;
 
@@ -30,6 +27,8 @@ public class DuplicateStatement extends Statement {
             final AliceStack dst = AliceStack.initialize(src.size());
             dst.getElements().addAll(src.getElements());
             return new Substack(dst);
+        } else if (e instanceof StructInstance) {
+            return new StructInstance(e.getString(), ((StructInstance) e).getMembers(), ((StructInstance) e).getFunctions());
         }
         return null;
     }

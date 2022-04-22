@@ -3,3 +3,5 @@
 
 "test/bool.test.alice" include
 "test/controls.test.alice" include
+
+running-test.finish

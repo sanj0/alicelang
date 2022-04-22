@@ -7,6 +7,7 @@ import java.util.Map;
 
 public class AliceTable {
     private LinkedList<Map<String, StackElement<?>>> scopes = new LinkedList<>();
+    private Map<String, AliceStruct> structs = new HashMap<>();
 
     private AliceTable(final Map<String, StackElement<?>> table) {
         scopes.add(table);
@@ -96,5 +97,18 @@ public class AliceTable {
             }
         }
         return null;
+    }
+
+    public void putStruct(final AliceStruct struct) {
+        structs.put(struct.getName(), struct);
+    }
+
+    /**
+     * Gets {@link #structs}.
+     *
+     * @return the value of {@link #structs}
+     */
+    public Map<String, AliceStruct> getStructs() {
+        return structs;
     }
 }

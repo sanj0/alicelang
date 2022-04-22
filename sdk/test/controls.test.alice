@@ -1,16 +1,16 @@
 ### controls.alice test file ###
-"controls.alice" test-file
+"controls.alice" test-file var:test
 
 clear
-"fun" test-start
+"fun" test.test
     fun ssize 0 asserteq
-test-end
+test.done
 
-"else" test-start
+"else" test.test
     1 else e 1 asserteq
-test-end
+test.done
 
-"while" test-start
+"while" test.test
     while ssize 0 asserteq
-test-end
+test.done
 

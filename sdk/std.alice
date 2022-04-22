@@ -2,9 +2,14 @@
 # included per default
 # include more useful stuff using INCLUDE_SDK
 
-export var "number"    :NUMBER
-export var "string"    :STRING
-export var "subprogram":SUBPROGRAM
+export var "number":NUMBER
+export var NUMBER:num
+export var "string":STRING
+export var STRING:str
+export var "subprogram":SUBPRO
+export var SUBPRO:spm
+export var "substack":SSTACK
+export var SSTACK:ssk
 
 # include essentials
 "controls.alice"    include
@@ -111,8 +116,12 @@ export fun {
 
 # pop e and push 1 if it is a subprogram, 0 if it's not
 export fun {
-    type SUBPROGRAM eq
+    type SUBPRO eq
 }:?spr
+
+export fun {
+    type "null" eq
+}:?null
 
 # prints the top of the stack prefixed with an error message and exits
 # the program with exit code -1

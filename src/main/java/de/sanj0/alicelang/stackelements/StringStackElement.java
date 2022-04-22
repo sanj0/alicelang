@@ -14,4 +14,9 @@ public class StringStackElement extends StackElement<String> {
     public String toString() {
         return getValue();
     }
+
+    @Override
+    public int hashCode() {
+        return getValue().hashCode();
+    }
 }

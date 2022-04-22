@@ -11,6 +11,7 @@ import java.util.*;
 
 public class AliceParser {
     public static String currentFile = "";
+    public static Set<String> includedFiles = new HashSet<>();
 
     private final String code;
     private char[] data;
@@ -48,10 +49,14 @@ public class AliceParser {
 
     private Statement parseStatement() {
         final char start = pop();
-        if (isNumber(start) || (start == '-' && !done() && isNumber(peek()))) {
+        if ((isNumber(start) && start != CMD_STRUCT_GET) || (start == '-' && !done() && isNumber(peek()))) {
             return new PushStatement<>(parseNumber(start));
         } else if (start == ':') {
             return new PutOnTableStatement(consumeWord(start).substring(1));
+        } else if (start == CMD_STRUCT_GET) {
+            return new StructGetStatement(consumeWord(start).substring(1));
+        } else if (start == CMD_STRUCT_SET) {
+            return new StructSetStatement(consumeWord(start).substring(1));
         } else if (start == '"') {
             return new PushStatement<>(parseString());
         } else if (start == '(' || start == '{') {
@@ -133,6 +138,12 @@ public class AliceParser {
             case WRD_STEPSIZE -> new StepsizeStatement();
             case WRD_POLL -> new PollStatement();
             case WRD_PEEK -> new PeekStatement();
+            case WRD_STRUCT -> new StructStatement();
+            case WRD_NULL -> new NullStatement();
+            case WRD_ARGS -> new ArgsStatement();
+            case WRD_IMPLEMENT -> new ImplementStatement();
+            case WRD_END -> new EndStatement();
+            case WRD_HASHCODE -> new HashCodeStatement();
             default -> handleCommand(word);
         };
     }
@@ -143,7 +154,9 @@ public class AliceParser {
         builder.append(start);
         char next;
         while (!done() && !Character.isWhitespace(next = peek()) && next != '"'
-                && next != '(' && next != ':' && next != '{' && next != ')' && next != '}') {
+                && next != '(' && next != ':' && next != '{' && next != ')' && next != '}'
+                && next != CMD_STRUCT_GET && next != CMD_STRUCT_SET
+                && next != ',' && next != ';') {
             builder.append(next);
             pop();
         }
@@ -262,7 +275,7 @@ public class AliceParser {
                 }
             }
         }
-        while (Character.isWhitespace(peek())) {
+        while (Character.isWhitespace(peek()) || peek() == ',' || peek() == ';') {
             if (index >= data.length - 1) {
                 return true;
             }
@@ -306,6 +319,8 @@ public class AliceParser {
     public static final char CMD_PRINT_UC = 'P';
     public static final char CMD_READ = 'r';
     public static final char CMD_DUPLICATE = 'd';
+    public static final char CMD_STRUCT_GET = '.';
+    public static final char CMD_STRUCT_SET = '>';
     public static final String WRD_TO_STRING = "!str";
     public static final String WRD_TO_NUMBER = "!num";
     public static final String WRD_WHILE = "do";
@@ -352,6 +367,14 @@ public class AliceParser {
     public static final String WRD_STEPSIZE = "stepsize";
     public static final String WRD_POLL = "poll";
     public static final String WRD_PEEK = "peek";
+    public static final String WRD_STRUCT = "struct";
+    public static final String WRD_NULL = "null";
+    public static final String WRD_ARGS = "args";
+    // doesn't represent a statement, only there to reserve the keyword
+    public static final String WRD_SELF = "self";
+    public static final String WRD_IMPLEMENT = "implement";
+    public static final String WRD_END = "end";
+    public static final String WRD_HASHCODE = "hashcode";
 
     private static final Set<String> KEYWORDS = new HashSet<>();
 

@@ -2,6 +2,8 @@ package de.sanj0.alicelang.stackelements;
 
 import de.sanj0.alicelang.StackElement;
 
+import java.util.Locale;
+
 /**
  * A stack element holding a number of type double.
  */
@@ -20,7 +22,12 @@ public class NumberStackElement extends StackElement<Double> {
         if (getDouble() % 1 == 0) {
             return String.format("%.0f", getValue());
         } else {
-            return String.format("%f", getValue());
+            return String.format(Locale.US, "%f", getValue());
         }
+    }
+
+    @Override
+    public int hashCode() {
+        return getValue().hashCode();
     }
 }

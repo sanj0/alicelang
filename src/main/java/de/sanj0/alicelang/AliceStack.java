@@ -1,7 +1,6 @@
 package de.sanj0.alicelang;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class AliceStack {

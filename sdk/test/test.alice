@@ -1,32 +1,54 @@
 ### test utility ###
 
-export var "":test.current-test
-export var "":test.test-file
-export var 1:test.all-passed
+"io.alice" include
 
-# includes the file
-export fun {
-    "running tests for "P p "\n"P
-    export :test.test-file
+export var null:running-test
+
+struct {
+    string file,
+    string current,
+    number nfailed,
+    number ifailed,
+    number total
+}:Test
+
+export fun { (string file) args
+    if (running-test ?null not) {
+        running-test.finish
+    } fi
+    file "" 0 0 0 Test :running-test
+    "running tests for "P file Pln
+    running-test
 }:test-file
 
-export fun {
-    export 1 :test.all-passed
-    export :test.current-test
-}:test-start
+implement Test {
+    fun { (string name) args
+        name self>current
+        self.total ++ self>total
+    }:test
 
-export fun {
-    if (test.all-passed) {
-        "    test success: "P test.current-test P "\n"P
-    } fi
-    export "":test.current-test
-}:test-end
+    fun {
+        if (self.ifailed) {
+            "  "P self.current P " failed!"Pln
+            0 self>ifailed
+            self.nfailed ++ self>nfailed
+        } else {
+            "    "P self.current P " passed!"Pln
+        } fi
+    }:done
+
+    fun {
+        if (self.nfailed 0 eq) {
+            "... all "P self.total P " tests passed!"Pln
+        } else {
+            "... "P self.nfailed P " of "P self.total P " tests failed!"Pln
+        } fi
+    }:finish
+} end
 
 export fun {
     if (not) {
-        0 :test.all-passed
-        "    test failure: "P test.current-test P "\n"P
-        "test failure" throw
+        1 running-test>ifailed
     } fi
 }:assert
 

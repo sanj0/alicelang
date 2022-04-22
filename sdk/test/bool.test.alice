@@ -1,28 +1,28 @@
 ### bool.alice test file ###
 "bool.alice" include
-"bool.alice" test-file
+"bool.alice" test-file var:test
 
-"constants" test-start
+"constants" test.test
     TRUE    1       asserteq
     FALSE   0       asserteq
     STRUE   "true"  asserteq
     SFALSE  "false" asserteq
-test-end
+test.done
 
-"bool-to-num" test-start
+"bool-to-num" test.test
     "true"  bool-to-num 1 asserteq
     "false" bool-to-num 0 asserteq
     "right" bool-to-num 0 asserteq
-test-end
+test.done
 
-"num-to-bool" test-start
+"num-to-bool" test.test
     1   num-to-bool STRUE   asserteq
     0   num-to-bool SFALSE  asserteq
     314 num-to-bool SFALSE  asserteq
     -1  num-to-bool SFALSE  asserteq
-test-end
+test.done
 
-"bnot" test-start
+"bnot" test.test
     1   bnot 0 asserteq
     0   bnot 1 asserteq
     300 bnot 1 asserteq
@@ -30,5 +30,5 @@ test-end
     STRUE   bnot SFALSE asserteq
     SFALSE  bnot STRUE  asserteq
     "hi"    bnot STRUE  asserteq
-test-end
+test.done
 

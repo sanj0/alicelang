@@ -19,6 +19,11 @@ public class IncludeStatement extends Statement {
         if (!f.exists()) {
             f = new File(e.getString());
         }
+        if (AliceParser.includedFiles.contains(f.getAbsolutePath())) {
+            return;
+        } else {
+            AliceParser.includedFiles.add(f.getAbsolutePath());
+        }
         final String previousFile = AliceParser.currentFile;
         AliceParser.currentFile = f.getPath();
         try {

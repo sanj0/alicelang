@@ -1,49 +1,42 @@
-### fully functional brainfuck interpreter!
-### expectes a file name as an arg
+### a better brainfuck intepreter using a linked list!
 if (argc 1 neq) {
     "wrong amount of arguments!" throw
 } fi
 
-const arg0 readf:CODE
-const 3000:SIZE
-var 0:ptr
+"list.alice" include
 
-run "i" from 0 to SIZE {
-    "export var 0:c" i !str + eval
-} nur
+const arg0 readf:CODE
+# lazily grow the "tape"
+const new:CELLS
+0 CELLS add
+var 0:ptr
 
 var 0:i
 while (i CODE length lt) {
-    const CODE i charat :C
+    const CODE i charat:C
     if (C ">" eq) {
-        # ----- move pointer to the right
+        # ----- move pointer to the "right"
         ptr ++:ptr
+        if (ptr CELLS.size eq) {
+            0 CELLS.add
+        } fi
     } (C "<" eq) {
-        # ----- move pointer to the left
+        # ----- move pointer to the "left"
         ptr --:ptr
+        if (ptr 0 lt) {
+            "cannot move pointer past 0!" throw
+        } fi
     } (C "+" eq) {
         # ----- increment cell at pointer
-        "c" ptr !str + eval
-        ++ ":c" ptr !str + eval
+        ptr CELLS.geti
+        ++ ptr CELLS.seti
     } (C "-" eq) {
         # ----- decrement cell at pointer
-        "c" ptr !str + eval
-        -- ":c" ptr !str + eval
-    } (C "." eq) {
-        # ----- output cell as unicode
-        "c" ptr !str + eval
-        character P
-    } (C "," eq) {
-        # ----- read one character's unicode into a cell
-        r
-        if (d length 1 gt) {
-            "must only input one byte!" throw
-        } fi
-        unicode
-        ":c" + ptr !str + eval
+        ptr CELLS.geti
+        -- ptr CELLS.seti
     } (C "[" eq) {
-        # ----- if cell is zero, move to matching ]
-        "c" ptr !str + eval
+        # ----- advance to matching ] if cell is zero
+        ptr CELLS.geti
         if (0 eq) {
             var 1:level
             while (level 0 gt) {
@@ -57,8 +50,8 @@ while (i CODE length lt) {
             } do
         } fi
     } (C "]" eq) {
-        # ----- if cell is non-zero, move to matching [
-        "c" ptr !str + eval
+        # ----- backtrack to matching "[" if cell is nonzero
+        ptr CELLS.geti
         if (0 neq) {
             var 1:level
             while (level 0 gt) {
@@ -71,7 +64,17 @@ while (i CODE length lt) {
                 } fi
             } do
         } fi
+    } (C "." eq) {
+        # ----- write cell as unicode
+        ptr CELLS.geti
+        character P
+    } (C "," eq) {
+        # ----- read single character into cell
+        r
+        if (length d= not) {
+            "must only input one character!" throw
+        } fi
+        unicode ptr CELLS.seti
     } fi
     i ++:i
 } do
-

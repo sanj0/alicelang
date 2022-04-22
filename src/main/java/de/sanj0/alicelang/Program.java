@@ -13,6 +13,7 @@ public class Program extends Statement {
     private List<Statement> statements;
     private Map<String, StackElement<?>> locals = null;
     private boolean createScope = true;
+    public boolean isPriv = false;
     public boolean isFunctionCall = false;
     public String file;
 

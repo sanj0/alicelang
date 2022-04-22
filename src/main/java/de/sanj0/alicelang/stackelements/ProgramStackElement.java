@@ -22,4 +22,9 @@ public class ProgramStackElement extends StackElement<Program> {
         builder.setLength(builder.length() - 1);
         return builder.append(")").toString();
     }
+
+    @Override
+    public int hashCode() {
+        return getValue().hashCode();
+    }
 }

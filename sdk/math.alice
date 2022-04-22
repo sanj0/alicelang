@@ -5,7 +5,7 @@ export const 2.7182818284590452354   :E
 export const 3.14159265358979323846  :PI
 export const 0.017453292519943295    :DEG_TO_RAD
 export const 57.29577951308232       :RAD_TO_DEG
-export var   1                       :round-.5-up
+export var   1                       :round-p5-up
 
 # --- math subprograms --- #
 
@@ -87,11 +87,11 @@ export fun {
 }:round
 
 # rounds the top of the stack to an integer.
-# whether or not .5 is rounded up is defined by :round-.5-up
+# whether or not .5 is rounded up is defined by :round-p5-up
 export fun {
     d 1 %
-    d .5 lt not
-    round-.5-up 
+    d 0.5 lt not
+    round-p5-up 
     if (and) {
         1 swap - +
     } else {

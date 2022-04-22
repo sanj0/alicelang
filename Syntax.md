@@ -10,9 +10,11 @@ In alice, there is one single type for numbers, which is backed by type
 `double` in Java and follows the syntax below:
 
 ```regex
-[+-]?[0-9]*\.?[0-9]*
+[+-]?[0-9]+\.?[0-9]*
 ```
-Example: `10 +13.5 .125 -3`
+Note that number literals cannot start with the decimal point as that denotes a struct member
+access statement  
+Example: `10 +13.5 0.125 -3`
 
 ### 1.2 Strings
 Strings work as they do in Java, following the syntax below:
