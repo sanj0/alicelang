@@ -1,0 +1,15 @@
+"linked_list.alice" include
+"io.alice" include
+
+export var new:list
+1 list add
+2 list add
+3 list add
+
+"list has size "P list$size Pln
+
+"element at index "P 1 p " is "P list getn Pln
+
+"setting it to 3.14 ..."P 3.14 1 list setn
+"element at index "P 1 p " is "P list getn Pln
+

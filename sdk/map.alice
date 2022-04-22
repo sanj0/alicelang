@@ -1,0 +1,50 @@
+### a very basic HashMap implementation
+"list.alice" include
+
+struct {
+    LinkedList data,
+    number size,
+    number buckets
+}:Map
+
+struct {
+    ? val,
+    ? key,
+    MapNode next
+}:MapNode
+
+export fun {
+    new-list 0 Map
+    10 {
+        null Map.data.add
+    } e
+}:new-map
+
+implement Map {
+    # usage: key value map.put
+    fun { (? key, ? value) args
+        # 1. obtain the hashcode to determine list position
+
+    }:put
+
+    # dead simple implementation: remap all
+    # after doubling the size
+    fun resize {
+        self.data.clone var:data
+        self.data.clear-list
+        data.size 2 * {
+            null self.data.add
+        } e
+        {
+            
+        } data
+    }:resize
+
+    fun {
+        
+    }:put-node
+} end
+
+implement MapNode {
+
+} end

@@ -1,0 +1,69 @@
+struct {
+    ? val
+    Node next
+}:Node
+
+struct {
+    Node root
+    number size
+}:LinkedList
+
+export fun {
+    null 0 LinkedList
+}:new
+
+export fun {
+    var head:list
+    var list$root:node
+    list$size ++ list>size
+    if (node ?null) {
+        head null Node list>root
+    } else {
+        while (node$next ?null not) {
+            node$next :node
+        } do
+        head null Node node>next
+    } fi
+}:add
+
+# (P) list foreach
+export fun {
+    var head:list
+    var head:consumer
+    var list$root:node
+    run "i" from 0 to list$size {
+        node$val consumer
+        node$next:node
+    } nur
+}:foreach
+
+# newVal index list setn
+export fun {
+    get-node>val
+}:setn
+
+export fun {
+    get-node$val
+}:getn
+
+# index list get-node
+export fun { (LinkedList list number index) args
+    var head:list
+    var head:index
+    var list$root:node
+    run "i" from 0 to index {
+        node$next :node
+    } nur
+    node
+}:get-node
+
+# first element popped is the one added last
+export fun {
+    var head:list
+    var list$root :node
+    run "i" from 0 to list$size {
+        node$val
+        node$next :node
+    } nur
+}:load-all
+

@@ -1,0 +1,8 @@
+"list.alice" include
+
+new-list var:list
+
+run "i" from 0 to 10000 {
+    i list.add
+} nur
+

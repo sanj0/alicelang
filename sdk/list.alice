@@ -1,0 +1,140 @@
+### provides a simple linked list!
+
+# a Node in the list.
+# contains any value and a next Node
+struct {
+    ? val,
+    ListNode next
+}:ListNode
+
+# the LinkedList itself
+# contains a root Node (called "next" for ease of implementation)
+# and a number size
+struct {
+    # makes functions easier by calling the root `next` as well
+    ListNode next,
+    ListNode last,
+    number size
+}:LinkedList
+
+# creates a new, empty LinkedList and leaves it on the stack
+export fun {
+    null null 0 LinkedList
+}:new-list
+
+implement LinkedList {
+    # adds an element to this list
+    # usage: [?] [LinkedList].add
+    fun { (? element) args
+        if (self.size 1 lt) {
+            element null ListNode self>next
+            self.next self>last
+            1 self>size
+            return
+        } fi
+        element null ListNode self.last>next
+        self.last.next self>last
+        self.size ++ self>size
+    }:add
+
+    fun { (number index) args
+        index self.get-node.val
+    }:geti
+
+    # usage: [?] [number] seti
+    fun { (? val, number index) args
+        val index self.get-node>val
+    }:seti
+
+    fun {
+        self.size 0 eq # this is most definitely faster than ?null check on root node
+    }:?empty
+
+    fun { (number index) args
+        index 1 - self.get-node:before
+        before.next.next before>next
+    }:remove
+
+    # backed by the same structure; any changes are reflected in both lists
+    fun { (number firstIn, number firstNot) args
+        if (firstIn 0 lt firstNot list.size gt or firstIn firstNot gt or) {
+            "ilegal range for sublist: from " firstIn + " to " + firstOut + throw
+        } fi
+        firstIn self.get-node var:first
+        first var:last
+        firstNot firstIn - var:size
+        size {
+            last.next :last
+        } e
+        first last size LinkedList
+    }:sublist
+
+    # creates a clone of the list first so that the result
+    # is independent from the sublist
+    fun { (LinkedList list) args
+        list.clone var:listClone
+        listClone.next self.last>next
+        "listClone" purge
+    }:add-all
+
+    fun { (? val) args
+        0 var:i
+        (if (val eq) (i return) fi "pong"P i ++:i) self.foreach
+    }:index-of
+
+    fun {
+        if (self.size 1 lt) {
+            new-list return
+        } fi
+        # place first value in the list already
+        self.next.val null ListNode 0 LinkedList var:list
+        var self.next:selfNode
+        var list.next:node
+        self.size 1 - {
+            selfNode.next:selfNode
+            selfNode.val null ListNode node>next
+            node.next :node
+        } e
+        self.size list>size
+        node list>last
+        list
+    }:clone
+
+    # note that "return" exits the foreach but not the funcitons that called foreach
+    fun { (subprogram consumer) args
+        self var:node
+        self.size {
+            node.next :node
+            node.val consumer
+        } e
+    }:foreach
+
+    fun {
+        null self>next
+        null self>last
+        0 self>size
+    }:clear-list
+
+    fun { (? element) args
+        var self:node
+        self.size {
+            node.next :node
+            if (node.val element eq) {
+                1 return
+            } fi
+        } e
+        0 return
+    }:contains
+
+    fun { (number index) args
+        if (index self.size 1 - gt index 0 lt or) {
+            "index " index + " out of bounds for list size " + self.size + throw
+        } fi
+        self.next var:node
+        index {
+            node.next :node
+        } e
+        node
+    }:get-node
+} end
+
