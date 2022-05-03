@@ -1,0 +1,10 @@
+### delegates a LinkedList with type checks
+"list.alice" include
+
+struct {
+    string type-name
+    LinkedList list
+}:TypedList
+
+implement TypedList {
+} end

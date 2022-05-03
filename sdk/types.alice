@@ -1,0 +1,79 @@
+### some basic types
+
+# These types are supposed to mimic real strong typing
+# due to the nature of struct initialization and the
+# way these types are implemented, the syntax for
+# instatiating the types looks vaguely like an explicit cast:
+# 10.314 @double ## yields an instance of  @double
+
+### ----- Type----- ###
+struct {
+    ? val
+    extends Object
+}:Type
+
+implement Type {
+    fun {
+        self.val !str
+    }:to-string
+
+    fun {
+        self.val hashcode
+    }:hash-code
+
+    # doesn't allow subtypes
+    # e.g. a @bool can never equal a @byte
+    fun { (? other) args
+        if (other ?primitive) {
+            other type self.val type eq other self.val eq and
+        } else {
+            if (other type self type eq) {
+                other.val self.val eq
+            } fi
+            0
+        } fi
+    }:equals
+} end
+
+### ----- Number ----- ###
+struct {
+    number val,
+    number MIN_VALUE,
+    number MAX_VALUE,
+    extends Type
+}:Number
+
+implement Number {
+    fun {
+        if (self.val self.MIN_VALUE lt self.val self.MAX_VALUE gt or) {
+            self type " overflow!" throw
+        } fi
+    }:_init
+} end
+
+### ----- @double ----- ###
+export 2 2 -52 ** - 2 1023 ** * var:MAX_NUMBER
+export 0 MAX_NUMBER - var:MIN_NUMBER
+struct {
+    number val,
+    number MIN_VALUE =! (MAX_NUMBER)
+    number MAX_VALUE =! (MIN_NUMBER)
+    extends Number
+}:@double
+
+### ----- @byte ----- ###
+struct {
+    number MIN_VALUE = -128
+    number MAX_VALUE = 127
+    extends Number
+}:@byte
+
+### ----- @bool ----- ###
+struct {
+    number MIN_VALUE = 0
+    number MAX_VALUE = 1
+    extends Number
+}:@bool
+
+export const 1 @bool:true
+export const 0 @bool:false

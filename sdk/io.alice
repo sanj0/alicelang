@@ -1,5 +1,22 @@
 ### standard and file io ###
 
+# uses an Object's to-string for printing
+export fun { (Object o) args
+    o.to-string P
+}:Print
+export fun { (Object o) args
+    o.to-string P "\n"P
+}:Println
+
+# uses an Object's to-string for printing
+export fun { (Object o) args
+    o.to-string p
+}:print
+# uses an Object's to-string for printing
+export fun { (Object o) args
+    o.to-string p "\n"P
+}:println
+
 # reads a number from standard in
 export fun {
     r n

@@ -13,38 +13,99 @@ struct {
     MapNode next
 }:MapNode
 
-export fun {
-    new-list 0 Map
-    10 {
-        null Map.data.add
+export fun { (number init-size) args
+    new-list 0 init-size Map var:map
+    init-size {
+        null map.data.add
     } e
+    map
+}:init-map
+
+export fun {
+    10 init-map
 }:new-map
 
 implement Map {
     # usage: key value map.put
-    fun { (? key, ? value) args
-        # 1. obtain the hashcode to determine list position
-
+    fun { (? value, ? key) args
+        value key null MapNode self.put-node
     }:put
 
-    # dead simple implementation: remap all
+    fun { (? key) args 
+        key hashcode self.buckets %
+        self.data.get var:bucket
+        if (bucket.key key eq) {
+            bucket.val return
+        } else {
+            while (bucket.next ?null not) {
+                bucket.next :bucket
+                if (bucket.key key eq) {
+                    bucket.val return
+                } fi
+            } do
+            null return
+        } fi
+    }:get
+
+    # naive implementation: remap all
     # after doubling the size
-    fun resize {
-        self.data.clone var:data
+    fun {
+        self.data.clone var:old-data
         self.data.clear-list
-        data.size 2 * {
+        self.buckets 2 * {
             null self.data.add
         } e
+        self.data.size self>buckets
+        var self:map-self
         {
-            
-        } data
-    }:resize
+            var:node
+            if (node ?null not) {
+                node map-self.put-node
+                node.next var:next
+                node var:prev
+                while (next ?null not) {
+                    null prev>next
+                    next map-self.put-node
+                    next:prev
+                    next.next:next
+                } do
+            } fi
+        } old-data.foreach
+    }:grow
 
-    fun {
-        
+    fun { (MapNode node) args
+        self.size ++ self>size
+        if (self.size self.buckets gt) {
+            self.grow
+        } fi
+        # calculate the index
+        node.key hashcode self.buckets % var:index
+        # get the bucket at index
+        index self.data.get var:bucket
+        # case 1: bucket is empty
+        if (bucket ?null) {
+            # set new node as root node of bucket
+            node index self.data.set
+        # case 2: bucket non-empty
+        } else {
+            # case 2.1 first key equals new key
+            if (bucket.key node.key eq) {
+                node index self.data.set
+                return
+            } fi
+            bucket var:next
+            null var:nnext
+            while (next.next ?null not) {
+                next.next :nnext
+                if (nnext.key node.key eq) {
+                    node next>next
+                    return
+                } fi
+                nnext :next
+            } do
+            # case 3: insert new node into bucket
+            node next>next
+        } fi
     }:put-node
 } end
 
-implement MapNode {
-
-} end

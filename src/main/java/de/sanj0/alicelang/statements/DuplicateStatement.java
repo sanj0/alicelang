@@ -28,7 +28,7 @@ public class DuplicateStatement extends Statement {
             dst.getElements().addAll(src.getElements());
             return new Substack(dst);
         } else if (e instanceof StructInstance) {
-            return new StructInstance(e.getString(), ((StructInstance) e).getMembers(), ((StructInstance) e).getFunctions());
+            return new StructInstance(((StructInstance) e).getTypes(), ((StructInstance) e).getMembers(), ((StructInstance) e).getFunctions());
         }
         return null;
     }

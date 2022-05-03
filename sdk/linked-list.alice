@@ -1,5 +1,5 @@
 ### provides a simple linked list!
-"abstract-list.alice" include
+"list.alice" include
 
 # a Node in the list.
 # contains any value and a next Node
@@ -13,8 +13,8 @@ struct {
 # and a number size
 struct {
     # makes functions easier by calling the root `next` as well
-    ListNode next =! (null),
-    ListNode last =! (null),
+    ListNode next = null,
+    ListNode last = null,
     number size = 0,
     extends List
 }:LinkedList
@@ -89,9 +89,7 @@ implement LinkedList {
             new-list return
         } fi
         # place first value in the list already
-        LinkedList var:list
-        self.next.val null ListNode list>next
-        1 list>size
+        self.next.val null ListNode 0 LinkedList var:list
         var self.next:selfNode
         var list.next:node
         self.size 1 - {
@@ -105,7 +103,6 @@ implement LinkedList {
     }:clone
 
     # note that "return" exits the foreach but not the funcitons that called foreach
-    # also note that "self" inside the consumer subprogram is the list, not any origin self
     fun { (subprogram consumer) args
         self var:node
         self.size {

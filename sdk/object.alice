@@ -1,0 +1,19 @@
+### Object base struct
+
+struct {}:Object
+
+implement Object {
+    fun {
+        # instead of hexing, just cut by moding the hash lol
+        self type self hashcode 100000 % !str +
+    }:to-string
+
+    fun {
+        self hashcode
+    }:hash-code
+
+    fun { (? other) args
+        self other eq
+    }:equals
+} end
+

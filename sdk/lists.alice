@@ -1,0 +1,76 @@
+### list utils
+"list.alice" include
+
+# a List that only contains a single element
+# all functions are optimized for this premise
+struct {
+    ? element
+    extends List # expands to: number size
+}:SingletonList
+
+export fun { (? element) args
+    element 1 SingletonList
+}:singleton-list
+
+implement SingletonList {
+    fun {
+        "cannot add to SingletonList" throw
+    }:add
+
+    fun { (number index) args
+        index self.check-range
+        self.element
+    }:get
+
+    fun { (? element, number index) args
+        index self.check-range
+        element self>element
+    }:set
+
+    fun {
+        0
+    }:?empty
+
+    fun { (number index) args
+        "cannot remove element from SingletonList" throw
+    }:remove
+
+    fun { (number firstIn, number firstOut) args
+        index check-range
+        if (firstOut 0 neq) {
+            "SingletonList can only sublist from 0 to 1" throw
+        } fi
+        self.element 1 SingletonList
+    }:sublist
+
+    fun {
+        "cannot add to SingletonList" throw
+    }:add-all
+
+    fun { (? element) args
+        # magic! eq yield 0 or 1 which is made into -1 or 0!
+        element self.element eq 1 -
+    }:index-of
+
+    fun {
+        self.element 1 SingletonList
+    }:clone
+
+    fun { (subprogram consumer) args
+        self.element consumer
+    }:foreach
+
+    fun {
+        "cannot clear SingletonList" throw
+    }:clear-list
+
+    fun { (? element) args
+        element self.element eq
+    }:?contains
+
+    fun { (number index) args
+        if (index 0 gt) {
+            "SingletonList out of bounds for " index + throw
+        } fi
+    }:check-range
+} end

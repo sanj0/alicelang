@@ -1,0 +1,21 @@
+### object orientation
+"io.alice" include
+
+struct {
+    string name,
+    string sound
+}:Animal
+
+implement Animal {
+    fun {
+        self.sound P ", this is a "P self.name Pln
+    }:introduce
+} end
+
+struct {
+    string name = "dog",
+    string sound = "woof",
+    extends Animal
+}:Dog
+
+Dog.introduce

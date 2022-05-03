@@ -4,6 +4,7 @@ import de.sanj0.alicelang.AliceRuntimeError;
 import de.sanj0.alicelang.Program;
 import de.sanj0.alicelang.StackElement;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -12,9 +13,11 @@ public class StructInstance extends StackElement<String> {
     // e.g. "string" "number"
     private Map<String, StackElement<?>> members;
     private final Map<String, Program> functions;
+    private final List<String> types;
 
-    public StructInstance(final String value, final Map<String, StackElement<?>> members, final Map<String, Program> functions) {
-        super(value);
+    public StructInstance(final List<String> types, final Map<String, StackElement<?>> members, final Map<String, Program> functions) {
+        super(types.get(0));
+        this.types = types;
         this.members = members;
         this.functions = functions;
     }
@@ -45,9 +48,18 @@ public class StructInstance extends StackElement<String> {
         return functions;
     }
 
+    /**
+     * Gets {@link #types}.
+     *
+     * @return the value of {@link #types}
+     */
+    public List<String> getTypes() {
+        return types;
+    }
+
     @Override
     public String toString() {
-        return getValue();
+        return getValue() + members.toString();
     }
 
     @Override

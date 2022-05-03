@@ -7,6 +7,7 @@ public abstract class Statement {
     public boolean thenReturn = false;
 
     public abstract void execute(final AliceStack stack, final AliceTable table);
+
     // default implementation returns this
     public Statement copy() {
         return this;

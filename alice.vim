@@ -18,8 +18,8 @@ syn match alice_float '\v\c<\d%(\d|_*\d)*\.%(\d%(\d|_*\d)*)=%(E[+-]=\d%(\d|_*\d)
 syn match alice_float '\v\c\.\d%(\d|_*\d)*%(E[+-]=\d%(\d|_*\d)*)=[FD]='
 syn region alice_string start='"' end='"' skip="\\\""
 
-syn region alice_subprogram start='(' end=')' transparent
-syn region alice_subprogram start='{' end='}' transparent
+syn region alice_subprogram start='(' end=')' transparent fold
+syn region alice_subprogram start='{' end='}' transparent fold
 
 syn region alice_comment start=/#/ end=/#/ end=/$/
 

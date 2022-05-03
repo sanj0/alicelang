@@ -1,0 +1,57 @@
+### abstract list definition
+
+struct {
+    # every member stays at its first index so this doesn't
+    # mess up the immanent order of substructs
+    # additionally, struct member get prioritizes functions
+    # over fields so incase a List implementation needs to
+    # compute the size on query, a function `size` is called
+    # on any list.size call
+    number size
+}:List
+
+implement List {
+    # adds the given element to this list
+    #= ? val
+    fun abstract:add
+    # gets the element from the given index
+    #= number index
+    fun abstract:get
+    # sets the element at the given index
+    #= ? val, number index
+    fun abstract:set
+    # is the list empty?
+    # default implementation checks size
+    #= 
+    fun {
+        self.size 0 eq
+    }:?empty
+    # removes element at give index
+    #= number index
+    fun abstract:remove
+    # creates a sublist from (incl.) to (excl.)
+    # for LinkedList impl., the list is backed by the same
+    # recursive srtcuture meaning any change in one of the
+    # two lists is reflected in the other
+    #= number firstIn, number firstOut
+    fun abstract:sublist
+    # adds all elements from the given list
+    #= List list
+    fun abstract:add-all
+    # returns the first index of the given element or -1 if it doesn't exist
+    #= ? val
+    fun abstract:index-of
+    # returns a new List that contains every element this list contains
+    # for LinkedList impl., this list is backed by a new and independent recursive structure
+    fun abstract:clone
+    # performs the given program on every element, in order
+    # meaning that for each element e, e will be put onto the stack
+    # and the given program will be executed after each
+    #= subprogram consumer
+    fun abstract:foreach
+    # clears the list, removing all elements
+    fun abstract:clear-list
+    # does this list contain the given element?
+    #= ? val
+    fun abstract:?contains
+} end

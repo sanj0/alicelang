@@ -28,7 +28,7 @@ public class AccessTableStatement extends Statement {
             return;
         }
         if (table.getStructs().containsKey(key)) {
-            stack.push(table.getStructs().get(key).instantiate(stack));
+            stack.push(table.getStructs().get(key).instantiate(stack, table));
             return;
         }
 

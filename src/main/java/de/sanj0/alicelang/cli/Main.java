@@ -1,9 +1,6 @@
 package de.sanj0.alicelang.cli;
 
-import de.sanj0.alicelang.AliceParser;
-import de.sanj0.alicelang.AliceStack;
-import de.sanj0.alicelang.AliceTable;
-import de.sanj0.alicelang.Program;
+import de.sanj0.alicelang.*;
 import de.sanj0.alicelang.stackelements.NumberStackElement;
 import de.sanj0.alicelang.stackelements.StringStackElement;
 
@@ -21,7 +18,7 @@ public class Main {
     public static File SDK_HOME;
     private static final String STD_INCLUDE_PHRASE = "\"std.alice\" include";
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
         setSDK_HOME();
         if (args.length == 0 || "live".equals(args[0])) {
             runLive(args);

@@ -11,7 +11,6 @@ public class Program extends Statement {
     private static boolean alreadyErroring = false;
 
     private List<Statement> statements;
-    private Map<String, StackElement<?>> locals = null;
     private boolean createScope = true;
     public boolean isPriv = false;
     public boolean isFunctionCall = false;
@@ -29,9 +28,7 @@ public class Program extends Statement {
 
     @Override
     public void execute(final AliceStack stack, final AliceTable table) {
-        if (locals != null) {
-            table.putScope(locals);
-        } else if (createScope)
+        if (createScope)
             table.putScope();
 
         for (final Statement statement : statements) {
@@ -59,8 +56,8 @@ public class Program extends Statement {
                 break;
             }
         }
-        if (createScope || locals != null)
-            locals = table.dropScope();
+        if (createScope)
+            table.dropScope();
     }
 
     /**

@@ -100,7 +100,7 @@ public class AliceTable {
     }
 
     public void putStruct(final AliceStruct struct) {
-        structs.put(struct.getName(), struct);
+        structs.put(struct.getTypes().get(0), struct);
     }
 
     /**

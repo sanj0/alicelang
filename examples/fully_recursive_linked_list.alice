@@ -1,0 +1,79 @@
+### an inefficient fully recursive linked list
+"list.alice" include
+
+struct {}:RecNode
+
+struct {
+    ? val,
+    RecNode next,
+    extends RecNode
+}:RecDataNode
+
+struct {
+    extends RecNode
+}:RecEndNode
+
+struct {
+    RecNode root =! (RecEndNode)
+    number size = 0
+    extends List # yields `number size`
+    extends Object # since list doesn't do that atm
+}:RecLinkedList
+
+implement RecLinkedList {
+    fun { (? val) args
+        val self.root.add self>root
+    }:add
+    fun {
+        self.root.get
+    }:get
+    fun {
+        self.root.set
+    }:set
+    fun {
+        self.root.remove
+    }:remove
+    fun abstract:sublist
+    fun abstract:add-all
+    fun abstract:index-of
+    fun abstract:clone
+    fun {
+        self.root.foreach
+    }:foreach
+    fun {
+        RecEndNode self>root
+    }:clear-list
+    fun {
+        self.root.?contains
+    }:?contains
+} end
+
+implement RecNode {
+    fun abstract:add
+    fun abstract:get
+    fun abstract:set
+    fun abstract:remove
+    fun abstract:foreach
+    fun abstract:?contains
+} end
+
+implement RecDataNode {
+    fun {
+        self.next.add self>next
+        self
+    }:add
+
+    fun {
+        self.val over 1 swap e self.next.foreach
+    }:foreach
+} end
+
+implement RecEndNode {
+    fun { (? val) args
+        val self RecDataNode
+    }:add
+
+    fun {
+        drop
+    }:foreach
+} end

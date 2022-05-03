@@ -1,0 +1,36 @@
+"map.alice" include
+"io.alice" include
+"timer.alice" include
+
+1000 init-map var:map
+new-timer var:timer
+
+# runs at 1.48s without resizing
+timer.start
+run "i" from 0 to 1000 {
+    i i map.put
+} nur
+timer.passed-ms Pln
+
+var 0:empty-buckets
+{
+    var:node
+    if (node ?null) {
+        empty-buckets ++ :empty-buckets
+    } else {
+        var 0:children
+        var node.next:n
+        while (n ?null not) {
+            children ++ :children
+            n.next :n
+        } do
+        #"bucket " node.val !str + " has " + children !str + " children!" + Pln
+    } fi
+} map.data.foreach
+ "map has " empty-buckets !str + " empty buckets!" + Pln
+
+timer.start
+run "i" from 0 to 1000 {
+    i map.get drop
+} nur
+timer.passed-ms Pln

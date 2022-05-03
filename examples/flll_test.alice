@@ -1,0 +1,30 @@
+"fully_recursive_linked_list.alice" include
+"list.alice" include
+"io.alice"include
+"timer.alice" include
+
+var RecLinkedList:recList
+var LinkedList:llist
+var new-timer:timer
+
+"insertion test ..."Pln
+timer.start
+run "i" from 0 to 2200 {
+    i recList.add
+} nur
+"recursive: "P timer.passed-ms P "ms"Pln
+
+timer.start
+run "i" from 0 to 500000 {
+    i llist.add
+} nur
+"linked: "P timer.passed-ms P "ms"Pln
+
+"foreach test ..."Pln
+timer.start
+(drop) recList.foreach
+"recursive: "P timer.passed-ms P "ms"Pln
+
+timer.start
+(drop) llist.foreach
+"linked: "P timer.passed-ms P "ms"Pln

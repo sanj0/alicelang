@@ -1,0 +1,18 @@
+### a small and very bad timing utility
+
+struct {
+    number t0 = 0
+}:Timer
+
+export fun {
+    Timer
+}:new-timer
+
+implement Timer {
+    fun {
+        time self>t0
+    }:start
+    fun {
+        time self.t0 -
+    }:passed-ms
+} end

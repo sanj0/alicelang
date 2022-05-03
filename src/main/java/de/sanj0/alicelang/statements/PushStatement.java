@@ -20,6 +20,15 @@ public class PushStatement<T extends StackElement<?>> extends Statement {
         stack.push(value);
     }
 
+    /**
+     * Gets {@link #value}.
+     *
+     * @return the value of {@link #value}
+     */
+    public T getValue() {
+        return value;
+    }
+
     @Override
     public String toString() {
         return "push(" + value + ")";

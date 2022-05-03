@@ -15,11 +15,16 @@ public class StructGetStatement extends Statement {
         final StructInstance struct = (StructInstance) stack.pop();
         final Program func = struct.getFunctions().getOrDefault(member, null);
         if (func != null) {
-            table.putNew(AliceParser.WRD_SELF, struct);
-            func.execute(stack, table);
+            executeInContext(func, stack, table, struct);
         } else {
             stack.push(struct.get(member));
         }
+    }
+
+    private void executeInContext(Program program, AliceStack stack, AliceTable table, StructInstance struct) {
+        table.putNew(AliceParser.WRD_SELF, struct);
+        program.execute(stack, table);
+        table.purgeFirst(AliceParser.WRD_SELF);
     }
 
     @Override

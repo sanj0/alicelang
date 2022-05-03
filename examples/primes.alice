@@ -10,7 +10,7 @@
 var "":primes
 var "generate all primes to: "P
 
-read-num
+r !num
 var head :max
 run "i" from 1 to max {
     if (i ?prime) {

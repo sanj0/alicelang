@@ -1,8 +1,9 @@
 package de.sanj0.alicelang;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class StackElement<T> {
+public class StackElement<T> implements Serializable {
     private T value;
 
     public StackElement(final T value) {

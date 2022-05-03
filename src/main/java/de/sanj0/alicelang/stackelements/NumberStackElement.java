@@ -29,5 +29,6 @@ public class NumberStackElement extends StackElement<Double> {
     @Override
     public int hashCode() {
         return getValue().hashCode();
+        //return (int) Math.floor(getValue()/*.hashCode()*/);
     }
 }

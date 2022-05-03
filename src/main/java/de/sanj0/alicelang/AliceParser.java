@@ -112,7 +112,7 @@ public class AliceParser {
             case WRD_EXISTS -> new ExistsStatement();
             case WRD_TYPE -> new TypeStatement();
             case WRD_EXIT -> new ExitStatement();
-            case WRD_GET -> new GetStatement();
+            //case WRD_GET -> new GetStatement();
             case WRD_BREAK -> new BreakStatement();
             case WRD_RETURN -> new ReturnStatement();
             case WRD_WRITEF -> new FileIOStatements.WriteFileStatement();
@@ -144,6 +144,8 @@ public class AliceParser {
             case WRD_IMPLEMENT -> new ImplementStatement();
             case WRD_END -> new EndStatement();
             case WRD_HASHCODE -> new HashCodeStatement();
+            case WRD_ABSTRACT -> new AbstractStatement();
+            case WRD_TYPES -> new TypesStatement();
             default -> handleCommand(word);
         };
     }
@@ -347,7 +349,7 @@ public class AliceParser {
     public static final String WRD_RANDOM = "random";
     public static final String WRD_CHAR_AT = "charat";
     public static final String WRD_TIME = "time";
-    public static final String WRD_GET = "get";
+    //public static final String WRD_GET = "get";
     public static final String WRD_BREAK = "break";
     public static final String WRD_RETURN = "return";
     public static final String WRD_WRITEF = "writef";
@@ -375,6 +377,8 @@ public class AliceParser {
     public static final String WRD_IMPLEMENT = "implement";
     public static final String WRD_END = "end";
     public static final String WRD_HASHCODE = "hashcode";
+    public static final String WRD_ABSTRACT = "abstract";
+    public static final String WRD_TYPES = "types";
 
     private static final Set<String> KEYWORDS = new HashSet<>();
 
