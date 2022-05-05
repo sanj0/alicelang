@@ -1,0 +1,16 @@
+# this is a compilable alice statement
+# it is parsed in a very simple way so only line comment like this are allowed
+
+# This has to be the full class name, trailing -Statement is added automatically
+target: Drop
+
+# how to compile the statement
+# simply inline the java code from the "execute" method:
+compile-strategy: inline-source
+
+compile-strategy: init
+with-constructor: === return "final String args, final String fromAnyJava" ===
+
+compile-strategy: dynamic
+generator: ===// any valid java code that returns a string of java code
+            "System.exit(0);===
