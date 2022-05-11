@@ -1,0 +1,40 @@
+while loop
+===> multitime results
+1: alice while.alice
+            Mean        Std.Dev.    Min         Median      Max
+real        0.594       0.032       0.565       0.592       0.654       
+user        0.710       0.029       0.673       0.712       0.752       
+sys         0.109       0.004       0.105       0.109       0.115       
+
+for loop
+===> multitime results
+1: alice for.alice
+            Mean        Std.Dev.    Min         Median      Max
+real        0.940       0.027       0.900       0.941       0.983       
+user        1.026       0.010       1.013       1.026       1.042       
+sys         0.118       0.007       0.112       0.115       0.132       
+
+run loop
+===> multitime results
+1: alice run.alice
+            Mean        Std.Dev.    Min         Median      Max
+real        0.218       0.006       0.211       0.221       0.226       
+user        0.338       0.006       0.328       0.341       0.345       
+sys         0.063       0.002       0.060       0.064       0.067       
+
+parse stupidly long stuff
+===> multitime results
+1: alice parse.alice
+            Mean        Std.Dev.    Min         Median      Max
+real        0.126       0.006       0.120       0.127       0.136       
+user        0.138       0.003       0.135       0.138       0.142       
+sys         0.036       0.002       0.033       0.036       0.038       
+
+read and eval the former script
+===> multitime results
+1: alice eval.alice
+            Mean        Std.Dev.    Min         Median      Max
+real        0.126       0.005       0.119       0.124       0.132       
+user        0.140       0.002       0.137       0.139       0.143       
+sys         0.036       0.001       0.034       0.037       0.037       
+

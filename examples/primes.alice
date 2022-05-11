@@ -8,9 +8,10 @@
 # while bc, using the same algorithm, takes about 0.2 seconds
 
 var "":primes
-var "generate all primes to: "P
+# var "generate all primes to: "P
 
-r !num
+#r !num
+arg0 !num
 var head :max
 run "i" from 1 to max {
     if (i ?prime) {
@@ -20,3 +21,9 @@ run "i" from 1 to max {
 } nur
 
 primes "primes.txt" writef
+
+### without native prime function
+# alice primes.alice 100000  1.44s user 0.17s system 149% cpu 1.073 total
+
+### with native prime function
+# alice primes.alice 100000  0.86s user 0.15s system 179% cpu 0.566 total

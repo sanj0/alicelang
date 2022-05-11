@@ -11,6 +11,7 @@ public class PutOnTableStatement extends Statement {
     public static boolean nextIsDeclaration = false;
     public static boolean nextIsStruct = false;
     public static boolean nextIsPriv = false;
+    public static boolean nextIsNfun = false;
 
     private final String key;
 
@@ -89,6 +90,25 @@ public class PutOnTableStatement extends Statement {
             nextIsGlobal = nextIsStruct = false;
             return;
         }
+        // export nfun "alice.lang.stdio":Pln
+        if (nextIsNfun) {
+            ProgramStackElement e = null; 
+            try {
+                e = new ProgramStackElement(new NativeProgram(stack.pop().getString(), AliceParser.sanitizeAliceIdentifier(key)));
+            } catch (final NoSuchMethodException ex) {
+                ex.printStackTrace();
+                throw new AliceRuntimeError(ex.getMessage());
+            }
+            if (nextIsGlobal) {
+                table.putGlobal(key, e);
+                nextIsGlobal = false;
+            } else {
+                table.putNew(key, e);
+            }
+            nextIsNfun = false;
+            return;
+        }
+
         if (!nextIsDeclaration && !table.containsKey(key)) {
             throw new AliceRuntimeError(AliceRuntimeError.VARIABLE_NOT_FOUND_ + key);
         }

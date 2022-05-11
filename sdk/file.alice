@@ -1,0 +1,15 @@
+struct {
+    string path,
+    number ?absolute
+    extends Object
+}:File
+
+implement File {
+    fun {
+
+    }:?exists
+
+    fun {
+
+    }:createNewFile
+} end

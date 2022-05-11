@@ -1,0 +1,28 @@
+const "alice.util.array_list":AL_NATIVE
+
+AL_NATIVE ninclude
+"abstract-list" include
+
+struct {
+    number size = 0 # overrides the inherited member
+    number id = -1
+    extends List
+}:ArrayList
+
+implement ArrayList {
+    fun {
+        self hashcode self>id
+    }:_init
+
+    nfun AL_NATIVE:add
+    nfun AL_NATIVE:get
+    nfun AL_NATIVE:set
+    nfun AL_NATIVE:remove
+    nfun AL_NATIVE:sublist
+    nfun AL_NATIVE:add-all
+    nfun AL_NATIVE:index-of
+    nfun AL_NATIVE:clone
+    nfun AL_NATIVE:foreach
+    nfun AL_NATIVE:clear-list
+    nfun AL_NATIVE:?contains
+} end

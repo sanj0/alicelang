@@ -68,11 +68,25 @@ public class AliceParser {
         }
     }
 
-    private boolean isNumber(final char c) {
+    // sanitizes alice identifiers for use in java native methods:
+    // ? -> qm
+    // - -> _
+    // . -> $
+    // ^\d -> ^_\d
+    public static String sanitizeAliceIdentifier(final String s) {
+        final String s2 = s.replaceAll("\\?", "qm").replace("-", "_").replace("\\.", "\\$");
+        if (isNumber(s2.charAt(0)))
+            return "_" + s2;
+        else
+            return s2;
+    }
+
+    private static boolean isNumber(final char c) {
         return c >= '0' && c <= '9' || c == '.';
     }
 
     private Statement handleCommand(final String word) {
+        if (SKIPS.contains(word)) return null;
         if (word.length() > 1) return new AccessTableStatement(word);
         return switch (word.charAt(0)) {
             case CMD_PRINT_FULL_STACK -> new PrintFullStackStatement();
@@ -146,6 +160,10 @@ public class AliceParser {
             case WRD_HASHCODE -> new HashCodeStatement();
             case WRD_ABSTRACT -> new AbstractStatement();
             case WRD_TYPES -> new TypesStatement();
+            case WRD_NINCLUDE -> new NIncludeStatement();
+            case WRD_NATIVE -> new NativeStatement();
+            case WRD_SYSPROP -> new SyspropStatement();
+            case WRD_NFUN -> new NfunStatement();
             default -> handleCommand(word);
         };
     }
@@ -214,6 +232,7 @@ public class AliceParser {
             final int l = lineNumber;
             final int startIndex = index - lastLineBreakIndex;
             final Statement statement = parseStatement();
+            if (statement == null) continue;
             statement.lineNumber = l;
             statement.startIndex = startIndex;
             statements.add(statement);
@@ -315,14 +334,17 @@ public class AliceParser {
     }
 
     public static final char CMD_PRINT_FULL_STACK = 'f';
+    // ex. utils
     public static final char CMD_PRINT_TABLE = 't';
     public static final char CMD_EXECUTE_SUB_PROGRAM = 'e';
     public static final char CMD_PRINT_LC = 'p';
     public static final char CMD_PRINT_UC = 'P';
+    // ex. stdio
     public static final char CMD_READ = 'r';
     public static final char CMD_DUPLICATE = 'd';
     public static final char CMD_STRUCT_GET = '.';
     public static final char CMD_STRUCT_SET = '>';
+    // ex. types
     public static final String WRD_TO_STRING = "!str";
     public static final String WRD_TO_NUMBER = "!num";
     public static final String WRD_WHILE = "do";
@@ -339,22 +361,28 @@ public class AliceParser {
     public static final String WRD_GT = "gt";
     public static final String WRD_AND = "and";
     public static final String WRD_OR = "or";
+    // ex. math
     public static final String WRD_LN = "ln";
     public static final String WRD_LENGTH = "length";
     public static final String WRD_INCLUDE = "include";
     public static final String WRD_EXISTS = "exists";
+    // ex. types
     public static final String WRD_TYPE = "type";
     public static final String WRD_EXIT = "exit";
+    // ex. utils
     public static final String WRD_STACK_SIZE = "ssize";
+    // ex. math
     public static final String WRD_RANDOM = "random";
+    // ex. string
     public static final String WRD_CHAR_AT = "charat";
     public static final String WRD_TIME = "time";
-    //public static final String WRD_GET = "get";
     public static final String WRD_BREAK = "break";
     public static final String WRD_RETURN = "return";
+    // ex. file
     public static final String WRD_WRITEF = "writef";
     public static final String WRD_READF = "readf";
     public static final String WRD_EVAL = "eval";
+    // ex. system
     public static final String WRD_PROC = "proc";
     public static final String WRD_PPROC = "pproc";
     public static final String WRD_EXPAND = "expand";
@@ -378,8 +406,15 @@ public class AliceParser {
     public static final String WRD_END = "end";
     public static final String WRD_HASHCODE = "hashcode";
     public static final String WRD_ABSTRACT = "abstract";
+    // ex. types
     public static final String WRD_TYPES = "types";
+    public static final String WRD_NINCLUDE = "ninclude";
+    public static final String WRD_NATIVE = "native";
+    // ex. system
+    public static final String WRD_SYSPROP = "sysprop";
+    public static final String WRD_NFUN = "nfun";
 
+    private static final Set<String> SKIPS = new HashSet<>();
     private static final Set<String> KEYWORDS = new HashSet<>();
 
     static {
@@ -401,5 +436,11 @@ public class AliceParser {
                 }
             }
         }
+        SKIPS.add("run");
+        SKIPS.add("from");
+        SKIPS.add("to");
+        SKIPS.add("head");
+        SKIPS.add("while");
+        SKIPS.add("for");
     }
 }

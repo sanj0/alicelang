@@ -1,0 +1,13 @@
+"io.alice" include
+
+run "i" from 0 to 10000 {
+    i Pln
+} nur
+
+### without native functions
+# alice print.alice  1.84s user 0.16s system 264% cpu 0.756 total
+# alice print.alice > /dev/null  1.06s user 0.12s system 269% cpu 0.439 total
+
+### with native functions
+# alice print.alice  0.49s user 0.07s system 77% cpu 0.723 total
+# alice print.alice > /dev/null  0.35s user 0.05s system 178% cpu 0.225 total

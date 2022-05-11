@@ -1,0 +1,30 @@
+===> multitime results
+1: alice while.alice
+            Mean        Std.Dev.    Min         Median      Max
+real        0.492       0.005       0.483       0.493       0.496       
+user        0.644       0.013       0.628       0.642       0.660       
+sys         0.094       0.003       0.091       0.093       0.098       
+===> multitime results
+1: alice for.alice
+            Mean        Std.Dev.    Min         Median      Max
+real        0.807       0.031       0.747       0.818       0.831       
+user        0.953       0.032       0.902       0.949       0.987       
+sys         0.097       0.001       0.096       0.097       0.098       
+===> multitime results
+1: alice run.alice
+            Mean        Std.Dev.    Min         Median      Max
+real        0.201       0.003       0.198       0.202       0.204       
+user        0.318       0.005       0.312       0.315       0.327       
+sys         0.056       0.001       0.054       0.056       0.058       
+===> multitime results
+1: alice -r false -std false parse.alice
+            Mean        Std.Dev.    Min         Median      Max
+real        0.120       0.005       0.116       0.117       0.129       
+user        0.121       0.005       0.116       0.119       0.131       
+sys         0.031       0.002       0.030       0.031       0.034       
+===> multitime results
+1: alice -std false eval.alice
+            Mean        Std.Dev.    Min         Median      Max
+real        1.153       0.079       1.010       1.194       1.222       
+user        3.868       0.447       3.048       4.135       4.243       
+sys         0.400       0.032       0.346       0.419       0.426       

@@ -80,6 +80,7 @@ export fun {
 }:rof
 
 ### marker functions that do nothing
+### and can never be called bc the parser skips them
 export fun {}:run
 export fun {}:from
 export fun {}:to

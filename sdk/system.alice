@@ -1,0 +1,11 @@
+struct {}:System
+
+implement System {
+    fun { (string property) args
+        property sysprop
+    }:property
+
+    fun {
+        exit
+    }:exit
+} end

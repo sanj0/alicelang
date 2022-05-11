@@ -1,4 +1,6 @@
 ### standard and file io ###
+var "alice.lang.stdio":stdio
+stdio ninclude
 
 # uses an Object's to-string for printing
 export fun { (Object o) args
@@ -28,11 +30,7 @@ export fun {
 }:read-str
 
 # prints by peeking, not popping and prints a newline afterwards
-export fun {
-    p "\n"P
-}:pln
+export nfun stdio:pln
 
 # prints by popping and prints a newline afterwards
-export fun {
-    P "\n"P
-}:Pln
+export nfun stdio:Pln

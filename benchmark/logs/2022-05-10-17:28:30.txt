@@ -1,0 +1,34 @@
+===> multitime results
+1: alice while.alice
+            Mean        Std.Dev.    Min         Median      Max
+real        0.501       0.008       0.489       0.503       0.513       
+user        0.675       0.030       0.629       0.677       0.714       
+sys         0.096       0.003       0.090       0.096       0.099       
+===> multitime results
+1: alice for.alice
+            Mean        Std.Dev.    Min         Median      Max
+real        0.813       0.038       0.743       0.835       0.843       
+user        0.943       0.039       0.877       0.949       0.994       
+sys         0.097       0.003       0.095       0.096       0.101       
+===> multitime results
+1: alice run.alice
+            Mean        Std.Dev.    Min         Median      Max
+real        0.200       0.003       0.197       0.200       0.205       
+user        0.319       0.003       0.315       0.319       0.324       
+sys         0.057       0.002       0.054       0.055       0.060       
+===> multitime results
+1: alice -r false -std false parse.alice
+            Mean        Std.Dev.    Min         Median      Max
+real        0.121       0.002       0.118       0.121       0.125       
+user        0.119       0.003       0.116       0.118       0.123       
+sys         0.032       0.001       0.031       0.032       0.033       
+Error when executing table(load-args) in eval.alice@23:1
+	when executing eval in eval.alice@0:22
+Exception in thread "main" de.sanj0.alicelang.AliceRuntimeError: eval.alice: word not found in table: load-args
+	at de.sanj0.alicelang.statements.AccessTableStatement.execute(AccessTableStatement.java:35)
+	at de.sanj0.alicelang.Program.execute(Program.java:38)
+	at de.sanj0.alicelang.statements.EvalStatement.execute(EvalStatement.java:18)
+	at de.sanj0.alicelang.Program.execute(Program.java:38)
+	at de.sanj0.alicelang.cli.Main.runFile(Main.java:123)
+	at de.sanj0.alicelang.cli.Main.main(Main.java:57)
+multitime: Error when attempting to run alice
