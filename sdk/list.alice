@@ -60,6 +60,7 @@ implement LinkedList {
             index 1 - self.get-node:before
         } fi
         before.next.next before>next
+        self.size -- self>size
     }:remove
 
     # backed by the same structure; any changes are reflected in both lists
