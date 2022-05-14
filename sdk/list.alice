@@ -53,7 +53,12 @@ implement LinkedList {
     }:?empty
 
     fun { (number index) args
-        index 1 - self.get-node:before
+        var null:before
+        if (index 0 eq) {
+            self :before
+        } else {
+            index 1 - self.get-node:before
+        } fi
         before.next.next before>next
     }:remove
 
