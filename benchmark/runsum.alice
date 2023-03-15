@@ -1,0 +1,10 @@
+"stdio.alice" include
+run "i" from 1 to 10001 {
+    i
+} nur
+
+var 0 :sum
+10000 (
+    sum + :sum
+) e
+sum !str stdout.Println

@@ -1,0 +1,14 @@
+struct {
+    number ?pop,
+    extends Statement
+}:PrintStatement
+
+implement PrintStatement {
+    fun { (Stack stack, Table table) args
+        if (self.?pop) {
+            stack.pop.string P
+        } (1) {
+            stack.peeek.string P
+        } fi
+    }:execute
+} end

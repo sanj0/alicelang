@@ -1,0 +1,80 @@
+### the parser!
+
+struct {
+    string code,
+    number index = 0,
+    number l = 0
+}:Parser
+
+implement Parser {
+    fun {
+        self.code length self>l
+    }:_init
+
+    fun {
+        var LinkedList:statements
+        while (self.?not-done) {
+            self.parse-statement statements.add
+        } do
+        statements "" Program
+    }:parse
+
+    fun {
+        const self.next:c
+        const c unicode:uc
+        if (c ?numeric) {
+            c self.parse-number PushStatement return
+        } else {
+            c self.parse-word return
+        } fi
+    }:parse-statement
+
+    fun { (string first) args
+        var first:word
+        var "":next
+        if (self.?not-done) {
+            self.peeek:next
+        } (1) {
+            first:next
+        }fi
+        while (self.?not-done next ?ws not and) {
+            word next + :word
+            self.next :next
+        } do
+
+        if ("P" word eq) {
+            1 PrintStatement
+        } ("p" word eq) {
+            0 PrintStatement
+        } fi
+    }:parse-word
+
+    fun { (string first) args
+        var "":next
+        if (self.?not-done) {
+            self.peeek:next
+        } (1) {
+            first:next
+        } fi
+        var first:num
+        while (self.?not-done next ?numeric and) {
+            num next + :num
+            self.next :next
+        } do
+        num !num StackElement
+    }:parse-number
+
+
+    fun {
+        self.code self.index charat
+        self.index ++ self>index
+    }:next
+
+    fun {
+        self.code self.index charat
+    }:peeek
+
+    fun {
+        self.index self.l lt
+    }:?not-done
+} end

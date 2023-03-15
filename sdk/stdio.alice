@@ -1,0 +1,32 @@
+### standard input and output
+const "alice.lang.Stdio" LOAD_NATIVE:NATIVE
+
+struct {
+}:Stdout
+
+struct {
+}:Stdin
+
+export var Stdout:stdout
+export var Stdin:stdin
+
+export nfun NATIVE:p
+export nfun NATIVE:P
+export nfun NATIVE:r
+
+implement Stdout {
+    nfun NATIVE:print
+    nfun NATIVE:Print
+    nfun NATIVE:println
+    nfun NATIVE:Println
+
+    nfun NATIVE:err-print
+    nfun NATIVE:err-Print
+    nfun NATIVE:err-println
+    nfun NATIVE:err-Println
+} end
+
+implement Stdin {
+    nfun NATIVE:read-string
+    nfun NATIVE:read-number
+} end

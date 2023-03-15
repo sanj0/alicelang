@@ -7,6 +7,6 @@ import de.sanj0.alicelang.Statement;
 public class ConstStatement extends Statement {
     @Override
     public void execute(final AliceStack stack, final AliceTable table) {
-        PutOnTableStatement.nextIsDeclaration = true;
+        PutOnTableStatement.nextIsConst = true;
     }
 }

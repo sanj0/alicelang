@@ -1,11 +1,25 @@
+const var "alice.lang.AliceSystem" LOAD_NATIVE:NATIVE
 struct {}:System
 
+export const System:system
+
 implement System {
-    fun { (string property) args
-        property sysprop
-    }:property
+    # gets java system properties
+    # e.g. "user.home" get-property
+    nfun NATIVE:get-property
+
+    # excutes a process, waiting for it and pushing its exit status
+    # the process inherits io
+    # usage:
+    # "command" "arg" "arg" "arg" 4 proc
+    nfun NATIVE:proc
+    # excutes a process, not waiting for it. doesn't push its exit status
+    # the process inherits io
+    # usage:
+    # "command" "arg" "arg" "arg" 4 pproc
+    nfun NATIVE:pproc
 
     fun {
-        exit
-    }:exit
+        0 exit
+    }:okexit
 } end

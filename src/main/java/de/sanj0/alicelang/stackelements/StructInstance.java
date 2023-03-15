@@ -63,6 +63,11 @@ public class StructInstance extends StackElement<String> {
     }
 
     @Override
+    public StackElement<String> dublicate() {
+        return new StructInstance(types, members, functions);
+    }
+
+    @Override
     public int hashCode() {
         return Objects.hash(members, functions);
     }

@@ -22,7 +22,7 @@ public class StructGetStatement extends Statement {
     }
 
     private void executeInContext(Program program, AliceStack stack, AliceTable table, StructInstance struct) {
-        table.putNew(AliceParser.WRD_SELF, struct);
+        table.putNew(AliceParser.WRD_SELF, struct, true);
         program.execute(stack, table);
         table.purgeFirst(AliceParser.WRD_SELF);
     }

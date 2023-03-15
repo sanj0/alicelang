@@ -1,7 +1,6 @@
-const "alice.util.array_list":AL_NATIVE
-
-AL_NATIVE ninclude
-"abstract-list" include
+### a native-backed array list
+const "alice.util.AliceArrayList" LOAD_NATIVE:AL_NATIVE
+"abstract-list.alice" include
 
 struct {
     number size = 0 # overrides the inherited member
@@ -11,7 +10,8 @@ struct {
 
 implement ArrayList {
     fun {
-        self hashcode self>id
+        self hashcode d self>id
+        "alice.util.AliceArrayList" "init" native
     }:_init
 
     nfun AL_NATIVE:add

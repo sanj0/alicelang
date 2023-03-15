@@ -14,5 +14,5 @@ fi
 sudo cp -R sdk/ $SDK_TARGET
 
 # compile the native part of the sdk
-sudo javac -cp $BIN_TARGET ${SDK_TARGET}/native/**/*.java
+sudo javac -cp $ALICE_BIN_TARGET ${SDK_TARGET}/native/**/*.java
 echo alicelang sdk installed!

@@ -1,0 +1,40 @@
+===> multitime results
+1: alice while.alice
+            Mean        Std.Dev.    Min         Median      Max
+real        0.550       0.013       0.534       0.550       0.570       
+user        0.715       0.041       0.680       0.700       0.795       
+sys         0.116       0.006       0.107       0.116       0.125       
+===> multitime results
+1: alice for.alice
+            Mean        Std.Dev.    Min         Median      Max
+real        0.929       0.009       0.917       0.932       0.938       
+user        1.059       0.019       1.036       1.061       1.083       
+sys         0.121       0.001       0.120       0.121       0.124       
+===> multitime results
+1: alice run.alice
+            Mean        Std.Dev.    Min         Median      Max
+real        0.227       0.003       0.224       0.225       0.231       
+user        0.344       0.006       0.337       0.344       0.352       
+sys         0.066       0.002       0.063       0.067       0.068       
+===> multitime results
+1: alice -r false -std false parse.alice
+            Mean        Std.Dev.    Min         Median      Max
+real        0.134       0.003       0.131       0.133       0.139       
+user        0.132       0.002       0.130       0.131       0.136       
+sys         0.037       0.001       0.036       0.037       0.039       
+Error when executing rotate() in eval.alice@16:1
+	when executing eval in eval.alice@0:22
+Exception in thread "main" java.lang.IndexOutOfBoundsException: Index -1 out of bounds for length 2
+	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
+	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:248)
+	at java.base/java.util.Objects.checkIndex(Objects.java:359)
+	at java.base/java.util.ArrayList.remove(ArrayList.java:504)
+	at de.sanj0.alicelang.AliceStack.pop(AliceStack.java:29)
+	at de.sanj0.alicelang.statements.RotateStatement.execute(RotateStatement.java:10)
+	at de.sanj0.alicelang.Program.execute(Program.java:36)
+	at de.sanj0.alicelang.statements.EvalStatement.execute(EvalStatement.java:18)
+	at de.sanj0.alicelang.Program.execute(Program.java:36)
+	at de.sanj0.alicelang.cli.Main.runFile(Main.java:123)
+	at de.sanj0.alicelang.cli.Main.main(Main.java:57)
+multitime: Error when attempting to run alice

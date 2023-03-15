@@ -7,6 +7,12 @@ export var "string":STRING
 export var "subprogram":SUBPRO
 export var "substack":SSTACK
 
+# usage:
+# const "name.of.class" LOAD_NATIVE:NATIVE
+export const {
+    d ninclude
+}:LOAD_NATIVE
+
 # include essentials
 "controls.alice"    include
 "stacktools.alice"  include
@@ -20,6 +26,7 @@ export fun {
     "range.alice"       include
     "strings.alice"     include
 }:INCLUDE_SDK
+
 
 # invokes the subprogram at the head of the stack a single time, consuming it
 export fun {

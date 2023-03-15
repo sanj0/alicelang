@@ -1,0 +1,14 @@
+struct {
+    ? value,
+    extends Object
+}:StackElement
+
+implement StackElement {
+    fun {
+        self.value !str
+    }:string
+
+    fun {
+        self.string
+    }:to-string
+} end

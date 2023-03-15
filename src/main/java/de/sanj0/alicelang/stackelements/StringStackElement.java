@@ -11,6 +11,11 @@ public class StringStackElement extends StackElement<String> {
     }
 
     @Override
+    public StackElement<String> dublicate() {
+        return new StringStackElement(getValue());
+    }
+
+    @Override
     public String toString() {
         return getValue();
     }

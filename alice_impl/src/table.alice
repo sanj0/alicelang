@@ -1,0 +1,17 @@
+"map.alice" include
+struct {
+    Map map =! (null)
+}:Table
+
+implement Table {
+    fun {
+        new-map self>map
+    }:_init
+    fun { (string key) args
+        key map.get
+    }:get
+
+    fun { (string key, StackElement val) args
+        val key map.put
+    }:put
+} end

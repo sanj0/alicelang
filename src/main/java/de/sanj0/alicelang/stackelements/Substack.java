@@ -9,6 +9,13 @@ public class Substack extends StackElement<AliceStack> {
     }
 
     @Override
+    public StackElement<AliceStack> dublicate() {
+        final AliceStack dubStack = AliceStack.initialize(getValue().size());
+        dubStack.getElements().addAll(getValue().getElements());
+        return new Substack(dubStack);
+    }
+
+    @Override
     public String toString() {
         if (getValue().getElements().isEmpty()) return "[]";
         final StringBuilder builder = new StringBuilder("[");

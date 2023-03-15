@@ -1,0 +1,19 @@
+### general utils
+const "alice.util.Utils" LOAD_NATIVE:NATIVE_UTILS
+
+struct {
+}:AliceUtils
+
+export var AliceUtils:utils
+
+export fun {
+    utils.print-table
+}:t
+
+implement AliceUtils {
+    # prints the full table
+    nfun NATIVE_UTILS:print-table
+
+    # puts current stack size (number of elements)
+    nfun NATIVE_UTILS:ssize
+} end

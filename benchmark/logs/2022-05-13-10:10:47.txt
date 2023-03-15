@@ -1,0 +1,5 @@
+de.sanj0.alicelang.Program.execute(Program.java:36)
+0.196
+
+
+is

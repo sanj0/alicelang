@@ -1,6 +1,6 @@
 #!/usr/local/bin/alice
 "strings.alice" include
-"io.alice"      include
+"stdio.alice"      include
 
 # this is also a nice benchmark to show how slow the language is:
 # on my machine (i7 from 2017), generating all primes up to 10000

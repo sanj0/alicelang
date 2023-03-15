@@ -13,6 +13,11 @@ public class NumberStackElement extends StackElement<Double> {
     }
 
     @Override
+    public StackElement<Double> dublicate() {
+        return new NumberStackElement(getValue());
+    }
+
+    @Override
     public int getInt() {
         return (int) getDouble();
     }

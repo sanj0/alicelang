@@ -1,0 +1,9 @@
+struct {
+    number line = -1,
+    number column = -1,
+    extends Object
+}:Statement
+
+implement Statement {
+    fun abstract:execute
+} end

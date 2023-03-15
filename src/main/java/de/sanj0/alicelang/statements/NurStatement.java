@@ -25,7 +25,7 @@ public class NurStatement extends Statement {
         final String var = stack.pop().getString();
         final double times = Math.abs(min - max) / step;
 
-        table.putNew(var, new NumberStackElement(min));
+        table.putNew(var, new NumberStackElement(min), false);
         // buffer the Entry to speed up the loop
         for (int i = 1; i <= times; i++) {
             body.execute(stack, table);

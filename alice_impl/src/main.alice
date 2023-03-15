@@ -1,0 +1,23 @@
+### the entry point for the interpreter
+"includes.alice" include
+
+export fun {
+    if (argc 0 eq) {
+        run-live
+    } (argc 1 eq) {
+        arg0 run-file
+    } fi
+}:main
+
+fun {
+    Stack var:stack
+    Table var:table
+    while (1) {
+        "alice>>" P
+        r
+        Parser.parse
+        stack table rot .execute
+    } do
+}:run-live
+
+main

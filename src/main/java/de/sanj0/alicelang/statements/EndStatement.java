@@ -18,12 +18,12 @@ public class EndStatement extends Statement {
         }
         table.putScope();
         body.noScope().execute(stack, table);
-        final Map<String, StackElement<?>> scope = table.dropScope();
-        for (final Entry<String, StackElement<?>> e : scope.entrySet()) {
-            if (!(e.getValue() instanceof ProgramStackElement)) {
+        final Map<String, AliceTable.TableValue> scope = table.dropScope();
+        for (final Entry<String, AliceTable.TableValue> e : scope.entrySet()) {
+            if (!(e.getValue().value instanceof ProgramStackElement)) {
                 throw new AliceRuntimeError("struct implementation can only define functions!");
             }
-            struct.getFunctions().put(e.getKey(), ((ProgramStackElement) e.getValue()).getValue());
+            struct.getFunctions().put(e.getKey(), ((ProgramStackElement) e.getValue().value).getValue());
         }
     }
 }

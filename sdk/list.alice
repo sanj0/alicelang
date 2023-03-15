@@ -43,7 +43,7 @@ implement LinkedList {
         index self.get-node.val
     }:get
 
-    # usage: [?] [number] seti
+    # usage: [?] [number] set
     fun { (? val, number index) args
         val index self.get-node>val
     }:set

@@ -59,21 +59,21 @@ struct {
     number MIN_VALUE =! (MAX_NUMBER)
     number MAX_VALUE =! (MIN_NUMBER)
     extends Number
-}:@double
+}:double
 
 ### ----- @byte ----- ###
 struct {
     number MIN_VALUE = -128
     number MAX_VALUE = 127
     extends Number
-}:@byte
+}:byte
 
 ### ----- @bool ----- ###
 struct {
     number MIN_VALUE = 0
     number MAX_VALUE = 1
     extends Number
-}:@bool
+}:bool
 
-export const 1 @bool:true
-export const 0 @bool:false
+export const 1 bool:true
+export const 0 bool:false

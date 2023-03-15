@@ -1,0 +1,12 @@
+"stdio.alice" include
+"list.alice" include
+
+var LinkedList:list
+
+run "i" from 1 to 10001 {
+    i list.add
+} nur
+
+var 0:sum
+(sum + :sum) list.foreach
+sum !str stdout.Println

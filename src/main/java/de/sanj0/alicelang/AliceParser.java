@@ -11,6 +11,7 @@ import java.util.*;
 
 public class AliceParser {
     public static String currentFile = "";
+    public static AlicePath currentPath = new AlicePath();
     public static Set<String> includedFiles = new HashSet<>();
 
     private final String code;
@@ -91,11 +92,7 @@ public class AliceParser {
         return switch (word.charAt(0)) {
             case CMD_PRINT_FULL_STACK -> new PrintFullStackStatement();
             case CMD_EXECUTE_SUB_PROGRAM -> new ExecuteSubProgramStatement();
-            case CMD_PRINT_LC -> new PrintStatement(false);
-            case CMD_PRINT_UC -> new PrintStatement(true);
-            case CMD_READ -> new ReadStatement();
             case CMD_DUPLICATE -> new DuplicateStatement();
-            case CMD_PRINT_TABLE -> new PrintTableStatement();
             default -> new AccessTableStatement(word);
         };
     }
@@ -131,9 +128,6 @@ public class AliceParser {
             case WRD_RETURN -> new ReturnStatement();
             case WRD_WRITEF -> new FileIOStatements.WriteFileStatement();
             case WRD_READF -> new FileIOStatements.ReadFileStatement();
-            case WRD_PROC -> new ProcStatement();
-            case WRD_PPROC -> new ParallelProcStatement();
-            case WRD_STACK_SIZE -> new StackSizeStatement();
             case WRD_EXPAND -> new ExpandSubstackStatement();
             case WRD_FOLD -> new FoldSubstackStatement();
             case WRD_LN -> new LnStatement();
@@ -162,7 +156,6 @@ public class AliceParser {
             case WRD_TYPES -> new TypesStatement();
             case WRD_NINCLUDE -> new NIncludeStatement();
             case WRD_NATIVE -> new NativeStatement();
-            case WRD_SYSPROP -> new SyspropStatement();
             case WRD_NFUN -> new NfunStatement();
             default -> handleCommand(word);
         };
@@ -334,16 +327,12 @@ public class AliceParser {
     }
 
     public static final char CMD_PRINT_FULL_STACK = 'f';
-    // ex. utils
-    public static final char CMD_PRINT_TABLE = 't';
     public static final char CMD_EXECUTE_SUB_PROGRAM = 'e';
-    public static final char CMD_PRINT_LC = 'p';
-    public static final char CMD_PRINT_UC = 'P';
-    // ex. stdio
-    public static final char CMD_READ = 'r';
     public static final char CMD_DUPLICATE = 'd';
     public static final char CMD_STRUCT_GET = '.';
     public static final char CMD_STRUCT_SET = '>';
+
+    public static final char PREFIX_FUNCTION_CALL = '@';
     // ex. types
     public static final String WRD_TO_STRING = "!str";
     public static final String WRD_TO_NUMBER = "!num";
@@ -369,8 +358,6 @@ public class AliceParser {
     // ex. types
     public static final String WRD_TYPE = "type";
     public static final String WRD_EXIT = "exit";
-    // ex. utils
-    public static final String WRD_STACK_SIZE = "ssize";
     // ex. math
     public static final String WRD_RANDOM = "random";
     // ex. string
@@ -382,9 +369,6 @@ public class AliceParser {
     public static final String WRD_WRITEF = "writef";
     public static final String WRD_READF = "readf";
     public static final String WRD_EVAL = "eval";
-    // ex. system
-    public static final String WRD_PROC = "proc";
-    public static final String WRD_PPROC = "pproc";
     public static final String WRD_EXPAND = "expand";
     public static final String WRD_FOLD = "fold";
     public static final String WRD_EXPORT = "export";
@@ -410,8 +394,6 @@ public class AliceParser {
     public static final String WRD_TYPES = "types";
     public static final String WRD_NINCLUDE = "ninclude";
     public static final String WRD_NATIVE = "native";
-    // ex. system
-    public static final String WRD_SYSPROP = "sysprop";
     public static final String WRD_NFUN = "nfun";
 
     private static final Set<String> SKIPS = new HashSet<>();

@@ -1,5 +1,6 @@
 package de.sanj0.alicelang;
 
+import de.sanj0.alicelang.AliceRuntimeError;
 import de.sanj0.alicelang.statements.*;
 
 import java.util.*;
@@ -14,17 +15,21 @@ public class NativeProgram extends Program {
     private final Method method;
 
     public NativeProgram(final String clazz, final String fun) throws SecurityException, NoSuchMethodException {
-        super(null, "");
+        super(Collections.emptyList(), "");
         this.source = NIncludeStatement.NATIVES.get(clazz);
+        if (this.source == null) {
+            throw new AliceRuntimeError("native provider " + clazz + " not loaded!");
+        }
         this.method = this.source.getClass().getMethod(fun, AliceStack.class, AliceTable.class);
     }
 
     @Override
     public void execute(final AliceStack stack, final AliceTable table) {
         try {
-        method.invoke(source, stack, table);
-        } catch (final IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
-            throw new AliceRuntimeError(e.getMessage());
+            method.invoke(source, stack, table);
+        } catch (final Exception e) {
+            e.printStackTrace();
+            throw new AliceRuntimeError("error executing native function!");
         }
     }
 

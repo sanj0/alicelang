@@ -1,15 +1,24 @@
+const "alice.io.AliceFile" LOAD_NATIVE :NATIVE
+export const "/":PATH_SEPARATOR
+
 struct {
     string path,
-    number ?absolute
+    number ?absolute = false,
+    native alice.nio.AliceFile
     extends Object
 }:File
 
 implement File {
     fun {
+        if (path 0 charat PATH_SEPARATOR eq) {
+            true self>?absolute
+        } fi
+    }:_init
 
-    }:?exists
+    nfun NATIVE:?exists
+    nfun NATIVE:create_new_file
+    nfun NATIVE:mkdir
 
-    fun {
-
-    }:createNewFile
+    nfun NATIVE:writes
+    nfun NATIVE:reads
 } end

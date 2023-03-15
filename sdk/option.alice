@@ -1,0 +1,53 @@
+# option type like in rust / Java
+struct {
+    ? val,
+}:Option
+
+struct {
+    extends Option
+}:Some
+
+implement Some {
+    fun {
+        if (self.val ?null) {
+            "Some option cannot have null value" throw
+        } fi
+    }:_init
+
+    fun {
+        self.val
+    }:get
+
+    fun {
+        true
+    }:is_some
+
+    fun {
+        false
+    }:is_none
+} end
+
+struct {
+    extends Option,
+    ? val =! (null)
+}:None
+
+implement Option {
+    fun abstract:is_some
+    fun abstract:is_none
+    fun abstract:get
+} end
+
+implement None {
+    fun {
+        false
+    }:is_some
+
+    fun {
+        true
+    }:is_none
+
+    fun {
+        "get call on None" throw
+    }:get
+} end

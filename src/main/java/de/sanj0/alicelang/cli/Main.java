@@ -64,8 +64,7 @@ public class Main {
         boolean fileNameParsed = false;
         for (int i = 0; i < args.length; i++) {
             switch (args[i]) {
-                case P_NATIVE_PATH_KEY_LONG:
-                case P_NATIVE_PATH_KEY_SHORT:
+                case P_NATIVE_PATH_KEY_LONG, P_NATIVE_PATH_KEY_SHORT:
                     map.put(Parameter.NATIVE_PATH, args[++i].split(":"));
                     break;
                 case P_RUN_LONG:
@@ -102,9 +101,9 @@ public class Main {
     }
 
     private static void putArgs(final List<String> pargs, final AliceTable table) {
-        table.putNew("argc", new NumberStackElement((double) pargs.size()));
+        table.putNew("argc", new NumberStackElement((double) pargs.size()), true);
         for (int i = 0; i < pargs.size(); i++) {
-            table.putNew("arg" + i, new StringStackElement(pargs.get(i)));
+            table.putNew("arg" + i, new StringStackElement(pargs.get(i)), true);
         }
     }
 

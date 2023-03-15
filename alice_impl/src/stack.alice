@@ -1,0 +1,25 @@
+struct {
+    List elements =! (null)
+}:Stack
+
+implement Stack {
+    fun {
+        LinkedList self>elements
+    }:_init
+    fun {
+        self.peeek
+        self.elements.size 1 - self.elements.remove
+    }:pop
+
+    fun {
+        if (self.elements.size 0 eq) {
+            "ERROR: empty stack" stdout.err-Println
+            0 exit
+        } fi
+        self.elements.size 1 - self.elements.get
+    }:peeek
+
+    fun { (StackElement elem) args
+        elem self.elements.add
+    }:push
+} end

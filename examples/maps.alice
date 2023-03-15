@@ -1,0 +1,31 @@
+"map.alice" include
+"lmap.alice" include
+"timer.alice" include
+"stdio.alice" include
+
+1000 init-map var:map
+1000 new_hashmap var:hmap
+
+Timer
+run "i" from 0 to 1000 {
+    i i map.put
+} nur
+.passed-ms " adding 1000 element to old map" + stdout.println
+
+Timer
+run "i" from 0 to 1000 {
+    i i hmap.put
+} nur
+.passed-ms " adding 1000 element to new map" + stdout.println
+
+Timer
+run "i" from 0 to 1000 {
+    i map.get drop
+} nur
+.passed-ms " getting 1000 element from old map" + stdout.println
+
+Timer
+run "i" from 0 to 1000 {
+    i hmap.get drop
+} nur
+.passed-ms " getting 1000 element from new map" + stdout.println

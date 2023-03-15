@@ -1,0 +1,14 @@
+export fun { (string c) args
+    var c unicode :uc
+    c "-" eq uc 48 57 ?in-range or c "." eq or
+}:?numeric
+
+export fun { (string c) args
+    const c unicode :uc
+    # to be completed
+    uc 9 13 ?in-range uc 133 eq or uc 160 eq or uc 8232 eq or uc 8233 eq or
+}:?ws
+
+export fun { (number num, number min, number max) args
+    num min 1 - gt num max 1 + lt and
+}:?in-range

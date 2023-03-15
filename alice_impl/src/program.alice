@@ -1,0 +1,13 @@
+# signature:
+# List, string, number, number
+struct {
+    List statements,
+    string location,
+    extends Statement
+}:Program
+
+implement Program {
+    fun { (Stack stack, Table table) args
+        (stack table rot .execute) self.statements.foreach
+    }:execute
+} end

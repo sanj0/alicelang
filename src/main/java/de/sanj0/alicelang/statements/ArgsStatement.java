@@ -21,7 +21,7 @@ public class ArgsStatement extends Statement {
                 throw new AliceRuntimeError("mismatched arguments; '" + ((AccessTableStatement) type).getKey() + "'" +
                         " required at index " + i/2 + " but got " + TypeStatement.getType(val));
             }
-            table.putNew(((AccessTableStatement) name).getKey(), val);
+            table.putNew(((AccessTableStatement) name).getKey(), val, true);
         }
     }
 }

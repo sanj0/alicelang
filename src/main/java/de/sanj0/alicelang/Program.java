@@ -1,7 +1,5 @@
 package de.sanj0.alicelang;
 
-import de.sanj0.alicelang.statements.PrintFullStackStatement;
-
 import java.util.*;
 
 /**

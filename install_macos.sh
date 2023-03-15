@@ -1,12 +1,12 @@
 #!/bin/zsh
 
-export BIN_TARGET="/Library/de.sanj0.alicelang/bin/alice.jar"
+export ALICE_BIN_TARGET="/Library/de.sanj0.alicelang/bin/alice.jar"
 
 # compile the language
 mvn clean install
 
 # copy the executable
-sudo cp target/alicelang-*-jar-with-dependencies.jar $BIN_TARGET
+sudo cp target/alicelang-*-jar-with-dependencies.jar $ALICE_BIN_TARGET
 
 ./install_sdk_macos.sh
 

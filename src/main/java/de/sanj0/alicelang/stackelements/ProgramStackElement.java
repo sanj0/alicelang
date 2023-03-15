@@ -13,6 +13,11 @@ public class ProgramStackElement extends StackElement<Program> {
     }
 
     @Override
+    public StackElement<Program> dublicate() {
+        return new ProgramStackElement(new Program(getValue().getStatements(), getValue().file));
+    }
+
+    @Override
     public String toString() {
         if (getValue().getStatements().isEmpty()) return "()";
         final StringBuilder builder = new StringBuilder("(");

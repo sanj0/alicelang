@@ -49,7 +49,7 @@ public class AliceStruct {
         final StructInstance instance = new StructInstance(types, m, functions);
         final Program initFunction = this.functions.getOrDefault(INIT_FUNCTION_NAME, null);
         if (initFunction != null) {
-            table.putNew(AliceParser.WRD_SELF, instance);
+            table.putNew(AliceParser.WRD_SELF, instance, true);
             initFunction.execute(stack, table);
             table.purgeFirst(AliceParser.WRD_SELF);
         }

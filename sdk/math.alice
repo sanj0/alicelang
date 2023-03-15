@@ -1,5 +1,5 @@
 ### subprograms and constants for mathematical needs ###
-"alice.lang.math" ninclude
+const "alice.lang.Math" LOAD_NATIVE:NATIVE
 
 # --- math constants --- #
 export const 2.7182818284590452354   :E
@@ -110,7 +110,7 @@ export fun {
 
 # faster prime check that fails for 1
 # credits: xCryptic11
-export nfun "alice.lang.math":?prime-not-1
+export nfun NATIVE:?prime-not-1
 
 export fun {
     if (1 d=) {

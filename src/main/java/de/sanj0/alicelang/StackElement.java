@@ -3,12 +3,14 @@ package de.sanj0.alicelang;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class StackElement<T> implements Serializable {
+public abstract class StackElement<T> implements Serializable {
     private T value;
 
     public StackElement(final T value) {
         this.value = value;
     }
+
+    public abstract StackElement<T> dublicate();
 
     public double getDouble() {
         return (double) value;

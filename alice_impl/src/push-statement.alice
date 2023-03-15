@@ -1,0 +1,9 @@
+struct {
+    StackElement elem
+}:PushStatement
+
+implement PushStatement {
+    fun { (Stack stack, Table table) args
+        self.elem stack.push
+    }:execute
+} end

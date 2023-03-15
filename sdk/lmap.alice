@@ -1,0 +1,69 @@
+"option.alice" include
+### a hashmap implementation that uses linear probing to handle collisions
+struct {
+    # data array that either has null, Option::None (if element was
+    # deleted) or Option::Some if there is data at that index
+    List data,
+    number size,
+    number cap
+}:HashMap
+
+struct {
+    ? key,
+    ? val
+}:Bucket
+
+export fun { (number capacity) args
+    new-list 0 capacity HashMap var:map
+        capacity {
+            None map.data.add
+        } e
+    map
+}:new_hashmap
+
+implement HashMap {
+
+    fun { (? obj, number i) args
+        obj hashcode i i * + self.capactiy %
+    }:compute_index
+
+    fun { (? key ? val) args
+        self.size ++ self>size
+        if (self.size self.capacity gt) {
+            self.grow
+        } fi
+        0 var:i
+        while (1) {
+            val i self.compute_index var:index
+            index self.data.get var:element
+            if (element ?null) {
+                key val Bucket Some index self.data.set
+                return
+            } else {
+                if (element.is_some()) {
+                    if (element.key key eq) {
+                        val element.get>val
+                        return
+                    }
+                }
+            }
+        i ++:i
+        } do
+    }:put
+
+    fun { (? key) args
+        0 var:i
+        while (1) {
+            key i self.compute_index var:index
+            index self.data.get var:element
+            if (element ?null) {
+                null return
+            } fi
+            if (element.is_some) {
+                element.get return
+            }
+            i ++:i
+        } do
+    }:get
+} end
+
