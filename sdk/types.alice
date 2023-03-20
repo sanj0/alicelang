@@ -75,5 +75,5 @@ struct {
     extends Number
 }:bool
 
-export const 1 bool:true
-export const 0 bool:false
+export const 1:true
+export const 0:false

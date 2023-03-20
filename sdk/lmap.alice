@@ -16,7 +16,7 @@ struct {
 export fun { (number capacity) args
     new-list 0 capacity HashMap var:map
         capacity {
-            None map.data.add
+            null map.data.add
         } e
     map
 }:new_hashmap
@@ -24,12 +24,12 @@ export fun { (number capacity) args
 implement HashMap {
 
     fun { (? obj, number i) args
-        obj hashcode i i * + self.capactiy %
+        obj hashcode i i * + self.cap %
     }:compute_index
 
     fun { (? key ? val) args
         self.size ++ self>size
-        if (self.size self.capacity gt) {
+        if (self.size self.cap gt) {
             self.grow
         } fi
         0 var:i
@@ -38,15 +38,15 @@ implement HashMap {
             index self.data.get var:element
             if (element ?null) {
                 key val Bucket Some index self.data.set
-                return
+                break
             } else {
-                if (element.is_some()) {
-                    if (element.key key eq) {
+                if (element.is_some) {
+                    if (element.get.key key eq) {
                         val element.get>val
-                        return
-                    }
-                }
-            }
+                        break
+                    } fi
+                } fi
+            } fi
         i ++:i
         } do
     }:put
@@ -61,7 +61,7 @@ implement HashMap {
             } fi
             if (element.is_some) {
                 element.get return
-            }
+            } fi
             i ++:i
         } do
     }:get
